@@ -1,10 +1,6 @@
-import "./App.css";
+import { NavigationBar } from "./Components/NavBar/Navbar";
 function App() {
-  return (
-    <div className="App">
-      <span>Hello From The Other Side</span>
-    </div>
-  );
+  return <NavigationBar />;
 }
 
 export default App;

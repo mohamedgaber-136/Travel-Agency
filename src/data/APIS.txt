@@ -14,3 +14,4 @@
 Links ..
 
 https://uiverse.io/micaelgomestavares/purple-cow-92
+https://rapidapi.com/DataCrawler/api/tripadvisor16
