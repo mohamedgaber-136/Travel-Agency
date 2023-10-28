@@ -1,0 +1,22 @@
+.account__bg-img {
+  min-height: 300px;
+}
+.account__btn {
+    position: absolute;
+    bottom: 26px;
+    right: 26px;
+    font-size: 13px !important;
+}
+@media (max-width: 575px) {
+  .account__btn {
+    bottom: 46px;
+  }
+}
+.account__avatar {
+  margin-top: -50px;
+  position: relative;
+}
+.account__avatar__img {
+  width: 100px;
+  height: 100px;
+}
