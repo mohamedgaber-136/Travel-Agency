@@ -10,7 +10,8 @@ function App() {
       <AppRouter />
       {/* <NavigationBar /> */}
       {/* <Account /> */}
-      {/* <FirebaseTestPage /> */}
+    
+      <FirebaseTestPage />
     </>
   );
 }

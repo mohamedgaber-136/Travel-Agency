@@ -6,7 +6,6 @@ import { NavigationBar } from "../Components/NavBar/Navbar";
 import LandingPage from "../Pages/Landing/LandingPage";
 import {Test} from "../Pages/Test/Test";
 import Account from "../Pages/accountFlow/Account";
-import { Footer } from "../Components/Footer/Footer";
 
 const AppRouter = () => {
   return (
@@ -18,8 +17,9 @@ const AppRouter = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="signUp" element={<SignUpPage />} />
         <Route path="account" element={<Account />} />
+        <Route path="addHotels" element={<AddHotels/>} />
+        <Route path={`addHotels/hotelDetials/:id` }element={<HotelDetials/>} />
       </Routes>
-      <Footer/>
     </BrowserRouter>
   );
 };
