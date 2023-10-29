@@ -1,7 +1,10 @@
 import { Card } from "../Card/Card";
 import { SeeAllButton } from "../seeAllBtn/SeeAll";
+import 'aos/dist/aos.css';
 import "./main.css";
+
 export const Main = () => {
+
   return (
     <main className="mainParent container">
       <div className="d-flex align-items-center justify-content-between">
@@ -18,10 +21,10 @@ export const Main = () => {
         </div>
       </div>
       <div className="d-flex gap-3 justify-content-center flex-wrap">
-        <Card />
-        <Card />
-        <Card />
-        <Card />
+        <Card duration={'3000'} />
+        <Card duration={'2000'} />
+        <Card duration={'1000'} />
+        <Card duration={'500'} />
       </div>
     </main>
   );

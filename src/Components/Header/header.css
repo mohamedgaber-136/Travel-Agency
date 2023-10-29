@@ -22,8 +22,7 @@
     position: relative;
     left: 50%;
     height: 255px;
-    transform: translateX(-50%);
-    bottom: -5%;
+    transform: translate(-50%,-25%);
     border-radius: 16px;
     box-shadow: 0 0 5px 2px lightgrey;
 }
