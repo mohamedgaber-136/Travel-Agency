@@ -11,7 +11,7 @@ function App() {
       {/* <NavigationBar /> */}
       {/* <Account /> */}
     
-      <FirebaseTestPage />
+      {/* <FirebaseTestPage /> */}
     </>
   );
 }
