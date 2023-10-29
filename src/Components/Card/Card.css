@@ -2,6 +2,7 @@
     width: 260px;
     height: 420px;
     border-radius: 12px;
+    cursor: pointer;
 }
 .BookHotelBtn{
     border: none;
