@@ -1,8 +1,11 @@
 import { useState } from "react";
+import { searchSchema } from "./searchValidation/SearchValidation";
+import * as yup from "yup";
 export const SearchForm = () => {
   let [searchData, setSeachData] = useState({});
   let [guest, setGuest] = useState(1);
   let [room, setRoom] = useState(1);
+  const [isValid, setValidatation] = useState(true);
   let [showAddTable, setAddTable] = useState(false);
   const addGuest = (x, y) => {
     if (y >= 1) {
@@ -17,7 +20,7 @@ export const SearchForm = () => {
   const showTable = (x) => {
     setAddTable(x);
   };
-  const getSearchData = (event) => {
+  const getSearchData = async (event) => {
     event.preventDefault();
     let data = {
       destination: event.target[0].value,
@@ -26,7 +29,7 @@ export const SearchForm = () => {
       GuestAndRooms: event.target[3].value,
     };
     setSeachData({ ...data });
-    console.log(searchData);
+    setValidatation(await searchSchema.isValid(searchData));
   };
   return (
     <form
@@ -73,6 +76,7 @@ export const SearchForm = () => {
             className="input"
             onClick={() => showTable(true)}
           />
+
           <div
             className={
               showAddTable ? `addGuest d-flex flex-column gap-4` : ` d-none `
@@ -117,7 +121,12 @@ export const SearchForm = () => {
         </div>
       </div>
       <div className="d-flex justify-content-end align-items-center mt-2 container">
-        <input type="submit" value={"Show Places"} />
+        <div className="d-flex  w-100 gap-3 align-items-center justify-content-end">
+          <span className={isValid ? `d-none` : `text-danger`}>
+            Hurry Insert All Data to Make Your Best Tour.............
+          </span>
+          <input type="submit" value={"Show Places"} />
+        </div>
       </div>
     </form>
   );

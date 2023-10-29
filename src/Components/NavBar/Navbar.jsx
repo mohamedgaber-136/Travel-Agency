@@ -4,9 +4,9 @@ import Nav from "react-bootstrap/Nav";
 import Navbar from "react-bootstrap/Navbar";
 import "./Navbar.css";
 import avatar from "../../assets/images/accountFlow/accountAvatar.png";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router";
 export const NavigationBar = () => {
-  const navigate = useNavigate();
+  let navigatation = useNavigate();
   return (
     <Navbar
       collapseOnSelect
@@ -14,9 +14,7 @@ export const NavigationBar = () => {
       className="bg-body-tertiary navbarParent p-2 "
     >
       <Container>
-        <Navbar.Brand href="#home" onClick={() => navigate("/")}>
-          Logo
-        </Navbar.Brand>
+        <Navbar.Brand onClick={() => navigatation("/")}>Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav " className="p-1 ">
           <i class="fa-solid fa-circle-chevron-down NavbarButton"></i>
         </Navbar.Toggle>
@@ -36,11 +34,7 @@ export const NavigationBar = () => {
             <Nav.Link className="text-dark FavouriteBorder">
               <i class="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
-            <Nav.Link
-              className="text-dark"
-              eventKey={2}
-              onClick={() => navigate("account")}
-            >
+            <Nav.Link className="text-dark" eventKey={2}  onClick={() => navigatation("account")}>
               <img
                 src={avatar}
                 width={"40px"}
@@ -49,6 +43,7 @@ export const NavigationBar = () => {
                 style={{ objectFit: "cover" }}
               />
               <span> john D.</span>
+             
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -56,3 +51,5 @@ export const NavigationBar = () => {
     </Navbar>
   );
 };
+// onClick={() => navigate("/")}
+

@@ -1,10 +1,13 @@
 import { Card } from "../Card/Card";
 import { SeeAllButton } from "../seeAllBtn/SeeAll";
-import 'aos/dist/aos.css';
+import "aos/dist/aos.css";
 import "./main.css";
+import paris from "../../assets/images/paris.png";
+import London from "../../assets/images/London.png";
+import columbia from "../../assets/images/columbia.png";
+import Melboune from "../../assets/images/Melboune.png";
 
 export const Main = () => {
-
   return (
     <main className="mainParent container">
       <div className="d-flex align-items-center justify-content-between">
@@ -21,10 +24,14 @@ export const Main = () => {
         </div>
       </div>
       <div className="d-flex gap-3 justify-content-center flex-wrap">
-        <Card duration={'3000'} />
-        <Card duration={'2000'} />
-        <Card duration={'1000'} />
-        <Card duration={'500'} />
+        <Card
+          duration={"3000"}
+          img={paris}
+          title={'Paris'}
+        />
+        <Card duration={"2000"} img={London}  title={'London'} />
+        <Card duration={"1000"} img={columbia}  title={'columbia'}/>
+        <Card duration={"500"}  img={Melboune} title={'Melbourne'}/>
       </div>
     </main>
   );

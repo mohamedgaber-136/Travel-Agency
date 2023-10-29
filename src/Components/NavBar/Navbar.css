@@ -1,5 +1,14 @@
 .navbarParent {
     font-size: 14px;
+    position:fixed !important;
+    width:70% !important;
+    top:10px !important;
+    background-color:white !important;
+    z-index:999; 
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:20px;
+
 }
 
 .FavouriteBorder {
@@ -42,7 +51,7 @@
     .FavouriteBorder::after {
         position: absolute;
         content: '';
-        width: 1px;
+        width: 0px;
         height: 30%;
         top: 30px;
         left: 50%;
