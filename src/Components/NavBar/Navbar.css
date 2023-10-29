@@ -21,6 +21,10 @@
 .nav-link {
     position: relative;
     text-align: center;
+    width: 111px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
 }
 
 .nav-link::before {
@@ -49,9 +53,12 @@
 
 
     .nav-link:hover::before {
-        width: 10% !important;
+        width: 30% !important;
     }
-
+.nav-link{
+width: 95px;
+justify-content: space-between;
+}
 }
 
 .nav-link:hover::before {
