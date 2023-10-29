@@ -2,7 +2,7 @@ body,
 * {
   margin: 0;
   font-family: "Bebas Neue", sans-serif;
-
+text-decoration:none !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
