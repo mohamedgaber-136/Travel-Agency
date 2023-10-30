@@ -1,30 +1,31 @@
-import React, { useContext, useState } from 'react'
+import React, { useContext} from 'react'
 import locationIcon from './Location.png'
 import unFillFav from './Vector.png'
 import "./addhotels.css"
 import { SearchForm } from '../../Components/SearchForm/SearchForm'
-import { useNavigate } from 'react-router-dom'
-import { addHotelsContext } from '../../store/store'
+import { useNavigate, useParams } from 'react-router-dom'
+import {addHotelsContext } from '../../store/store'
 export default function AddHotels() {
+    const {countryTitle} =useParams()
     const navigate =useNavigate()
     const {addHotels,getHotels}=useContext(addHotelsContext)
-const goToDetails =(id)=>{
+    const goToDetails =(id)=>{
     navigate(`hotelDetials/${id}`)
-}
+    }
+    
   return (
-       <div style={{
-        position: 'absolute',
-        width: '100%',
-        right:'0%',
-        left: '0%',
-        top:"18%"
-    }}>
+       <div>
+        <div style={{
+            width: '100%',
+            marginTop: '150px',
+        }}>
         <SearchForm />
-            <button onClick={getHotels}>Get Data</button>
+        </div>
+            <button onClick={()=>getHotels()}>Get Data</button>
         {addHotels?.map(hotel=><div key={hotel.id} className='container p-3'>
             <div className='card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start'>
                 <div className=''>
-                    <img  src={`${hotel.cardPhotos[0].sizes.urlTemplate.replace('{width}','300').replace('{height}','300')}`} alt="" />
+                    <img  src={`${hotel.cardPhotos[0]?.sizes.urlTemplate.replace('{width}','300').replace('{height}','300')}`} alt="" />
                 </div>
                 <div className='d-flex flex-column p-3 w-100 '>
                     <div className='d-flex flex-md-row flex-column justify-content-between m-0'>

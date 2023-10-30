@@ -1,10 +1,21 @@
-import React from 'react'
+import React, { useContext, useEffect, useState } from 'react'
 import { useParams } from 'react-router-dom'
+import { addHotelsContext } from '../../store/store'
 
 export default function HotelDetials() {
+    const[hotelObj,setHotelObj]=useState({})
     const {id} =useParams()
-    console.log(id)
+    const{addHotels}= useContext(addHotelsContext)
+    useEffect(()=>{
+     getHotelsObj()
+    },[])
+    const getHotelsObj=()=>{
+      let obj=addHotels?.find(obj=>
+        obj.id==id
+      )
+      setHotelObj({...obj})
+    }
   return (
-    <div>HotelDetials</div>
+    <div>{hotelObj.title}</div>
   )
 }
