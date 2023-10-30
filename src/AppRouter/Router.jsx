@@ -1,20 +1,3 @@
-<<<<<<< HEAD
-import React from 'react'
-import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import SignUpPage from '../Pages/SignUp/SignUp'
-import LoginPage from '../Pages/Login/Login'
-
-const AppRouter = () => {
-    return (
-        <BrowserRouter> 
-        <Routes>
-            <Route path='login' element={<LoginPage/>}/>
-            <Route path='signUp' element={<SignUpPage/>}/>
-        </Routes>
-        </BrowserRouter> 
-    )
-}
-=======
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import LoginPage from "../Pages/Login/Login";
@@ -44,6 +27,6 @@ const AppRouter = () => {
     </BrowserRouter>
   );
 };
->>>>>>> d1bb36a4c5ec00da2b7fac7e4b549b70ac847d40
+
 
 export default AppRouter;
