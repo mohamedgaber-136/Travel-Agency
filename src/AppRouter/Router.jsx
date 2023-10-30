@@ -4,26 +4,33 @@ import LoginPage from "../Pages/Login/Login";
 import SignUpPage from "../Pages/SignUp/SignUp";
 import { NavigationBar } from "../Components/NavBar/Navbar";
 import LandingPage from "../Pages/Landing/LandingPage";
-import { Test } from "../Pages/Test/Test";
 import AddHotels from "../Pages/AddHotels/AddHotels";
 import HotelDetials from "../Pages/HotelDetails/HotelDetials";
 import Account from "../Pages/accountFlow/Account";
 import { Footer } from "../Components/Footer/Footer";
+import AddHotelsProvider from "../store/store";
+import SearchContextProvider from "../store/searchStore";
+
 
 const AppRouter = () => {
   return (
     <BrowserRouter>
       <NavigationBar />
+      <SearchContextProvider>
       <Routes>
-        <Route path="CountryHotels/:countryTitle" element={<Test />} />
         <Route path="/" element={<LandingPage />} />
         <Route path="login" element={<LoginPage />} />
         <Route path="signUp" element={<SignUpPage />} />
         <Route path="account" element={<Account />} />
-        {/* <Route path="addHotels" element={<AddHotels/>} /> */}
-        <Route path={`addHotels/hotelDetials/:id`} element={<HotelDetials />} />
       </Routes>
-      <Footer />
+      <AddHotelsProvider>
+      <Routes>
+      <Route path="CountryHotels/:countryTitle" element={<AddHotels/>} />
+        <Route path="CountryHotels/:countryTitle/hotelDetials/:id" element={<HotelDetials/>} />
+      </Routes>
+      </AddHotelsProvider>
+      </SearchContextProvider>
+      <Footer/>
     </BrowserRouter>
   );
 };

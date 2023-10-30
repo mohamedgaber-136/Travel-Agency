@@ -1,12 +1,15 @@
-import { useState } from "react";
+import { useContext, useState } from "react";
 import { searchSchema } from "./searchValidation/SearchValidation";
 import * as yup from "yup";
+import { searchContext } from "../../store/searchStore";
+import { useNavigate } from "react-router-dom";
 export const SearchForm = () => {
-  let [searchData, setSeachData] = useState({});
+  const navigate= useNavigate()
   let [guest, setGuest] = useState(1);
   let [room, setRoom] = useState(1);
-  const [isValid, setValidatation] = useState(true);
+  const [isValid, setValidatation] = useState(false);
   let [showAddTable, setAddTable] = useState(false);
+  const{searchData,setSeachData}=useContext(searchContext)
   const addGuest = (x, y) => {
     if (guest <= room && y >= 1) {
       x(++y);
@@ -35,8 +38,14 @@ export const SearchForm = () => {
       GuestAndRooms: event.target[3].value,
     };
     setSeachData({ ...data });
-    setValidatation(await searchSchema.isValid(searchData));
+      navigate(`/CountryHotels/${data.destination}`,{replace:true})
+    // setValidatation(await searchSchema.isValid(searchData));
+    // console.log(isValid)
+    // if(isValid){
+
+    // }
   };
+  console.log(searchData)
   return (
     <form
       onSubmit={getSearchData}

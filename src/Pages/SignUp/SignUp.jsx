@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import img from "./assets/signup img.png"
+import img from "./assets/signupimg.png"
 import "./SignUp.css";
 function SignUpPage() {
   const [username, setUsername] = useState("");
