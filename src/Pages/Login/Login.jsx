@@ -37,40 +37,40 @@ function LoginPage() {
               backgroundSize: "cover",
             }}
           ></div>
-          <div className="loginForm h-100  ">
+          <div className="loginForm form h-100 ">
             <div className="align-self-start d-flex flex-column py-2">
               <h2 className="m-0">Login</h2>
               <span>Login to access your Golobe account</span>
             </div>
             <form class="form">
-              <div class="flex-column">
-                <label>Email </label>
-              </div>
-              <div class="inputForm">
+              {/* <div class="input-group  w-0 m-0">
+  <input type="text" class="form-control" placeholder="input your Password"/>
+  <div class="input-group-append">
+    <span class="input-group-text" id="basic-addon2">@example.com</span>
+  </div>
+</div> */}
+              <label>
                 <input
-                  type="text"
+                  required=""
+                  placeholder="Email"
+                  type="email"
                   class="input"
-                  placeholder="Enter your Email"
                 />
-              </div>
-
-              <div class="flex-column">
-                <label>Password </label>
-              </div>
-              <div class="inputForm">
+              </label>
+              <label className=" input-group d-flex">
                 <input
                   type={isHiddenPassword ? "password" : "text"}
-                  class="input"
+                  class="input form-control"
                   placeholder="Enter your Password"
                 />
+
                 <span
-                  className="border border-dark px-2 py-1"
+                  className="border rounded-3 px-2 py-1"
                   onClick={handlePasswordType}
                 >
                   {isHiddenPassword ? <BsEyeSlashFill /> : <BsEyeFill />}
                 </span>
-              </div>
-
+              </label>
               <div class="flex-row">
                 <div>
                   <input type="checkbox" />
@@ -78,7 +78,7 @@ function LoginPage() {
                 </div>
                 <span class="span">Forgot password?</span>
               </div>
-              <button class="button-submit">Sign In</button>
+              <button class="submit">Sign In</button>
               <p class="p">
                 Don't have an account? <span class="span">Sign Up</span>
               </p>

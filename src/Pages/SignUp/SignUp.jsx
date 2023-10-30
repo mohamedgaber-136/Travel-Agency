@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import img from "./assets/signupimg.png"
+import img from "../../assets/signupImg.png";
 import "./SignUp.css";
 function SignUpPage() {
   const [username, setUsername] = useState("");
@@ -17,65 +17,82 @@ function SignUpPage() {
     <div className="signUpParent d-flex justify-content-center align-items-center ">
       <div className=" d-flex justify-content-center w-100 h-50 align-items-center gap-2">
         <div className="signUpContainer justify-content-center flex-column flex-md-row d-flex  align-items-center gap-2">
-        <div
-            className="imgContainer" style={{
+          <div
+            className="imgContainer"
+            style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
-              
-            }}>
-             </div>
-         
-         
-         
-         
-         
+            }}
+          ></div>
+
           <form class="form">
-            <p class="title">SignUp</p>
+            <h2 class="title m-0">SignUp</h2>
             <p class="message">Signup now and get full access to our app. </p>
             <div class="flex">
               <label>
-                <input required="" placeholder="" type="text" class="input" />
-                <span>Firstname</span>
+                <input
+                  required=""
+                  placeholder="Firstname"
+                  type="text"
+                  class="input"
+                />
               </label>
 
               <label>
-                <input required="" placeholder="" type="text" class="input" />
-                <span>Lastname</span>
+                <input
+                  required=""
+                  placeholder="Lastname"
+                  type="text"
+                  class="input"
+                />
               </label>
             </div>
 
             <label>
               <div class="flex">
-                <input required="" placeholder="" type="email" class="input" />
-                <span>Email</span>
+                <input
+                  required=""
+                  placeholder="Email"
+                  type="email"
+                  class="input"
+                />
                 <label />
                 <label>
                   <input
                     required=""
-                    placeholder=""
+                    placeholder="Phone Number"
                     type="Phone Number"
                     class="input"
                   />
-                  <span>Phone Number</span>
                 </label>
               </div>
             </label>
 
             <label>
-              <input required="" placeholder="" type="password" class="input" />
-              <span>Password</span>
+              <input
+                required=""
+                placeholder="Password"
+                type="password"
+                class="input"
+              />
             </label>
             <label>
-              <input required="" placeholder="" type="password" class="input" />
-              <span>Confirm password</span>
+              <input
+                required=""
+                placeholder="Confirm Password"
+                type="password"
+                class="input"
+              />
             </label>
             <div class="flex-row"></div>
             <div>
               <input type="checkbox" />
-              <label>I agree to all the Terms and Privacy Policies </label>
+              <label className="px-1">
+                I agree to all the Terms and Privacy Policies{" "}
+              </label>
             </div>
-            <button class="Create account">Create account</button>
+            <button class="submit ">Create account</button>
             <p class="signin">
               Already have an acount ? <a href="#">Signin</a>{" "}
             </p>
