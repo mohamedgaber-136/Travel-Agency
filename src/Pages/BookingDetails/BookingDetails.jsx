@@ -1,7 +1,4 @@
 import React from "react";
-// import { chevron_forward } from "../../../assets/images";
-
-// import "./index.scss";
 import "./BookingDetails.css";
 import download1 from "../../assets/images/accountFlow/download1.png";
 import location from "../../assets/images/accountFlow/Location.svg";

@@ -16,22 +16,24 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <NavigationBar />
-      {/* <SearchContextProvider> */}
-      {/* <AddHotelsProvider> */}
-      <Routes>
-        <Route path="/" element={<LandingPage />} />
-        {/* <Route path="login" element={<LoginPage />} />
-        <Route path="signUp" element={<SignUpPage />} />
-        <Route path="account" element={<Account />} />
-        <Route path="bookingDetails" element={<BookingDetails />} />
-        <Route path="CountryHotels/:countryTitle" element={<AddHotels />} />
-        <Route
-          path="CountryHotels/:countryTitle/hotelDetials/:id"
-          element={<HotelDetials />}
-        /> */}
-      </Routes>
-      {/* </AddHotelsProvider> */}
-      {/* </SearchContextProvider> */}
+      <SearchContextProvider>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="login" element={<LoginPage />} />
+          <Route path="signUp" element={<SignUpPage />} />
+          <Route path="bookingDetails" element={<BookingDetails />} />
+          <Route path="account" element={<Account />} />
+        </Routes>
+        <AddHotelsProvider>
+          <Routes>
+            <Route path="CountryHotels/:countryTitle" element={<AddHotels />} />
+            <Route
+              path="CountryHotels/:countryTitle/hotelDetials/:id"
+              element={<HotelDetials />}
+            />
+          </Routes>
+        </AddHotelsProvider>
+      </SearchContextProvider>
       <Footer />
     </BrowserRouter>
   );
