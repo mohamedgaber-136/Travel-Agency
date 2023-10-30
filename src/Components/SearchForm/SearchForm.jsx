@@ -8,12 +8,18 @@ export const SearchForm = () => {
   const [isValid, setValidatation] = useState(true);
   let [showAddTable, setAddTable] = useState(false);
   const addGuest = (x, y) => {
-    if (y >= 1) {
+    if (guest <= room && y >= 1) {
+      x(++y);
+      setGuest(++guest);
+    } else {
       x(++y);
     }
   };
   const removeGuestOrRoom = (x, y) => {
-    if (y > 1) {
+    if (guest <= room && y > 1) {
+      x(--y);
+      setRoom(--room);
+    } else {
       x(--y);
     }
   };
@@ -89,7 +95,10 @@ export const SearchForm = () => {
                   <i className="fa-solid fa-plus text-primary"></i>
                 </button>
                 <span>{guest}</span>
-                <button onClick={() => removeGuestOrRoom(setGuest, guest)}>
+                <button
+                  onClick={() => removeGuestOrRoom(setGuest, guest)}
+                  disabled={guest == 1 ? true : false}
+                >
                   <i className="fa-solid fa-minus text-primary"></i>
                 </button>
               </div>
@@ -104,6 +113,7 @@ export const SearchForm = () => {
                 <button
                   type="button"
                   onClick={() => removeGuestOrRoom(setRoom, room)}
+                  disabled={room == 1 ? true : false}
                 >
                   {" "}
                   <i className="fa-solid fa-minus text-primary "></i>
