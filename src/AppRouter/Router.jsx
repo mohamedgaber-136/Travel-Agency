@@ -6,6 +6,9 @@ import { NavigationBar } from "../Components/NavBar/Navbar";
 import LandingPage from "../Pages/Landing/LandingPage";
 import {Test} from "../Pages/Test/Test";
 import Account from "../Pages/accountFlow/Account";
+import AddHotels from "../Pages/AddHotels/AddHotels";
+import HotelDetials from "../Pages/HotelDetails/HotelDetials";
+import AddHotelsProvider from "../store/store";
 
 const AppRouter = () => {
   return (
@@ -17,8 +20,8 @@ const AppRouter = () => {
         <Route path="login" element={<LoginPage />} />
         <Route path="signUp" element={<SignUpPage />} />
         <Route path="account" element={<Account />} />
-        <Route path="addHotels" element={<AddHotels/>} />
-        <Route path={`addHotels/hotelDetials/:id` }element={<HotelDetials/>} />
+      <Route path="addHotels" element={<AddHotels/>} />
+      <Route path="addHotels/hotelDetials/:id" element={<HotelDetials/>} />
       </Routes>
     </BrowserRouter>
   );

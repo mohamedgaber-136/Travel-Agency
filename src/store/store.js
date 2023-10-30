@@ -20,3 +20,4 @@ export default function AddHotelsProvider(props){
         {props.children}
     </addHotelsContext.Provider>
 }
+

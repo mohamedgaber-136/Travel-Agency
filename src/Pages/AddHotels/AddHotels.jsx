@@ -1,5 +1,4 @@
 import React, { useContext, useState } from 'react'
-import img from './Rectangle 3.png'
 import locationIcon from './Location.png'
 import unFillFav from './Vector.png'
 import "./addhotels.css"
