@@ -1,5 +1,14 @@
 .navbarParent {
     font-size: 14px;
+    position:fixed !important;
+    width:70% !important;
+    top:10px !important;
+    background-color:white !important;
+    z-index:999; 
+    left:50%;
+    transform:translateX(-50%);
+    border-radius:20px;
+
 }
 
 .FavouriteBorder {
@@ -21,24 +30,26 @@
 .nav-link {
     position: relative;
     text-align: center;
-}
-
-.nav-link::before {
-    position: absolute;
-    content: '';
-    width: 0%;
+    width: 110px;
+    display: flex; 
+    align-items: center;
+    justify-content: center;
     transition: 0.5s;
-    height: 2px;
-    background-color: #8DD3BB;
-    bottom: 0;
-    left: 12px;
+    border-radius: 10px;
+}
+.logoBrand{
+    cursor: pointer;
+}
+.nav-link:hover{
+    background-color: #8DD3BB !important;
+
 }
 
 @media(max-width:767px) {
     .FavouriteBorder::after {
         position: absolute;
         content: '';
-        width: 1px;
+        width: 0px;
         height: 30%;
         top: 30px;
         left: 50%;
@@ -49,14 +60,15 @@
 
 
     .nav-link:hover::before {
-        width: 10% !important;
+        width: 30% !important;
     }
-
+.nav-link{
+width: 95px;
+justify-content: space-between;
+}
 }
 
-.nav-link:hover::before {
-    width: 50%;
-}
+
 
 .NavbarButton {
     color: #8DD3BB;
