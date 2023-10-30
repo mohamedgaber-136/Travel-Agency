@@ -1,3 +1,12 @@
+<<<<<<< HEAD
+import React from 'react'
+import AppRouter from "./AppRouter/Router"
+function App() {
+  return (
+   <><AppRouter/></> 
+   
+  )
+=======
 import AppRouter from "./AppRouter/Router";
 import { Header } from "./Components/Header/Header";
 import { Main } from "./Components/Main/Main";
@@ -12,6 +21,7 @@ function App() {
       {/* <FirebaseTestPage /> */}
     </>
   );
+>>>>>>> d1bb36a4c5ec00da2b7fac7e4b549b70ac847d40
 }
 
-export default App;
+export default App
