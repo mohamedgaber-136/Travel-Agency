@@ -1,12 +1,10 @@
-import { NavigationBar } from "./Components/NavBar/Navbar";
-import Account from "./Pages/accountFlow/Account";
+import React from 'react'
+import AppRouter from "./AppRouter/Router"
 function App() {
   return (
-  <>
-  <NavigationBar />
-  <Account />
-  </>
-  );
+   <><AppRouter/></> 
+   
+  )
 }
 
-export default App;
+export default App
