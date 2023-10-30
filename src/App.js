@@ -8,10 +8,8 @@ function App() {
   return (
     <>
       <AppRouter />
-      {/* <NavigationBar /> */}
-      {/* <Account /> */}
-    
-      <FirebaseTestPage />
+
+      {/* <FirebaseTestPage /> */}
     </>
   );
 }

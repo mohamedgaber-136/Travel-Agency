@@ -14,7 +14,7 @@ export const NavigationBar = () => {
       className="bg-body-tertiary navbarParent p-2 "
     >
       <Container>
-        <Navbar.Brand onClick={() => navigatation("/")}>Logo</Navbar.Brand>
+        <Navbar.Brand className='logoBrand' onClick={() => navigatation("/")}>Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav " className="p-1 ">
           <i class="fa-solid fa-circle-chevron-down NavbarButton"></i>
         </Navbar.Toggle>

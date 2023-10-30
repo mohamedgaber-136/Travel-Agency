@@ -30,21 +30,19 @@
 .nav-link {
     position: relative;
     text-align: center;
-    width: 111px;
+    width: 110px;
     display: flex; 
     align-items: center;
     justify-content: center;
-}
-
-.nav-link::before {
-    position: absolute;
-    content: '';
-    width: 0%;
     transition: 0.5s;
-    height: 2px;
-    background-color: #8DD3BB;
-    bottom: 0;
-    left: 12px;
+    border-radius: 10px;
+}
+.logoBrand{
+    cursor: pointer;
+}
+.nav-link:hover{
+    background-color: #8DD3BB !important;
+
 }
 
 @media(max-width:767px) {
@@ -70,9 +68,7 @@ justify-content: space-between;
 }
 }
 
-.nav-link:hover::before {
-    width: 50%;
-}
+
 
 .NavbarButton {
     color: #8DD3BB;

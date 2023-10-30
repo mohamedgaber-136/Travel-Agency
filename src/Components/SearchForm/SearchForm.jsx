@@ -16,7 +16,7 @@ export const SearchForm = () => {
     }
   };
   const removeGuestOrRoom = (x, y) => {
-    if (guest <= room && y >= 1) {
+    if (guest <= room && y > 1) {
       x(--y);
       setRoom(--room);
     } else {
@@ -97,7 +97,7 @@ export const SearchForm = () => {
                 <span>{guest}</span>
                 <button
                   onClick={() => removeGuestOrRoom(setGuest, guest)}
-                  disabled={guest == 0 ? true : false}
+                  disabled={guest == 1 ? true : false}
                 >
                   <i className="fa-solid fa-minus text-primary"></i>
                 </button>
@@ -113,7 +113,7 @@ export const SearchForm = () => {
                 <button
                   type="button"
                   onClick={() => removeGuestOrRoom(setRoom, room)}
-                  disabled={room == 0 ? true : false}
+                  disabled={room == 1 ? true : false}
                 >
                   {" "}
                   <i className="fa-solid fa-minus text-primary "></i>
