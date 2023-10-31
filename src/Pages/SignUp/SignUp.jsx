@@ -26,7 +26,7 @@ function SignUpPage() {
             }}
           ></div>
 
-          <form class="form">
+          <form class="form shadow">
             <h2 class="title m-0">SignUp</h2>
             <p class="message">Signup now and get full access to our app. </p>
             <div class="flex">
