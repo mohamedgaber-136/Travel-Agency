@@ -14,7 +14,7 @@ console.log(searchData,'Data')
         <div className="ticketLeftSide p-2 d-flex align-items-start justify-content-center flex-column">
           <div className="LeftTop ">
             <div className="checkInTitle  d-flex align-items-start p-2 justify-content-center flex-column">
-              <h3>Thur, Dec 8</h3>
+              <h4>{searchData.CheckIn}</h4>
               <h6>Check-In</h6>
             </div>
           </div>
@@ -74,7 +74,7 @@ console.log(searchData,'Data')
           </div>
           <div className="LeftBottom">
             <div className="checkOutTitle  d-flex align-items-start p-2 justify-content-center flex-column">
-              <h3>Fri, Dec 9</h3>
+              <h4>{searchData.CheckOut}</h4>
               <h6>Check-Out</h6>
             </div>
           </div>
@@ -92,7 +92,7 @@ console.log(searchData,'Data')
               <p className="m-0">James Doe</p>
             </div>
             <div className="ticketRoomsBooked  d-flex align-items-center justify-content-center">
-              <p className="m-0">Superior room - 1 double bed or 2 twin beds</p>
+              <p className="m-0">Superior room - {searchData.GuestAndRooms}</p>
             </div>
           </div>
           <div className="Middlebottom container py-2 d-flex flex-column justify-content-center align-items-center">
@@ -132,7 +132,7 @@ console.log(searchData,'Data')
                   />
                 </svg>
                 <div className="timing  d-flex flex-column justify-content-center align-items-center">
-                  <p className="m-0">Check-In time</p>
+                  <p className="m-0">Check-Out time</p>
                   <p className="m-0">12:00pm</p>
                 </div>
               </div>
@@ -150,8 +150,8 @@ console.log(searchData,'Data')
                   />
                 </svg>
                 <div className="timing w-100  d-flex flex-column justify-content-center align-items-center">
-                  <p className="m-0 ">Check-In time</p>
-                  <p className="m-0 ">12:00pm</p>
+                  <p className="m-0 ">Room no.</p>
+                  <p className="m-0 ">On Arrival</p>
                 </div>
               </div>
             </div>
@@ -215,7 +215,7 @@ console.log(searchData,'Data')
           </div>
         </div>
         <div className="ticketRightSide d-flex justify-content-center align-items-center">
-          <div className="ticketImgContainer d-flex justify-content-center align-items-center w-50 h-50">
+          <div className="ticketImgContainer d-flex justify-content-center align-items-center w-75 h-50">
             <img src={ticketImg} alt="ticketImg" />
           </div>
         </div>

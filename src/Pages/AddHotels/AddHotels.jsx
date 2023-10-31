@@ -19,7 +19,7 @@ export default function AddHotels() {
       {" "}
       <Helmet>
         <meta charSet="utf-8" />
-        <title>AddHotel</title>
+        <title>{`${countryTitle}-Hotels`}</title>
       </Helmet>
       <div>
         <div

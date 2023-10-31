@@ -115,8 +115,9 @@
 .ticket p {
     font-size: 1.5vw;
 }
-.ticket h3 ,.ticket h6 {
+.ticket h4 ,.ticket h6 {
     margin: 0 !important;
     font-size: 12px;
 }
+
 }

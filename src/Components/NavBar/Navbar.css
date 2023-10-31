@@ -40,9 +40,37 @@
 .logoBrand{
     cursor: pointer;
 }
-.nav-link:hover{
+.nav-link::after{
+    content: '';
+    position: absolute;
+    width: 0;
+    height: 100%;
+    left: 0;
+    border-radius: 10px;
+    z-index: -1;
+    top:0;
+    bottom:0;
+    transition: 0.8s;
+}
+.nav-link:hover::after{
+    width: 100%;
     background-color: #8DD3BB !important;
-
+}
+.nav-link::before{
+    content: '';
+    position: absolute;
+    width: 0%;
+    height: 100%;
+    right: 0;
+    border-radius: 10px;
+    z-index: -1;
+    top:0;
+    bottom:0;
+    transition: 0.8s;
+}
+.nav-link:hover::before{
+    background-color: #8DD3BB !important;
+    width: 100%;
 }
 
 @media(max-width:767px) {
@@ -59,9 +87,7 @@
     }
 
 
-    .nav-link:hover::before {
-        width: 30% !important;
-    }
+    
 .nav-link{
 width: 95px;
 justify-content: space-between;

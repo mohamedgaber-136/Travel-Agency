@@ -39,7 +39,7 @@ export const SearchForm = () => {
     };
     setSeachData({ ...data });
       // navigate(`/CountryHotels/${data.destination}`,{replace:true})
-    // setValidatation(await searchSchema.isValid(searchData));
+    setValidatation(await searchSchema.isValid(searchData));
     // console.log(isValid)
     // if(isValid){
 

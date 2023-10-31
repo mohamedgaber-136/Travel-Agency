@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Navbar.css";
 import avatar from "../../assets/images/accountFlow/accountAvatar.png";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 export const NavigationBar = () => {
   let navigatation = useNavigate();
   return (
@@ -31,19 +32,19 @@ export const NavigationBar = () => {
             </Nav.Link>
           </Nav>
           <Nav className="d-flex  align-items-center">
-            <Nav.Link className="text-dark FavouriteBorder">
+            <Nav.Link className="text-dark ">
               <i class="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
-            <Nav.Link className="text-dark" eventKey={2}  onClick={() => navigatation("account")}>
-              <img
+            <Nav.Link className="text-dark" eventKey={2} >
+              {/* <img
                 src={avatar}
                 width={"40px"}
                 height={"40px"}
                 alt="AvataLogo"
                 style={{ objectFit: "cover" }}
               />
-              <span> john D.</span>
-             
+              <span> john D.</span> */}
+             <Link to={'login'} className="text-dark">Login</Link>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
