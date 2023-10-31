@@ -5,6 +5,8 @@ import "./addhotels.css"
 import { SearchForm } from '../../Components/SearchForm/SearchForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import {addHotelsContext } from '../../store/store'
+import { Helmet } from "react-helmet";
+
 export default function AddHotels() {
     const {countryTitle} =useParams()
     const navigate =useNavigate()

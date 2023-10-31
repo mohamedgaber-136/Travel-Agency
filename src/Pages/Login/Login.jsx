@@ -3,13 +3,11 @@ import img from "../../assets/photoLogin.png";
 import "./Login.css";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-<<<<<<< HEAD
 // import { authbase } from "../../Firebase/FirebaseInit";
-=======
->>>>>>> b39c402d7d8f48e11a8fa80ad2a173d58833f90d
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Helmet } from "react-helmet";
+import { Link } from "react-router-dom";
 
 function LoginPage() {
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
@@ -169,7 +167,7 @@ function LoginPage() {
 
                 <div className=" align-self-center d-flex align-items-center justify-content-center">
                   <span> Don't have an account?</span>
-                  <span className=" url-colored btn p-1">Sign Up</span>
+                  <Link className=" url-colored btn p-1" to={'/signUp'}>Sign Up</Link>
                 </div>
 
                 <p className=" align-self-center">Or login With</p>

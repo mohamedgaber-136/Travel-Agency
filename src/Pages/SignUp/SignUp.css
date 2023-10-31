@@ -98,4 +98,8 @@
   background-color: rgb(141, 211, 187, 0.8);
 }
 
-
+@media (max-width: 768px) {
+  .signUpParent{
+    padding: 0 !important;
+  }
+}

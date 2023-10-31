@@ -7,7 +7,6 @@ function SignUpPage() {
   const [username, setUsername] = useState("");
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const handleSignUp = () => {
     //if New user can sign
     console.log("Username:", username);
@@ -94,7 +93,10 @@ function SignUpPage() {
               </label>
               <div class="flex-row"></div>
               <div>
-                <input type="checkbox" />
+                <input
+                  type="checkbox"
+                 
+                />
                 <label className="px-1">
                   I agree to all the Terms and Privacy Policies{" "}
                 </label>
