@@ -15,7 +15,7 @@ console.log(searchData,'Data')
           <div className="LeftTop ">
             <div className="checkInTitle  d-flex align-items-start p-2 justify-content-center flex-column">
               <h4>{searchData.CheckIn}</h4>
-              <h6>Check-In</h6>
+              <h5>Check-In</h5>
             </div>
           </div>
           <div className="svgContainer p-2 d-flex align-items-start justify-content-center flex-column ">
@@ -75,7 +75,7 @@ console.log(searchData,'Data')
           <div className="LeftBottom">
             <div className="checkOutTitle  d-flex align-items-start p-2 justify-content-center flex-column">
               <h4>{searchData.CheckOut}</h4>
-              <h6>Check-Out</h6>
+              <h5>Check-Out</h5>
             </div>
           </div>
         </div>
