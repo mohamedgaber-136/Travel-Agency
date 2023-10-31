@@ -4,7 +4,7 @@ import img from "../../assets/photoLogin.png";
 import "./Login.css";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { signInWithEmailAndPassword } from "@firebase/auth";
-import { authbase } from "../../Firebase/FirebaseInit";
+// import { authbase } from "../../Firebase/FirebaseInit";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 
