@@ -22,7 +22,6 @@ function LoginPage() {
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
-              
             }}
           ></div>
           <div className="loginForm h-100  ">
