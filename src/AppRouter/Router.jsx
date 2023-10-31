@@ -10,6 +10,7 @@ import Account from "../Pages/accountFlow/Account";
 import { Footer } from "../Components/Footer/Footer";
 import AddHotelsProvider from "../store/store";
 import SearchContextProvider from "../store/searchStore";
+import BookingDetails from "../Pages/BookingDetails/BookingDetails";
 
 const AppRouter = () => {
   return (
@@ -20,6 +21,7 @@ const AppRouter = () => {
           <Route path="/" element={<LandingPage />} />
           <Route path="login" element={<LoginPage />} />
           <Route path="signUp" element={<SignUpPage />} />
+          <Route path="bookingDetails" element={<BookingDetails />} />
           <Route path="account" element={<Account />} />
         </Routes>
         <AddHotelsProvider>
