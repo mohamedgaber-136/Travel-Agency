@@ -38,7 +38,7 @@ export const SearchForm = () => {
       GuestAndRooms: event.target[3].value,
     };
     setSeachData({ ...data });
-      navigate(`/CountryHotels/${data.destination}`,{replace:true})
+      // navigate(`/CountryHotels/${data.destination}`,{replace:true})
     // setValidatation(await searchSchema.isValid(searchData));
     // console.log(isValid)
     // if(isValid){

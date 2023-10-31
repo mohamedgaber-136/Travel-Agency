@@ -7,9 +7,14 @@ import right from "../../assets/images/accountFlow/right.svg";
 import left from "../../assets/images/accountFlow/left.svg";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
 import { Button } from "react-bootstrap";
+import { Helmet } from "react-helmet";
 
 const BookingDetails = () => {
   return (
+    <>   <Helmet>
+    <meta charSet="utf-8" />
+    <title>Booking-Details</title>
+  </Helmet>
     <div className="container my-5">
       <nav aria-label="breadcrumb">
         <ol className="breadcrumb">
@@ -131,6 +136,7 @@ const BookingDetails = () => {
         {/* end side card  */}
       </div>
     </div>
+    </>
   );
 };
 

@@ -1,8 +1,13 @@
 import React from "react";
 import avatar from "../../assets/images/accountFlow/accountAvatar.png";
 import ticketImg from "./download 2.png";
+import { searchContext } from "../../store/searchStore";
+import { useContext, useState } from "react";
+
 import "./Booked.css";
 export const BookedTicket = () => {
+  const{searchData}=useContext(searchContext)
+console.log(searchData,'Data')
   return (
     <div className="BookedTicketParent d-flex align-items-center justify-content-center">
       <div className="ticket d-flex justify-content-center align-items-center">
@@ -144,9 +149,9 @@ export const BookedTicket = () => {
                     fill="#8DD3BB"
                   />
                 </svg>
-                <div className="timing  d-flex flex-column justify-content-center align-items-center">
-                  <p className="m-0">Check-In time</p>
-                  <p className="m-0">12:00pm</p>
+                <div className="timing w-100  d-flex flex-column justify-content-center align-items-center">
+                  <p className="m-0 ">Check-In time</p>
+                  <p className="m-0 ">12:00pm</p>
                 </div>
               </div>
             </div>

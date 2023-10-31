@@ -2,7 +2,8 @@
   width: 80%;
 }
 .signUpParent {
-  height: 800px;
+  padding: 50px ;
+  gap: 5px;
 }
 
 .form {
@@ -31,16 +32,7 @@
   width: 48%;
   height: 420px !important;
 }
-/* .title::before,.title::after {
-    position: absolute;
-    content: "";
-    height: 16px;
-    width: 16px;
-    border-radius: 50%;
-    left: 0px;
-    background-color: royalblue;
-  }
-   */
+
 .title::before {
   width: 18px;
   height: 18px;
@@ -89,33 +81,7 @@
   border-radius: 10px;
 }
 
-/* .form label .input + span {
-    position: absolute;
-    left: 10px;
-    top: 15px;
-    color: grey;
-    font-size: 0.9em;
-    cursor: text;
-    transition: 0.3s ease;
-  }
-   */
-/* .form label .input:placeholder-shown + span {
-    top: 15px;
-    font-size: 0.9em;
-   
-  } */
 
-/* .form label .input:focus + span,.form label .input:valid + span {
-    top: 30px;
-    font-size: 0.7em;
-    font-weight: 600;
-   
-  }
-  
-  .form label .input:valid + span {
-    color: rgb(13, 14, 13);
-   align-items: center;
-  } */
 
 .submit {
   border: none;
@@ -132,14 +98,4 @@
   background-color: rgb(141, 211, 187, 0.8);
 }
 
-/* @keyframes pulse {
-    from {
-      transform: scale(0.9);
-      opacity: 1;
-    }
-  
-    to {
-      transform: scale(1.8);
-      opacity: 0;
-    }
-  } */
+
