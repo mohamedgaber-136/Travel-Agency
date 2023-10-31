@@ -3,6 +3,10 @@ import img from "../../assets/photoLogin.png";
 import "./Login.css";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { signInWithEmailAndPassword } from "@firebase/auth";
+<<<<<<< HEAD
+// import { authbase } from "../../Firebase/FirebaseInit";
+=======
+>>>>>>> b39c402d7d8f48e11a8fa80ad2a173d58833f90d
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Helmet } from "react-helmet";
