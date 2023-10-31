@@ -1,80 +1,177 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import img from "../../assets/photoLogin.png";
 
 import "./Login.css";
+import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
+import { signInWithEmailAndPassword } from "@firebase/auth";
+import { authbase } from "../../Firebase/FirebaseInit";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+  const [isHiddenPassword, setIsHiddenPassword] = useState("password");
+  const [submitEnabled, setSubmitEnabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [credential, setCredential] = useState({});
 
-  const handleLogin = () => {
-    console.log("email:", email);
-    console.log("Password:", password);
-  };
+  function handlePasswordType() {
+    setIsHiddenPassword(!isHiddenPassword);
+  }
+
+  const [userObject, setUserObject] = useState({
+    email: "",
+    password: "",
+    rememberMe: false,
+  });
+
+  function userSignIn(event) {
+    event.preventDefault();
+
+    if (userObject.email !== "" && userObject.password !== "") {
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Please Enter The Required Inputs");
+    }
+
+    // signInWithEmailAndPassword(authbase, userObject.email, userObject.password)
+    //   .then((cred) => {
+    //     console.log(cred, "sign in");
+    //     setCredential(cred);
+    //     // let x = { ...cred, phoneNumber: "+123456" };
+    //     // console.log(x, "x");
+    //     // authbase.currentUser = cred.user;
+    //     // add user from storage
+    //   })
+    //   .catch((error) => console.log(error, "error"));
+
+    // get the user from the database and put it on the context
+
+    console.log("ajsgs");
+  }
+
+  useEffect(() => {
+    console.log(userObject, "user");
+    console.log(credential, "user");
+  }, [userObject, credential]);
+
+  useEffect(() => {
+    if (userObject.email !== "" && userObject.password !== "") {
+      setSubmitEnabled(true);
+      setErrorMessage("");
+    } else {
+      setSubmitEnabled(false);
+    }
+  }, [userObject]);
 
   return (
     <div className="loginParent d-flex justify-content-center align-items-center ">
       <div className=" d-flex justify-content-center w-100 h-50 align-items-center gap-2">
-        <div className=" signInContainer  justify-content-center flex-column flex-md-row d-flex  align-items-center gap-2">
+        <div className=" signInContainer  justify-content-center flex-column flex-md-row d-flex align-items-center gap-2">
           <div
-            className="imgContainer  "
+            className="imgContainer"
             style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
           ></div>
-          <div className="loginForm h-100  ">
-            <div className="align-self-start d-flex flex-column py-2">
-              <h2 className="m-0">Login</h2>
-              <span>Login to access your Golobe account</span>
-            </div>
-            <form class="form">
-              <div class="flex-column">
-                <label>Email </label>
+          {/* <button
+            onClick={() => {
+              console.log(authbase.currentUser, "test");
+              authbase.currentUser.uid = "0";
+            }}
+          >
+            test
+          </button> */}
+          <div className="loginForm form h-100 ">
+            <form className="form border shadow " onSubmit={userSignIn}>
+              <div className="align-self-start d-flex flex-column p-2 ">
+                <h2 className="m-0">Login</h2>
+                <span>Login to access your Golobe account</span>
               </div>
-              <div class="inputForm">
+              <div>
                 <input
-                  type="text"
-                  class="input"
+                  type="email"
+                  className="form-control p-2"
                   placeholder="Enter your Email"
+                  required
+                  onChange={(event) =>
+                    setUserObject({ ...userObject, email: event.target.value })
+                  }
                 />
               </div>
-
-              <div class="flex-column">
-                <label>Password </label>
-              </div>
-              <div class="inputForm">
+              <div className="input-group ">
                 <input
-                  type="password"
-                  class="input"
+                  type={isHiddenPassword ? "password" : "text"}
+                  className="form-control p-2"
                   placeholder="Enter your Password"
+                  required
+                  onChange={(event) =>
+                    setUserObject({
+                      ...userObject,
+                      password: event.target.value,
+                    })
+                  }
                 />
-                <svg
-                  viewBox="0 0 576 512"
-                  height="1em"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path d="M288 32c-80.8 0-145.5 36.8-192.6 80.6C48.6 156 17.3 208 2.5 243.7c-3.3 7.9-3.3 16.7 0 24.6C17.3 304 48.6 356 95.4 399.4C142.5 443.2 207.2 480 288 480s145.5-36.8 192.6-80.6c46.8-43.5 78.1-95.4 93-131.1c3.3-7.9 3.3-16.7 0-24.6c-14.9-35.7-46.2-87.7-93-131.1C433.5 68.8 368.8 32 288 32zM144 256a144 144 0 1 1 288 0 144 144 0 1 1 -288 0zm144-64c0 35.3-28.7 64-64 64c-7.1 0-13.9-1.2-20.3-3.3c-5.5-1.8-11.9 1.6-11.7 7.4c.3 6.9 1.3 13.8 3.2 20.7c13.7 51.2 66.4 81.6 117.6 67.9s81.6-66.4 67.9-117.6c-11.1-41.5-47.8-69.4-88.6-71.1c-5.8-.2-9.2 6.1-7.4 11.7c2.1 6.4 3.3 13.2 3.3 20.3z"></path>
-                </svg>
-              </div>
-
-              <div class="flex-row">
-                <div>
-                  <input type="checkbox" />
-                  <label>Remember me </label>
+                <div className="input-group-append">
+                  <span
+                    className=" input-group-text  h-100"
+                    onClick={handlePasswordType}
+                  >
+                    {isHiddenPassword ? (
+                      <BsEyeSlashFill size={23} />
+                    ) : (
+                      <BsEyeFill size={23} />
+                    )}
+                  </span>
                 </div>
-                <span class="span">Forgot password?</span>
               </div>
-              <button class="button-submit">Sign In</button>
-              <p class="p">
-                Don't have an account? <span class="span">Sign Up</span>
-              </p>
-              <p class="p line">Or login With</p>
 
-              <div class="flex-row">
-                <button class="btn google">Google</button>
-                <button class="btn apple">Apple</button>
+              <div className="d-flex justify-content-between align-items-center">
+                <div>
+                  <input
+                    type="checkbox"
+                    className="form-check-input"
+                    onChange={(event) =>
+                      setUserObject({
+                        ...userObject,
+                        rememberMe: !userObject.rememberMe,
+                      })
+                    }
+                  />
+                  <label className="px-1">Remember me </label>
+                </div>
+
+                <span className="btn p-0 url-colored">Forgot password?</span>
+              </div>
+
+              <div className="d-flex flex-column">
+                <button
+                  className={submitEnabled ? "submit" : "submit-disabled"}
+                  onClick={userSignIn}
+                  // disabled={submitEnabled}
+                >
+                  Sign In
+                </button>
+                <span className="fs-6 ps-2 text-danger">{errorMessage}</span>
+              </div>
+
+              <div className=" align-self-center d-flex align-items-center justify-content-center">
+                <span> Don't have an account?</span>
+                <span className=" url-colored btn p-1">Sign Up</span>
+              </div>
+
+              <p className=" align-self-center">Or login With</p>
+
+              <div className="d-flex align-self-center gap-2">
+                <button className="btn border seeAllBtn">
+                  <FcGoogle size={25} />
+                  <span className="px-2">Google</span>
+                </button>
+                <button className="btn border seeAllBtn">
+                  <FaFacebook size={25} color="blue" />
+                  <span className="px-2">Facebook</span>
+                </button>
               </div>
             </form>
           </div>

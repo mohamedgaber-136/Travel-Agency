@@ -1,13 +1,35 @@
-const AccountInfo = ({ label, content, btn = false }) => {
+import { useState } from "react";
+
+const AccountInfo = ({ label, content, btn = false, name }) => {
+  const [readOnly, setReadOnly] = useState(true);
+  const [inputVal, setInputVal] = useState(content);
+
   return (
-    <div className="d-flex justify-content-between pb-4">
+    <div className="d-flex align-items-center flex-wrap gap-2 justify-content-between pb-4">
       <div>
-        <span>{label}</span>
-        <h3>{content}</h3>
+        <span>{label}</span> <br />
+        <div className="d-flex gap-2">
+          <input
+            type="text"
+            className="border-0 px-2"
+            value={inputVal}
+            readOnly={readOnly}
+            name={name}
+            onChange={(e) => setInputVal(e.target.value)}
+          />
+          {!readOnly && (
+            <button
+              onClick={() => setReadOnly(true)}
+              className="btn btn-outline-primary d-flex py-1 px-3 align-items-center gap-1"
+            >
+              submit
+            </button>
+          )}
+        </div>
       </div>
-      <div className="d-flex justify-content-between gap-3">
+      <div className="d-flex justify-content-between flex-wrap gap-3">
         {btn && (
-          <button className="btn btn-outline-success d-flex align-items-center gap-1">
+          <button className="btn btn-outline-success py-1 px-3 d-flex align-items-center gap-1">
             <svg
               xmlns="http://www.w3.org/2000/svg"
               width="16"
@@ -26,7 +48,10 @@ const AccountInfo = ({ label, content, btn = false }) => {
           </button>
         )}
 
-        <button className="btn btn-outline-success d-flex align-items-center gap-1">
+        <button
+          onClick={() => setReadOnly(false)}
+          className="btn btn-outline-success d-flex py-1 px-3 align-items-center gap-1"
+        >
           <svg
             xmlns="http://www.w3.org/2000/svg"
             width="16"
