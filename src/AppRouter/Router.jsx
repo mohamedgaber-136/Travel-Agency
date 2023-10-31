@@ -16,6 +16,7 @@ const AppRouter = () => {
   return (
     <BrowserRouter>
       <NavigationBar />
+
       <SearchContextProvider>
         <Routes>
           <Route path="/" element={<LandingPage />} />

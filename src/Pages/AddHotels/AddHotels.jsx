@@ -3,9 +3,10 @@ import locationIcon from './Location.png'
 import unFillFav from './Vector.png'
 import "./addhotels.css"
 import { SearchForm } from '../../Components/SearchForm/SearchForm'
-import { useNavigate } from 'react-router-dom'
+import { useNavigate, useParams } from 'react-router-dom'
 import {addHotelsContext } from '../../store/store'
 export default function AddHotels() {
+    const {countryTitle} =useParams()
     const navigate =useNavigate()
     const {addHotels,getHotels}=useContext(addHotelsContext)
     const goToDetails =(id)=>{
@@ -13,15 +14,23 @@ export default function AddHotels() {
     }
     
   return (
-       <div>
-        <div style={{
-            width: '100%',
-            marginTop: '150px',
-        }}>
-        <SearchForm />
+    <>
+      {" "}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{`${countryTitle}-Hotels`}</title>
+      </Helmet>
+      <div>
+        <div
+          style={{
+            width: "100%",
+            marginTop: "150px",
+          }}
+        >
+          <SearchForm />
         </div>
             <button onClick={()=>getHotels()}>Get Data</button>
-            {addHotels.length>0 ? addHotels?.map(hotel=><div key={hotel.id} className='container p-3'>
+        {addHotels?.map(hotel=><div key={hotel.id} className='container p-3'>
             <div className='card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start'>
                 <div className=''>
                     <img  src={`${hotel.cardPhotos[0]?.sizes.urlTemplate.replace('{width}','300').replace('{height}','300')}`} alt="" />
@@ -35,8 +44,15 @@ export default function AddHotels() {
                     <div className='col-6'></div>
                     <p className='text-muted'>starting from<br/><p style={{color:"salmon", fontSize:"20px"}}>$240/night</p></p>
                     </div>
-                    <div className='d-flex flex-row mt-4 gap-3 box-rate'>
-                        <div>
+                    <div className='d-flex flex-row mt-4 gap-3'>
+                        <div style={{
+                            width:'30px',
+                            height:'30px',
+                            border:'1px solid #3EB489',
+                            borderRadius:'5px',
+                            textAlign:'center',
+                            padding:'2px',
+                        }}>
                             <p className='text-muted'>{hotel.bubbleRating.rating}</p>
                         </div>
                             <p style={{marginTop:'5px'}}>{hotel.badge.type}</p>
@@ -66,10 +82,9 @@ export default function AddHotels() {
                     </div>
                 </div>
             </div>
-        </div>):<div className='vh-100 d-flex flex-column justify-content-center align-items-center'>
-  <i class="fa-solid fa-spinner fa-spin fa-5x"></i>
-  </div>}
+        </div>)}
     </div>
+    </>
 
   )
 }

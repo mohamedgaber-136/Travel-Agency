@@ -2,8 +2,7 @@
   width: 80%;
 }
 .loginParent {
-  height: 800px;
-}
+padding: 50px;}
 .imgContainer {
   border-radius: 20px;
   width: 48%;
@@ -20,8 +19,14 @@
 @media (max-width: 767px) {
   .imgContainer,
   .loginForm {
-    width: 100%;
+    width: 100% !important;
     height: 200px !important;
+  }
+  .loginParent{
+    padding: 0px;
+  }
+  .signUpParent{
+    padding: 0;
   }
 }
 .submit {
@@ -74,15 +79,3 @@ input[type="checkbox"] {
   text-decoration: underline solid var(--mint-green) !important;
 }
 
-/* input[type="checkbox"] {
-  text-align: center;
-  display: table-cell;
-  vertical-align: middle;
-  width: 20px !important;
-  height: 20px !important;
-  appearance: none !important;
-  border-radius: 10%;
-  border: 1px solid rgb(191 35 42 / 90%);
-  box-shadow: none;
-  font-size: 1em;
-} */
