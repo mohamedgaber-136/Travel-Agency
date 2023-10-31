@@ -38,3 +38,51 @@
 .submit:hover {
   background-color: rgb(141, 211, 187, 0.8);
 }
+
+.submit-disabled {
+  border: none;
+  outline: none;
+  background-color: rgb(141, 211, 187, 0.5);
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-size: 16px;
+  transform: 0.3s ease;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--mint-green) !important;
+  /* color: black !important; */
+  border-color: var(--mint-green) !important;
+}
+
+input[type="checkbox"]:checked:after {
+  content: "\2713";
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+input[type="checkbox"] {
+  background-image: none !important;
+}
+
+.url-colored {
+  color: var(--mint-green) !important;
+
+  text-decoration: underline solid var(--mint-green) !important;
+}
+
+/* input[type="checkbox"] {
+  text-align: center;
+  display: table-cell;
+  vertical-align: middle;
+  width: 20px !important;
+  height: 20px !important;
+  appearance: none !important;
+  border-radius: 10%;
+  border: 1px solid rgb(191 35 42 / 90%);
+  box-shadow: none;
+  font-size: 1em;
+} */

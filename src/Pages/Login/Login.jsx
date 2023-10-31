@@ -5,98 +5,107 @@ import "./Login.css";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { signInWithEmailAndPassword } from "@firebase/auth";
 import { authbase } from "../../Firebase/FirebaseInit";
+import { FcGoogle } from "react-icons/fc";
+import { FaFacebook } from "react-icons/fa";
 
 function LoginPage() {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-
-  const handleLogin = () => {
-    console.log("email:", email);
-    console.log("Password:", password);
-  };
-
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
+  const [submitEnabled, setSubmitEnabled] = useState(false);
+  const [errorMessage, setErrorMessage] = useState("");
+  const [credential, setCredential] = useState({});
+
+  function handlePasswordType() {
+    setIsHiddenPassword(!isHiddenPassword);
+  }
+
   const [userObject, setUserObject] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
 
-  function handlePasswordType() {
-    setIsHiddenPassword(!isHiddenPassword);
+  function userSignIn(event) {
+    event.preventDefault();
+
+    if (userObject.email !== "" && userObject.password !== "") {
+      setErrorMessage("");
+    } else {
+      setErrorMessage("Please Enter The Required Inputs");
+    }
+
+    // signInWithEmailAndPassword(authbase, userObject.email, userObject.password)
+    //   .then((cred) => {
+    //     console.log(cred, "sign in");
+    //     setCredential(cred);
+    //     // let x = { ...cred, phoneNumber: "+123456" };
+    //     // console.log(x, "x");
+    //     // authbase.currentUser = cred.user;
+    //     // add user from storage
+    //   })
+    //   .catch((error) => console.log(error, "error"));
+
+    // get the user from the database and put it on the context
+
+    console.log("ajsgs");
   }
 
-  const [credential, setCredential] = useState({});
   useEffect(() => {
     console.log(userObject, "user");
     console.log(credential, "user");
   }, [userObject, credential]);
 
-  function userSignIn(event) {
-    event.preventDefault();
-
-    signInWithEmailAndPassword(authbase, userObject.email, userObject.password)
-      .then((cred) => {
-        console.log(cred, "sign in");
-        setCredential(cred);
-        // let x = { ...cred, phoneNumber: "+123456" };
-        // console.log(x, "x");
-        // authbase.currentUser = cred.user;
-        // add user from storage
-      })
-      .catch((error) => console.log(error, "error"));
-
-    console.log("ajsgs");
-  }
+  useEffect(() => {
+    if (userObject.email !== "" && userObject.password !== "") {
+      setSubmitEnabled(true);
+      setErrorMessage("");
+    } else {
+      setSubmitEnabled(false);
+    }
+  }, [userObject]);
 
   return (
     <div className="loginParent d-flex justify-content-center align-items-center ">
       <div className=" d-flex justify-content-center w-100 h-50 align-items-center gap-2">
-        <div className=" signInContainer  justify-content-center flex-column flex-md-row d-flex  align-items-center gap-2">
+        <div className=" signInContainer  justify-content-center flex-column flex-md-row d-flex align-items-center gap-2">
           <div
-            className="imgContainer  "
+            className="imgContainer"
             style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
               backgroundSize: "cover",
             }}
           ></div>
-          <button
+          {/* <button
             onClick={() => {
               console.log(authbase.currentUser, "test");
               authbase.currentUser.uid = "0";
             }}
           >
             test
-          </button>
-          <div className="loginForm h-100  ">
-            <div className="align-self-start d-flex flex-column py-2">
-              <h2 className="m-0">Login</h2>
-              <span>Login to access your Golobe account</span>
-            </div>
-            <form class="form" onSubmit={userSignIn}>
-              <div class="flex-column">
-                <label>Email </label>
+          </button> */}
+          <div className="loginForm form h-100 ">
+            <form className="form border shadow " onSubmit={userSignIn}>
+              <div className="align-self-start d-flex flex-column p-2 ">
+                <h2 className="m-0">Login</h2>
+                <span>Login to access your Golobe account</span>
               </div>
-              <div class="inputForm">
+              <div>
                 <input
-                  type="text"
-                  class="input"
+                  type="email"
+                  className="form-control p-2"
                   placeholder="Enter your Email"
+                  required
                   onChange={(event) =>
                     setUserObject({ ...userObject, email: event.target.value })
                   }
                 />
               </div>
-
-              <div class="flex-column">
-                <label>Password </label>
-              </div>
-              <div class="inputForm">
+              <div className="input-group ">
                 <input
                   type={isHiddenPassword ? "password" : "text"}
-                  class="input"
+                  className="form-control p-2"
                   placeholder="Enter your Password"
+                  required
                   onChange={(event) =>
                     setUserObject({
                       ...userObject,
@@ -104,18 +113,25 @@ function LoginPage() {
                     })
                   }
                 />
-                <span
-                  className="border border-dark px-2 py-1"
-                  onClick={handlePasswordType}
-                >
-                  {isHiddenPassword ? <BsEyeSlashFill /> : <BsEyeFill />}
-                </span>
+                <div className="input-group-append">
+                  <span
+                    className=" input-group-text  h-100"
+                    onClick={handlePasswordType}
+                  >
+                    {isHiddenPassword ? (
+                      <BsEyeSlashFill size={23} />
+                    ) : (
+                      <BsEyeFill size={23} />
+                    )}
+                  </span>
+                </div>
               </div>
 
-              <div class="flex-row">
+              <div className="d-flex justify-content-between align-items-center">
                 <div>
                   <input
                     type="checkbox"
+                    className="form-check-input"
                     onChange={(event) =>
                       setUserObject({
                         ...userObject,
@@ -123,19 +139,39 @@ function LoginPage() {
                       })
                     }
                   />
-                  <label>Remember me </label>
+                  <label className="px-1">Remember me </label>
                 </div>
-                <span class="span">Forgot password?</span>
-              </div>
-              <button class="button-submit">Sign In</button>
-              <p class="p">
-                Don't have an account? <span class="span">Sign Up</span>
-              </p>
-              <p class="p line">Or login With</p>
 
-              <div class="flex-row">
-                <button class="btn google">Google</button>
-                <button class="btn apple">Apple</button>
+                <span className="btn p-0 url-colored">Forgot password?</span>
+              </div>
+
+              <div className="d-flex flex-column">
+                <button
+                  className={submitEnabled ? "submit" : "submit-disabled"}
+                  onClick={userSignIn}
+                  // disabled={submitEnabled}
+                >
+                  Sign In
+                </button>
+                <span className="fs-6 ps-2 text-danger">{errorMessage}</span>
+              </div>
+
+              <div className=" align-self-center d-flex align-items-center justify-content-center">
+                <span> Don't have an account?</span>
+                <span className=" url-colored btn p-1">Sign Up</span>
+              </div>
+
+              <p className=" align-self-center">Or login With</p>
+
+              <div className="d-flex align-self-center gap-2">
+                <button className="btn border seeAllBtn">
+                  <FcGoogle size={25} />
+                  <span className="px-2">Google</span>
+                </button>
+                <button className="btn border seeAllBtn">
+                  <FaFacebook size={25} color="blue" />
+                  <span className="px-2">Facebook</span>
+                </button>
               </div>
             </form>
           </div>
