@@ -7,6 +7,7 @@ import building from "./accountFlow/building.svg";
 import right from "./accountFlow/right.svg";
 import left from "./accountFlow/left.svg";
 import frame from "./accountFlow/Frame 186.png";
+import Visa from "./accountFlow/Visa.svg";
 
 export {
   accountBg,
@@ -18,4 +19,5 @@ export {
   right,
   left,
   frame,
+  Visa,
 };
