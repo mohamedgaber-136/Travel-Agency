@@ -12,7 +12,10 @@ function SignUpPage() {
   const navigate = useNavigate();
 
   const { database, setCurrentUserObj } = useContext(searchContext);
-  const [isHiddenPassword, setIsHiddenPassword] = useState("password");
+  const [isHiddenPassword, setIsHiddenPassword] = useState({
+    password: true,
+    confirm: true,
+  });
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState("");
@@ -33,7 +36,17 @@ function SignUpPage() {
   });
 
   function handlePasswordType() {
-    setIsHiddenPassword(!isHiddenPassword);
+    setIsHiddenPassword({
+      ...isHiddenPassword,
+      password: !isHiddenPassword.password,
+    });
+  }
+
+  function handlePasswordConfirmType() {
+    setIsHiddenPassword({
+      ...isHiddenPassword,
+      confirm: !isHiddenPassword.confirm,
+    });
   }
 
   useEffect(() => {
@@ -200,7 +213,7 @@ function SignUpPage() {
             <div className="w-100">
               <div className="input-group ">
                 <input
-                  type={isHiddenPassword ? "password" : "text"}
+                  type={isHiddenPassword.password ? "password" : "text"}
                   className="form-control"
                   placeholder="Enter your Password"
                   required
@@ -226,7 +239,7 @@ function SignUpPage() {
                     className=" input-group-text  h-100"
                     onClick={handlePasswordType}
                   >
-                    {isHiddenPassword ? (
+                    {isHiddenPassword.password ? (
                       <BsEyeSlashFill size={23} />
                     ) : (
                       <BsEyeFill size={23} />
@@ -244,7 +257,7 @@ function SignUpPage() {
             <div className="w-100">
               <div className="input-group ">
                 <input
-                  type={isHiddenPassword ? "password" : "text"}
+                  type={isHiddenPassword.confirm ? "password" : "text"}
                   className="form-control"
                   placeholder="Confirm your Password"
                   required
@@ -266,9 +279,9 @@ function SignUpPage() {
                 <div className="input-group-append">
                   <span
                     className=" input-group-text  h-100"
-                    onClick={handlePasswordType}
+                    onClick={handlePasswordConfirmType}
                   >
-                    {isHiddenPassword ? (
+                    {isHiddenPassword.confirm ? (
                       <BsEyeSlashFill size={23} />
                     ) : (
                       <BsEyeFill size={23} />
