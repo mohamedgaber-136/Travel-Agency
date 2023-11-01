@@ -4,6 +4,7 @@ import "./index.css";
 import AccountInfo from "../../../Components/accountFlow/accountInfo/accountInfo";
 
 import { Helmet } from "react-helmet";
+import AccountLayout from "../../../Layout/accountLayout";
 const Account = () => {
   return (
     <>
@@ -12,6 +13,7 @@ const Account = () => {
         <title>Account-Information</title>
       </Helmet>
       <div className="bg pb-3">
+        <AccountLayout />
         <Container>
           <h2 className="py-4">Account</h2>
           <div className="account__info rounded-3">
