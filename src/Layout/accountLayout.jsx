@@ -1,26 +1,22 @@
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { accountAvatar, accountBg } from "../assets/images";
-import { useState } from "react";
+import React, { useState } from "react";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
-
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
 import img2 from "./CoverImgs/pexels-lumn-167699.jpg";
 import img3 from "./CoverImgs/pexels-marta-wave-5876640.jpg";
 import img4 from "./CoverImgs/pexels-simon-berger-1323550.jpg";
-import img5 from "./CoverImgs/pexels-stein-egil-liland-6869258.jpg";
-
+import img6 from "./CoverImgs/pexels-stein-egil-liland-6869258.jpg";
+import img7 from "./CoverImgs/pexels-sam-kolder-2387873.jpg";
+import img8 from "./CoverImgs/pexels-francesco-ungaro-2325446.jpg";
+import Modalimgs from "./Modalimgs";
+import { ProfileImg } from "./ProfileImg";
 const AccountLayout = () => {
   const [Cover, setCover] = useState(accountBg);
-  const [ShowCovers, setShowCover] = useState(false);
-  const imgsCovres = [img1, img2, img3, img4, img5];
-  function showCover() {
-    setShowCover(true);
-    if (ShowCovers) {
-      setShowCover(false);
-    }
-  }
+  const [modalShow, setModalShow] = useState(false);
+  const imgsCovres = [img1, img2, img3, img4, img6, img7, img8];
   function addCover(x) {
     setCover(x);
   }
@@ -45,17 +41,10 @@ const AccountLayout = () => {
             >
               <label
                 htmlFor="upload"
-                onClick={showCover}
                 className="d-flex mb-4 me-3 gap-2 py-2 px-4 rounded-3 z-3 bg-info align-items-center account__btn"
+                onClick={() => setModalShow(true)}
+
               >
-                {/* <button
-            variant="info"
-            className="d-flex gap-2 align-items-center account__btn"
-            onClick={() => {
-              inputRef.current.click();
-              // console.log("first");
-            }}
-          > */}
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
                   width="16"
@@ -70,40 +59,19 @@ const AccountLayout = () => {
                     strokeWidth="0.046875"
                   />
                 </svg>
-                Upload new cover
-                {/* </button> */}
+                Set a new cover
               </label>
-            </div>
-
-            <div
-              className={
-                ShowCovers
-                  ? "coverImgs d-flex justify-content-center gap-2 align-items-center flex-wrap"
-                  : "d-none"
-              }
-            >
-              {imgsCovres.map((cover) => (
-                <div
-                  className="coverBox"
-                  onClick={() => addCover(cover)}
-                  style={{
-                    backgroundImage: `url(${cover})`,
-                    backgroundPosition: "center",
-                    backgroundSize: "cover coverGlass",
-                  }}
-                ></div>
-              ))}
-            </div>
-          </div>
-          <div className="account__avatar d-flex flex-column align-items-center ">
-            <img src={accountAvatar} alt="" className="account__avatar__img" />
-            <div className="text-center">
-              <h4 className="m-0">Mahmoud Serag</h4>
-              <p>mmmmmmmmmmmmmm hhhhhhhhhhh</p>
+               <Modalimgs
+                   show={modalShow}
+                   onHide={() => setModalShow(false)}
+                   imgsCovres={imgsCovres}
+                   addCover={addCover}
+                 />
             </div>
           </div>
         </Container>
         <Container>
+            <ProfileImg />
           <div className="account__selection px-4 account__main-links">
             <NavLink
               to="/account"

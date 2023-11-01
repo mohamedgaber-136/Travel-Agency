@@ -17,7 +17,7 @@ export const NavigationBar = () => {
       <Container>
         <Navbar.Brand className='logoBrand' onClick={() => navigatation("/")}>Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav " className="p-1 ">
-          <i class="fa-solid fa-circle-chevron-down NavbarButton"></i>
+          <i className="fa-solid fa-circle-chevron-down NavbarButton"></i>
         </Navbar.Toggle>
         <Navbar.Collapse
           id="responsive-navbar-nav"
@@ -33,9 +33,9 @@ export const NavigationBar = () => {
           </Nav>
           <Nav className="d-flex  align-items-center">
             <Nav.Link className="text-dark ">
-              <i class="fa-solid fa-heart px-1"></i>Favourites
+              <i className="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
-            <Nav.Link className="text-dark" eventKey={2} >
+            <Nav.Link className="text-dark" eventKey={2} onClick={()=>navigatation('login')} >
               {/* <img
                 src={avatar}
                 width={"40px"}
@@ -44,7 +44,7 @@ export const NavigationBar = () => {
                 style={{ objectFit: "cover" }}
               />
               <span> john D.</span> */}
-             <Link to={'login'} className="text-dark">Login</Link>
+             <span className="text-dark">Login</span>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -52,5 +52,4 @@ export const NavigationBar = () => {
     </Navbar>
   );
 };
-// onClick={() => navigate("/")}
 

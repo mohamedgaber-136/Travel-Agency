@@ -181,8 +181,8 @@ function LoginPage() {
 
             <span>Or login With</span>
 
-            <div className="d-flex gap-2">
-              <button className="btn border d-flex flex-md-column justify-content-center align-items-center">
+            <div className="d-flex   gap-2">
+              <button className="btn border seeAllBtn">
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </button>
