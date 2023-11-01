@@ -2,7 +2,7 @@ body,
 * {
   margin: 0;
   font-family: "Bebas Neue", sans-serif;
-text-decoration:none !important;
+  text-decoration: none !important;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
 }
@@ -14,4 +14,53 @@ code {
 
 :root {
   --mint-green: #8dd3bb;
+}
+
+input[type="checkbox"]:checked {
+  background-color: var(--mint-green) !important;
+  /* color: black !important; */
+  border-color: var(--mint-green) !important;
+}
+
+input[type="checkbox"]:checked:after {
+  /* content: "\2713"; */
+  color: black;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* input[type="checkbox"] { */
+/* background-image: none !important; */
+/* } */
+
+.url-colored {
+  color: var(--mint-green) !important;
+  text-decoration: underline solid var(--mint-green) !important;
+}
+.submitBtn {
+  border: none;
+  outline: none;
+  background-color: var(--mint-green);
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-size: 16px;
+  transform: 0.3s ease;
+}
+
+.submitBtn:hover {
+  background-color: rgb(141, 211, 187, 0.8);
+}
+
+.submitBtn-disabled {
+  border: none;
+  outline: none;
+  /* background-color: rgb(141, 211, 187, 0.5); */
+  background-color: rgb(0, 0, 0, 0.5);
+  padding: 10px;
+  border-radius: 10px;
+  color: black;
+  font-size: 16px;
+  transform: 0.3s ease;
 }

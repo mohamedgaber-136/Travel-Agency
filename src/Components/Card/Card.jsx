@@ -22,7 +22,7 @@ export const Card = ({ duration, img, title }) => {
       >
         <div className="d-flex  flex-column h-100  align-items-center justify-content-end">
           <div className="cardData text-white container d-flex align-items-center justify-content-between">
-            <div className="title">
+            <div className="title d-flex flex-column text-white">
               <h3 className="m-0">{title}</h3>
               <h6>An amazing journey</h6>
             </div>

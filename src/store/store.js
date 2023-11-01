@@ -6,12 +6,14 @@ export const addHotelsContext=createContext(0)
 export default function AddHotelsProvider(props){
     const {searchData}=useContext(searchContext)
     const [addHotels,setAddHotels]=useState([])
+    const[hotelObj,setHotelObj]=useState({})
+
     const getHotels= async() =>{
         console.log(searchData.destination)
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': '7b9800b3e8msh60444ec86e43414p1c3014jsn665d3a4a422a',
+                'X-RapidAPI-Key': '4914fa0e31mshe8d9a281d6baf68p162f1ejsn1b496b986012',
                 'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
             }
         };
@@ -25,7 +27,22 @@ export default function AddHotelsProvider(props){
           console.log(data,"aya a7ga")
           console.log(addHotels)
     }
-    return <addHotelsContext.Provider value={{addHotels,getHotels}}>
+    const  getHotelsObj= async (id)=>{
+        const url = `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`;
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': '4914fa0e31mshe8d9a281d6baf68p162f1ejsn1b496b986012',
+            'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
+      }
+  };
+  // 21213729
+  const res = await fetch(url,options) 
+  const data =await res.json();
+  setHotelObj({...data.data})
+  console.log(data.data)
+      }
+    return <addHotelsContext.Provider value={{addHotels,getHotels,getHotelsObj,hotelObj}}>
         {props.children}
          </addHotelsContext.Provider>
 }

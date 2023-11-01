@@ -5,6 +5,8 @@ import "./addhotels.css"
 import { SearchForm } from '../../Components/SearchForm/SearchForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import {addHotelsContext } from '../../store/store'
+import { Helmet } from "react-helmet";
+
 export default function AddHotels() {
     const {countryTitle} =useParams()
     const navigate =useNavigate()
@@ -14,12 +16,20 @@ export default function AddHotels() {
     }
     
   return (
-       <div>
-        <div style={{
-            width: '100%',
-            marginTop: '150px',
-        }}>
-        <SearchForm />
+    <>
+      {" "}
+      <Helmet>
+        <meta charSet="utf-8" />
+        <title>{`${countryTitle}-Hotels`}</title>
+      </Helmet>
+      <div>
+        <div
+          style={{
+            width: "100%",
+            marginTop: "150px",
+          }}
+        >
+          <SearchForm />
         </div>
             <button onClick={()=>getHotels()}>Get Data</button>
         {addHotels?.map(hotel=><div key={hotel.id} className='container p-3'>
@@ -76,6 +86,7 @@ export default function AddHotels() {
             </div>
         </div>)}
     </div>
+    </>
 
   )
 }

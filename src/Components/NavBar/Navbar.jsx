@@ -5,6 +5,7 @@ import Navbar from "react-bootstrap/Navbar";
 import "./Navbar.css";
 import avatar from "../../assets/images/accountFlow/accountAvatar.png";
 import { useNavigate } from "react-router";
+import { Link } from "react-router-dom";
 export const NavigationBar = () => {
   let navigatation = useNavigate();
   return (
@@ -16,7 +17,7 @@ export const NavigationBar = () => {
       <Container>
         <Navbar.Brand className='logoBrand' onClick={() => navigatation("/")}>Logo</Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav " className="p-1 ">
-          <i class="fa-solid fa-circle-chevron-down NavbarButton"></i>
+          <i className="fa-solid fa-circle-chevron-down NavbarButton"></i>
         </Navbar.Toggle>
         <Navbar.Collapse
           id="responsive-navbar-nav"
@@ -31,19 +32,19 @@ export const NavigationBar = () => {
             </Nav.Link>
           </Nav>
           <Nav className="d-flex  align-items-center">
-            <Nav.Link className="text-dark FavouriteBorder">
-              <i class="fa-solid fa-heart px-1"></i>Favourites
+            <Nav.Link className="text-dark ">
+              <i className="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
-            <Nav.Link className="text-dark" eventKey={2}  onClick={() => navigatation("account")}>
-              <img
+            <Nav.Link className="text-dark" eventKey={2} onClick={()=>navigatation('login')} >
+              {/* <img
                 src={avatar}
                 width={"40px"}
                 height={"40px"}
                 alt="AvataLogo"
                 style={{ objectFit: "cover" }}
               />
-              <span> john D.</span>
-             
+              <span> john D.</span> */}
+             <span className="text-dark">Login</span>
             </Nav.Link>
           </Nav>
         </Navbar.Collapse>
@@ -51,5 +52,4 @@ export const NavigationBar = () => {
     </Navbar>
   );
 };
-// onClick={() => navigate("/")}
 
