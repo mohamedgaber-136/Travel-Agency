@@ -1,3 +1,4 @@
+
 .container {
     /* background-color: #FFFFFF; */
 }
@@ -120,3 +121,31 @@ font-weight: 600;
 .body-location {
     margin: 0 !important;
 }
+
+.modal-header {
+    line-height: 50.52px;
+    color: #000;
+}
+
+.visa {
+    background-image: url('../../assets/images/accountFlow/Visa.svg') no-repeat right !important;
+    background-size: 20px;
+}
+
+.labelText{
+    background-color: #FFFFFF;
+    margin: 0 5px;
+}
+
+.modal-content{
+    box-shadow: 0 0 7px 5px lightgray !important;
+    border-radius: 35px !important;
+    padding: 20px !important;
+}
+.placeStyle::placeholder {
+    padding-left: 10px !important;
+}
+
+/* .input {
+    font-size: 16px;
+} */

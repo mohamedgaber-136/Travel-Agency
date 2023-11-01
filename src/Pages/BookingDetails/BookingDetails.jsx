@@ -1,4 +1,7 @@
-import React from "react";
+import React, { useState } from "react";
+import Button from "react-bootstrap/Button";
+import Form from "react-bootstrap/Form";
+import Modal from "react-bootstrap/Modal";
 import "./BookingDetails.css";
 import download1 from "../../assets/images/accountFlow/download1.png";
 import location from "../../assets/images/accountFlow/Location.svg";
@@ -6,9 +9,13 @@ import building from "../../assets/images/accountFlow/building.svg";
 import right from "../../assets/images/accountFlow/right.svg";
 import left from "../../assets/images/accountFlow/left.svg";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
-import { Button } from "react-bootstrap";
+import { FloatingLabel, InputGroup } from "react-bootstrap";
 
 const BookingDetails = () => {
+  const [show, setShow] = useState(false);
+
+  const handleClose = () => setShow(false);
+  const handleShow = () => setShow(true);
   return (
     <div className="container my-5">
       <nav aria-label="breadcrumb">
@@ -71,9 +78,13 @@ const BookingDetails = () => {
               </h4>
               {/* </div> */}
             </div>
-            <a href="#" className="btn btn-primary book-btn mt-4">
+            <Button
+              variant="primary"
+              className="btn btn-primary book-btn mt-4"
+              onClick={handleShow}
+            >
               Book Now
-            </a>
+            </Button>
           </div>
         </div>
         {/* end of card  */}
@@ -130,6 +141,102 @@ const BookingDetails = () => {
         </div>
         {/* end side card  */}
       </div>
+      {/* Modal  */}
+      <Modal show={show} className="fs-4 mt-4" onHide={handleClose}>
+        <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
+
+        <Modal.Body className="p-4">
+          <form className="d-flex">
+            <div className="col">
+              <div className="coolinput ">
+                <label for="card-number" className="text fw-normal labelText ">
+                  Card Number
+                </label>
+                <input
+                  type="number"
+                  className="visa rounded-2 placeStyle"
+                  placeholder="4321 4321 4321 4321"
+                />
+                <div className="mb-3 d-flex justify-content-between gap-3">
+                  <div className="">
+                    <label className=" text fw-normal labelText">
+                      Exp. Date
+                    </label>
+                    <br />
+                    <input
+                      className="me-2 w-100 input placeStyle rounded-2"
+                      placeholder="02/27"
+                      // type="date"
+                      // aria-label="Exp. Date"
+                    />
+                  </div>
+                  <div>
+                    <label className=" text fw-normal  labelText">CVC</label>
+                    <input
+                      // aria-label="CVC"
+                      type="text"
+                      className="me-2 w-100 placeStyle  rounded-2"
+                      placeholder="456"
+                      maxLength={3}
+                    />
+                  </div>
+                </div>
+                <label className="text fw-normal labelText">Name on Card</label>
+                <input
+                  type="text"
+                  className="name placeStyle rounded-2"
+                  placeholder="Jon Doe"
+                />
+                <div class="input-group d-flex">
+                  <div className="col">
+                    <label className="text fw-normal  labelText">
+                      Country Or Region
+                    </label>
+                    <select
+                      className="form-select rounded-2 "
+                      id="inputGroupSelect04"
+                      aria-label="Example select with button addon"
+                    >
+                      <option>United States</option>
+                      <option value="1">Turkey</option>
+                      <option value="2">England</option>
+                      <option value="3">Egypt</option>
+                    </select>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </form>
+        </Modal.Body>
+        <Modal.Footer>
+          <div className="text">
+            <div class="form-check">
+              <input
+                class="form-check-input input"
+                type="checkbox"
+                value=""
+                id="flexCheckIndeterminate"
+              />
+              <label
+                className=" text form-check-label "
+                for="flexCheckIndeterminate"
+              >
+                Securely save my information for 1-click checkout
+              </label>
+            </div>
+
+            <Button onClick={handleClose} className="w-100 text my-2 book-btn ">
+              Add Card
+            </Button>
+            <p className="text fw-light fs-0 m-auto">
+              By confirming your subscription, you allow The Outdoor Inn Crowd
+              Limited to charge your card for this payment and future payments
+              in accordance with their terms. You can always cancel your
+              subscription.
+            </p>
+          </div>
+        </Modal.Footer>
+      </Modal>
     </div>
   );
 };
