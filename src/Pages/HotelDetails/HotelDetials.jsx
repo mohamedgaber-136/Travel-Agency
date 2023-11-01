@@ -9,6 +9,7 @@ import unFillFav from './assets/Vector.png'
 import share from './assets/Share.png'
 import imgHotel from './assets/Rectangle 3.png'
 import 'bootstrap/js/dist/carousel'
+import Loading from '../../Components/Loading/Loading'
 export default function HotelDetials() {
     const {id} =useParams()
     const{getHotelsObj,hotelObj}= useContext(addHotelsContext)
@@ -220,8 +221,6 @@ export default function HotelDetials() {
         </p>
       </div>
     </div>
-  </div>:<div className='vh-100 d-flex flex-column justify-content-center align-items-center'>
-  <i class="fa-solid fa-spinner fa-spin fa-5x"></i>
-  </div>
+  </div>:<Loading/>
   )
 }
