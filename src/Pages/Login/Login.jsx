@@ -20,10 +20,22 @@ function LoginPage() {
   const [userObject, setUserObject] = useState({
     email: "",
     password: "",
-    rememberMe: false,
+    rememberMe: true,
   });
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (userObject.email === "" || userObject.password === "") {
+  //     setSubmitEnabled(false);
+  //     setErrorMessage("Make Sure To Enter Email and Password");
+  //   } else {
+  //     setSubmitEnabled(true);
+  //     setErrorMessage("");
+  //   }
+  // }, [userObject]);
+
+  function userSignIn(event) {
+    event.preventDefault();
+
     if (userObject.email === "" || userObject.password === "") {
       setSubmitEnabled(false);
       setErrorMessage("Make Sure To Enter Email and Password");
@@ -31,10 +43,6 @@ function LoginPage() {
       setSubmitEnabled(true);
       setErrorMessage("");
     }
-  }, [userObject]);
-
-  function userSignIn(event) {
-    event.preventDefault();
 
     const que = query(usersReference, where("email", "==", userObject.email));
     getDocs(que).then((snapshot) => {
@@ -44,7 +52,11 @@ function LoginPage() {
         console.log(currentUser.password, "pass");
         if (currentUser.password === userObject.password) {
           setCurrentUserObj({ ...currentUser, id: snapshot.docs[0].id });
-          sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+          if (userObject.rememberMe) {
+            localStorage.setItem("currentUser", snapshot.docs[0].id);
+          } else {
+            sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+          }
           navigate("/");
         } else {
           setErrorMessage("Password is Incorrect");
@@ -64,9 +76,9 @@ function LoginPage() {
         <title>Login</title>
       </Helmet>
       <div className="container loginParent d-flex justify-content-center align-items-center ">
-        <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 ">
+        <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100">
           <div
-            className="imgContainer shadow"
+            className="imgContainer shadow "
             style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
@@ -88,9 +100,14 @@ function LoginPage() {
               className="form-control "
               placeholder="Enter your Email"
               required
-              onChange={(event) =>
-                setUserObject({ ...userObject, email: event.target.value })
-              }
+              onChange={(event) => {
+                setUserObject({ ...userObject, email: event.target.value });
+                if (event.target.value === "") {
+                  setErrorMessage("Email can not be empty ");
+                } else {
+                  setErrorMessage("");
+                }
+              }}
             />
 
             <div className="input-group ">
@@ -99,12 +116,17 @@ function LoginPage() {
                 className="form-control"
                 placeholder="Enter your Password"
                 required
-                onChange={(event) =>
+                onChange={(event) => {
                   setUserObject({
                     ...userObject,
                     password: event.target.value,
-                  })
-                }
+                  });
+                  if (event.target.value === "") {
+                    setErrorMessage("password can not be empty ");
+                  } else {
+                    setErrorMessage("");
+                  }
+                }}
               />
               <div className="input-group-append">
                 <span
@@ -120,22 +142,24 @@ function LoginPage() {
               </div>
             </div>
 
-            {/* <div className="d-flex justify-content-between align-items-center w-100 ">
+            <div className="d-flex justify-content-between align-items-center w-100 ">
               <div>
                 <input
                   type="checkbox"
+                  defaultValue={userObject.rememberMe}
+                  // checked={userObject.rememberMe}
                   className="form-check-input"
                   onChange={(event) =>
                     setUserObject({
                       ...userObject,
-                      rememberMe: !userObject.rememberMe,
+                      rememberMe: event.target.value,
                     })
                   }
                 />
                 <label className="px-1">Remember me </label>
               </div>
-              <span className="btn p-0 url-colored">Forgot password?</span>
-            </div> */}
+              {/* <span className="btn p-0 url-colored">Forgot password?</span> */}
+            </div>
 
             <div className="d-flex flex-column w-75 py-2">
               <button
@@ -158,11 +182,11 @@ function LoginPage() {
             <span>Or login With</span>
 
             <div className="d-flex   gap-2">
-              <button className="btn border  seeAllBtn">
+              <button className="btn border seeAllBtn">
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </button>
-              <button className="btn border seeAllBtn">
+              <button className="btn border d-flex flex-md-column justify-content-center align-items-center">
                 <FaFacebook size={25} color="blue" />
                 <span className="px-2">Facebook</span>
               </button>

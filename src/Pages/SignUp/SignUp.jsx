@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
 import { addDoc, collection, getDocs, query, where } from "@firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
+import { getStorage, ref } from "firebase/storage";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ function SignUpPage() {
     confirmPassword: "",
     phone: "",
     address: "",
-    imageURL: "",
+    profileImg: "",
+    coverImg: "",
     birthDate: "",
     bookinds: [],
     favourites: [],
@@ -96,7 +98,8 @@ function SignUpPage() {
         } else {
           addDoc(usersReference, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
-            sessionStorage.setItem("currentUser", snapshot.id);
+            // sessionStorage.setItem("currentUser", snapshot.id);
+            localStorage.setItem("currentUser", snapshot.id);
             setCurrentUserObj({ ...userObject, id: snapshot.id });
             navigate("/");
           });
@@ -113,8 +116,8 @@ function SignUpPage() {
         <meta charSet="utf-8" />
         <title>SignUp</title>
       </Helmet>
-      <div className="container signupParent d-flex justify-content-center align-items-center ">
-        <div className="  justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 h-100">
+      <div className="container loginParent d-flex justify-content-center align-items-center ">
+        <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 ">
           <div
             className="imgContainer shadow"
             style={{

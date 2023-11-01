@@ -16,3 +16,6 @@
 .ticket-info svg {
     background-color: #EBF6F2;
 }
+.flight-shadow {
+    box-shadow: 0 0 10px 2px lightgray;
+}
