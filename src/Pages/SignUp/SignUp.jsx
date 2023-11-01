@@ -11,11 +11,8 @@ import { Link, useNavigate } from "react-router-dom";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const { database, setCurrentUserObj } = useContext(searchContext);
-  const [isHiddenPassword, setIsHiddenPassword] = useState({
-    password: true,
-    confirm: true,
-  });
+  const { setCurrentUserObj, usersReference } = useContext(searchContext);
+  const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState("");
@@ -34,20 +31,6 @@ function SignUpPage() {
     favourites: [],
     cards: [],
   });
-
-  function handlePasswordType() {
-    setIsHiddenPassword({
-      ...isHiddenPassword,
-      password: !isHiddenPassword.password,
-    });
-  }
-
-  function handlePasswordConfirmType() {
-    setIsHiddenPassword({
-      ...isHiddenPassword,
-      confirm: !isHiddenPassword.confirm,
-    });
-  }
 
   useEffect(() => {
     console.log(submitEnabled, "submit");
@@ -101,10 +84,9 @@ function SignUpPage() {
 
     if (submitEnabled) {
       console.log("submit");
-      const usersRef = collection(database, "users");
 
       const que = query(
-        usersRef,
+        usersReference,
         where("email", "==", userObject.email) ||
           where("phone", "==", userObject.phone)
       );
@@ -112,7 +94,7 @@ function SignUpPage() {
         if (snapshot.docs.length > 0) {
           setErrorMessage("This Email or Phone Is Already In Use");
         } else {
-          addDoc(usersRef, userObject).then((snapshot) => {
+          addDoc(usersReference, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
             sessionStorage.setItem("currentUser", snapshot.id);
             setCurrentUserObj({ ...userObject, id: snapshot.id });
@@ -213,7 +195,7 @@ function SignUpPage() {
             <div className="w-100">
               <div className="input-group ">
                 <input
-                  type={isHiddenPassword.password ? "password" : "text"}
+                  type={isHiddenPassword ? "password" : "text"}
                   className="form-control"
                   placeholder="Enter your Password"
                   required
@@ -237,9 +219,9 @@ function SignUpPage() {
                 <div className="input-group-append">
                   <span
                     className=" input-group-text  h-100"
-                    onClick={handlePasswordType}
+                    onClick={() => setIsHiddenPassword(!isHiddenPassword)}
                   >
-                    {isHiddenPassword.password ? (
+                    {isHiddenPassword ? (
                       <BsEyeSlashFill size={23} />
                     ) : (
                       <BsEyeFill size={23} />
@@ -257,7 +239,7 @@ function SignUpPage() {
             <div className="w-100">
               <div className="input-group ">
                 <input
-                  type={isHiddenPassword.confirm ? "password" : "text"}
+                  type={isHiddenPassword ? "password" : "text"}
                   className="form-control"
                   placeholder="Confirm your Password"
                   required
@@ -276,7 +258,7 @@ function SignUpPage() {
                     });
                   }}
                 />
-                <div className="input-group-append">
+                {/* <div className="input-group-append">
                   <span
                     className=" input-group-text  h-100"
                     onClick={handlePasswordConfirmType}
@@ -287,7 +269,7 @@ function SignUpPage() {
                       <BsEyeFill size={23} />
                     )}
                   </span>
-                </div>
+                </div> */}
               </div>
               {errors?.confirmError ? (
                 <span className="fs-6 ps-2 text-danger">

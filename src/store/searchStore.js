@@ -1,6 +1,12 @@
 import { createContext, useEffect, useState } from "react";
 import { initializeApp } from "@firebase/app";
-import { doc, getDoc, getFirestore, onSnapshot } from "firebase/firestore";
+import {
+  collection,
+  doc,
+  getDoc,
+  getFirestore,
+  onSnapshot,
+} from "firebase/firestore";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCb-UkvpCD0WgqHJMgLK6UBnXKBJWRSZzE",
@@ -20,12 +26,12 @@ export default function SearchContextProvider(props) {
   initializeApp(firebaseConfig);
   const database = getFirestore();
   //   const authbase = getAuth();
-  //   const usersReference = collection(database, "users");
+  const usersReference = collection(database, "users");
 
   useEffect(() => {
-    if (currentUserObj.id === "0") {
+    if (currentUserObj?.id === "0") {
       const userID = sessionStorage.getItem("currentUser");
-      if (userID !== undefined) {
+      if (userID !== null) {
         const currentRef = doc(database, "users", userID);
         getDoc(currentRef).then((snapshot) => {
           console.log(snapshot.data(), "snap");
@@ -37,10 +43,14 @@ export default function SearchContextProvider(props) {
     }
   }, [currentUserObj]);
 
+  // useEffect(() => {
+  //   if (currentUserObj.id !== "0") {
   const currentRef = doc(database, "users", currentUserObj?.id);
   onSnapshot(currentRef, (snapshot) => {
     console.log(snapshot.data(), "snapshot listen");
   });
+  //   }
+  // }, [currentUserObj.id]);
 
   // to update the user data
   // const docRef = doc(database, "users", "iPEM2P83CxXFucngXpWq");
@@ -50,7 +60,13 @@ export default function SearchContextProvider(props) {
 
   return (
     <searchContext.Provider
-      value={{ searchData, setSeachData, database, setCurrentUserObj }}
+      value={{
+        searchData,
+        setSeachData,
+        database,
+        setCurrentUserObj,
+        usersReference,
+      }}
     >
       {props.children}
     </searchContext.Provider>

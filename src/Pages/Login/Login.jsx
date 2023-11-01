@@ -1,70 +1,61 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import img from "../../assets/loginImg.png";
 import "./Login.css";
 import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
-import { signInWithEmailAndPassword } from "@firebase/auth";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Helmet } from "react-helmet";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
+import { getDocs, query, where } from "firebase/firestore";
+import { searchContext } from "../../store/searchStore";
 
 function LoginPage() {
+  const { usersReference, setCurrentUserObj } = useContext(searchContext);
+
+  const navigate = useNavigate();
+
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
-  const [credential, setCredential] = useState({});
-
-  function handlePasswordType() {
-    setIsHiddenPassword(!isHiddenPassword);
-  }
-
   const [userObject, setUserObject] = useState({
     email: "",
     password: "",
     rememberMe: false,
   });
 
+  useEffect(() => {
+    if (userObject.email === "" || userObject.password === "") {
+      setSubmitEnabled(false);
+      setErrorMessage("Make Sure To Enter Email and Password");
+    } else {
+      setSubmitEnabled(true);
+      setErrorMessage("");
+    }
+  }, [userObject]);
+
   function userSignIn(event) {
     event.preventDefault();
 
-    if (userObject.email !== "" && userObject.password !== "") {
-      setErrorMessage("");
-    } else {
-      setErrorMessage("Please Enter The Required Inputs");
-    }
-
-    // signInWithEmailAndPassword(authbase, userObject.email, userObject.password)
-    //   .then((cred) => {
-    //     console.log(cred, "sign in");
-    //     setCredential(cred.user);
-    //     // let x = { ...cred, phoneNumber: "+123456" };
-    //     // console.log(x, "x");
-    //     // authbase.currentUser = cred.user;
-    //     // add user from storage
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message, "error");
-    //     setErrorMessage(error.message);
-    //   });
-
-    // get the user from the database and put it on the context
+    const que = query(usersReference, where("email", "==", userObject.email));
+    getDocs(que).then((snapshot) => {
+      console.log(snapshot, "login");
+      if (snapshot.docs.length > 0) {
+        const currentUser = snapshot.docs[0].data();
+        console.log(currentUser.password, "pass");
+        if (currentUser.password === userObject.password) {
+          setCurrentUserObj({ ...currentUser, id: snapshot.docs[0].id });
+          sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+          navigate("/");
+        } else {
+          setErrorMessage("Password is Incorrect");
+        }
+      } else {
+        setErrorMessage("This Email Does Not Have Account");
+      }
+    });
 
     console.log("ajsgs");
   }
-
-  useEffect(() => {
-    console.log(userObject, "user");
-    console.log(credential, "user");
-  }, [userObject, credential]);
-
-  useEffect(() => {
-    if (userObject.email !== "" && userObject.password !== "") {
-      setSubmitEnabled(true);
-      setErrorMessage("");
-    } else {
-      setSubmitEnabled(false);
-    }
-  }, [userObject]);
 
   return (
     <>
@@ -82,14 +73,6 @@ function LoginPage() {
               backgroundSize: "cover",
             }}
           />
-          {/* <button
-            onClick={() => {
-              console.log(authbase.currentUser, "test");
-              authbase.currentUser.uid = "0";
-            }}
-          >
-            test
-          </button> */}
 
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 bg-light"
@@ -126,7 +109,7 @@ function LoginPage() {
               <div className="input-group-append">
                 <span
                   className=" input-group-text  h-100"
-                  onClick={handlePasswordType}
+                  onClick={() => setIsHiddenPassword(!isHiddenPassword)}
                 >
                   {isHiddenPassword ? (
                     <BsEyeSlashFill size={23} />
@@ -137,7 +120,7 @@ function LoginPage() {
               </div>
             </div>
 
-            <div className="d-flex justify-content-between align-items-center">
+            {/* <div className="d-flex justify-content-between align-items-center w-100 ">
               <div>
                 <input
                   type="checkbox"
@@ -151,11 +134,10 @@ function LoginPage() {
                 />
                 <label className="px-1">Remember me </label>
               </div>
-
               <span className="btn p-0 url-colored">Forgot password?</span>
-            </div>
+            </div> */}
 
-            <div className="d-flex flex-column w-75">
+            <div className="d-flex flex-column w-75 py-2">
               <button
                 className={submitEnabled ? "submitBtn" : "submitBtn-disabled"}
                 onClick={userSignIn}
@@ -168,10 +150,12 @@ function LoginPage() {
 
             <div className="   d-flex align-items-center justify-content-center">
               <span> Don't have an account?</span>
-              <span className=" url-colored btn p-1">Sign Up</span>
+              <Link to={"signUp"} replace className=" url-colored btn p-1">
+                Sign Up
+              </Link>
             </div>
 
-            <p className="  ">Or login With</p>
+            <span>Or login With</span>
 
             <div className="d-flex   gap-2">
               <button className="btn border seeAllBtn">
