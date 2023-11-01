@@ -7,6 +7,7 @@ import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
 import { addDoc, collection, getDocs, query, where } from "@firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
+import { getStorage, ref } from "firebase/storage";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -25,7 +26,8 @@ function SignUpPage() {
     confirmPassword: "",
     phone: "",
     address: "",
-    imageURL: "",
+    profileImg: "",
+    coverImg: "",
     birthDate: "",
     bookinds: [],
     favourites: [],
@@ -124,7 +126,6 @@ function SignUpPage() {
               backgroundSize: "cover",
             }}
           />
-
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 h-100 bg-light"
             onSubmit={userSignUp}
