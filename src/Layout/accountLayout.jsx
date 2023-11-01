@@ -4,17 +4,28 @@ import { accountAvatar, accountBg } from "../assets/images";
 import { useState } from "react";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
-
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
 import img2 from "./CoverImgs/pexels-lumn-167699.jpg";
 import img3 from "./CoverImgs/pexels-marta-wave-5876640.jpg";
 import img4 from "./CoverImgs/pexels-simon-berger-1323550.jpg";
-import img5 from "./CoverImgs/pexels-stein-egil-liland-6869258.jpg";
-
+import img6 from "./CoverImgs/pexels-stein-egil-liland-6869258.jpg";
+import img7 from "./CoverImgs/pexels-sam-kolder-2387873.jpg";
+import img8 from "./CoverImgs/pexels-francesco-ungaro-2325446.jpg";
+import profile1 from './ProfileAvatars/profile1.jpg'
+import profile2 from './ProfileAvatars/profile2.jpg'
+import profile3 from './ProfileAvatars/profile3.jpg'
+import profile4 from './ProfileAvatars/profile4.jpg'
+import profile5 from './ProfileAvatars/profile5.jpg'
+import profile6 from './ProfileAvatars/profile6.jpg'
+import profile7 from './ProfileAvatars/profile7.jpg'
+import profile8 from './ProfileAvatars/profile8.jpg'
+import profile9 from './ProfileAvatars/profile9.jpg'
+import profile10 from './ProfileAvatars/profile10.jpg'
 const AccountLayout = () => {
   const [Cover, setCover] = useState(accountBg);
   const [ShowCovers, setShowCover] = useState(false);
-  const imgsCovres = [img1, img2, img3, img4, img5];
+  const imgsCovres = [img1, img2, img3, img4, img5,img6,img7,img8];
+  const profileImgs=[profile1,profile2,profile3,profile4,profile5,profile6,profile7,profile8,profile9,profile10]
   function showCover() {
     setShowCover(true);
     if (ShowCovers) {

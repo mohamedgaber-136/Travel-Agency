@@ -150,7 +150,7 @@ function LoginPage() {
 
             <div className="   d-flex align-items-center justify-content-center">
               <span> Don't have an account?</span>
-              <Link to={"signUp"} replace className=" url-colored btn p-1">
+              <Link to={"/signUp"} replace className=" url-colored btn p-1">
                 Sign Up
               </Link>
             </div>
@@ -158,7 +158,7 @@ function LoginPage() {
             <span>Or login With</span>
 
             <div className="d-flex   gap-2">
-              <button className="btn border seeAllBtn">
+              <button className="btn border  seeAllBtn">
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </button>
