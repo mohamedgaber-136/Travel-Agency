@@ -1,101 +1,44 @@
-.signUpContainer {
-  width: 80%;
+.signupParent {
+  min-height: 800px;
+  background-color: yellow;
 }
-.signUpParent {
+
+/* .signUpParent {
   padding: 50px ;
   gap: 5px;
-}
+} */
 
-.form {
-  display: flex;
-  flex-direction: column;
-  gap: 10px;
-  max-width: 350px;
-  background-color: #fff;
-  padding: 20px;
-  border-radius: 20px;
-  position: relative;
-}
-
-.title {
-  font-size: 28px;
-  color: rgb(15, 15, 15);
-  font-weight: 600;
-  letter-spacing: -1px;
-  position: relative;
-  display: flex;
-  align-items: center;
-}
 
 .imgContainer {
   border-radius: 20px;
-  width: 48%;
-  height: 420px !important;
+  width: 40% !important;
+  height: 500px !important;
+}
+.logForm {
+  width: 45% !important;
+  padding: 25px;
 }
 
-.title::before {
-  width: 18px;
-  height: 18px;
-  background-color: royalblue;
+@media (max-width: 767px) {
+  .logForm {
+    width: 80% !important;
+    height: 100% !important;
+    z-index: 100;
+  }
+
+  .loginParent {
+    position: relative !important;
+  }
+
+  .imgContainer {
+    width: 90% !important;
+    height: 90% !important;
+    position: absolute;
+    /* opacity: 0.7; */
+  }
 }
 
-.title::after {
-  width: 18px;
-  height: 18px;
-  animation: pulse 1s linear infinite;
+.form-control {
+  padding: 0.7rem !important;
+  /* background-color: yellow !important; */
 }
-
-.message,
-.signin {
-  color: rgba(88, 87, 87, 0.822);
-  font-size: 14px;
-}
-
-.signin {
-  text-align: center;
-}
-
-.signin a {
-  color: rgb(238, 19, 67);
-}
-
-.signin a:hover {
-  text-decoration: underline royalblue;
-}
-
-.flex {
-  display: flex;
-  width: 100%;
-  gap: 6px;
-}
-
-.form label {
-  position: relative;
-}
-
-.form label .input {
-  width: 100%;
-  padding: 10px 10px 10px 10px;
-  outline: 0;
-  border: 1px solid rgba(105, 105, 105, 0.397);
-  border-radius: 10px;
-}
-
-
-
-.submit {
-  border: none;
-  outline: none;
-  background-color: var(--mint-green);
-  padding: 10px;
-  border-radius: 10px;
-  color: black;
-  font-size: 16px;
-  transform: 0.3s ease;
-}
-
-.submit:hover {
-  background-color: rgb(141, 211, 187, 0.8);
-}
-
-

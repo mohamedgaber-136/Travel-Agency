@@ -3,14 +3,14 @@ import "./accountFligjt.css";
 
 const AccountFlight = ({ image }) => {
   return (
-    <div>
-      <Container>
-        <div className="d-flex align-items-center flex-wrap gap-4 justify-content-between">
-          <div className="d-flex flex-wrap gap-3 align-items-center">
+    <div className="my-3">
+      <Container className="bg-white py-4 rounded-3 flight-shadow">
+        <div className="d-flex align-items-center flex-wrap gap-4 justify-content-between  justify-content-center justify-content-md-between py-1">
+          <div className="d-flex flex-wrap gap-3  align-items-center justify-content-center justify-content-md-between">
             <div>
               <img src={image} alt="" />
             </div>
-            <div className="d-flex flex-wrap align-items-center px-5">
+            <div className="d-flex align-items-center px-5  flight-">
               <div>
                 <span>Newark(EWR)</span>
                 <p className="m-0">12:00 pm</p>
@@ -24,7 +24,7 @@ const AccountFlight = ({ image }) => {
 
             <div className="d-flex flex-wrap gap-5 ticket-info">
               <div className="">
-                <div className="d-flex align-items-center mb-2">
+                <div className="d-flex align-items-center mb-2 flight-shadow p-2 rounded-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -43,7 +43,7 @@ const AccountFlight = ({ image }) => {
                   </div>
                 </div>
 
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center flight-shadow p-2 rounded-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -63,7 +63,7 @@ const AccountFlight = ({ image }) => {
                 </div>
               </div>
               <div className="">
-                <div className="d-flex align-items-center mb-2">
+                <div className="d-flex align-items-center mb-2 flight-shadow p-2 rounded-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -82,7 +82,7 @@ const AccountFlight = ({ image }) => {
                   </div>
                 </div>
 
-                <div className="d-flex align-items-center">
+                <div className="d-flex align-items-center flight-shadow p-2 rounded-2">
                   <svg
                     xmlns="http://www.w3.org/2000/svg"
                     width="22"
@@ -105,8 +105,8 @@ const AccountFlight = ({ image }) => {
               </div>
             </div>
           </div>
-          <div>
-            <button>Download Ticket</button>
+          <div className="d-flex  align-items-center justify-content-end download-ticket-btn-div w-100 pe-2">
+            <button className="download-ticket-btn">Download Ticket</button>
           </div>
         </div>
       </Container>

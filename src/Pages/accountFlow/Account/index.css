@@ -1,11 +1,16 @@
 .account__bg-img {
   min-height: 300px;
+  border-radius: 20px;
 }
 .account__btn {
-  position: absolute;
-  bottom: 26px;
-  right: 26px;
   font-size: 13px !important;
+}
+.coverBox{
+  width: 120px;
+  height: 120px;
+  cursor: pointer;
+  border-radius: 10px;
+  border: 1px solid grey  ;
 }
 @media (max-width: 575px) {
   .account__btn {
@@ -28,6 +33,12 @@
   background: var(--Neutrals, #fff);
   box-shadow: 0px 4px 16px 0px rgba(17, 34, 17, 0.05);
 }
+.account__selection > a {
+  color: #000;
+}
+.account__selection.account__main-links > a {
+  width: 33% !important;
+}
 .account__selection .line {
   border-left: 1px #d7e2ee solid;
   padding-left: 24px;
@@ -44,7 +55,7 @@
   opacity: 0.75;
 }
 .bg {
-  background: #ccc;
+  background: #FAFBFC;
 }
 .account__info h3 {
   font-size: 20px;
@@ -56,12 +67,26 @@
   padding: 15px 30px;
   border-color: #8dd3bb !important;
 }
-.account__brdr::after {
+.account__brdr.active {
+  position: relative;
+}
+.account__brdr.active::after {
   content: "";
   width: 100%;
   height: 4px;
   position: absolute;
   bottom: 0;
   left: 0;
-  background-color: #8DD3BB;
+  background-color: #8dd3bb;
+}
+.coverImgs{
+  position: fixed;
+  width: 500px;
+  height: 300px;
+  top: 100px;
+  left: 50%;
+  transform: translateX(-50%);
+  background-color: white;
+  z-index: 200;
+  border-radius: 20px;
 }
