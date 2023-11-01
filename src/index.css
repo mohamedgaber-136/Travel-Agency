@@ -23,16 +23,16 @@ input[type="checkbox"]:checked {
 }
 
 input[type="checkbox"]:checked:after {
-  content: "\2713";
+  /* content: "\2713"; */
   color: black;
   display: flex;
   align-items: center;
   justify-content: center;
 }
 
-input[type="checkbox"] {
-  background-image: none !important;
-}
+/* input[type="checkbox"] { */
+  /* background-image: none !important; */
+/* } */
 
 .url-colored {
   color: var(--mint-green) !important;

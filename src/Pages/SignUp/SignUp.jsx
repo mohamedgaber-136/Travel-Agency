@@ -14,13 +14,16 @@ import {
   where,
 } from "@firebase/firestore";
 import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { Link } from "react-router-dom";
 
 function SignUpPage() {
   const { authbase, database, setCurrentUserObj, currentUserObj } =
     useContext(searchContext);
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
   const [submitEnabled, setSubmitEnabled] = useState(false);
-  const [errorMessages, setErrorMessages] = useState("");
+  const [errorMessage, setErrorMessage] = useState("");
+  const [errors, setErrors] = useState("");
+
   const [checkLicenes, setCheckLicenes] = useState(false);
   const [userObject, setUserObject] = useState({
     firstName: "",
@@ -38,6 +41,45 @@ function SignUpPage() {
   function handlePasswordType() {
     setIsHiddenPassword(!isHiddenPassword);
   }
+
+  useEffect(() => {
+    setErrors({
+      emailError: !userObject.email.match(
+        /^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/
+      )
+        ? "please Enter Valid Email"
+        : null,
+      passwordError:
+        userObject.password.length < 6
+          ? "Passwords Should Be 6 characters At Least"
+          : "",
+      licenesError: !checkLicenes ? "Please Accepte Policies" : "",
+    });
+
+    if (
+      userObject.firstName === "" ||
+      userObject.lastName === "" ||
+      userObject.email === "" ||
+      userObject.phone === "" ||
+      userObject.password === ""
+      // ||
+      // !checkLicenes
+    ) {
+      setErrorMessage("Please Enter All Required Data");
+      setSubmitEnabled(true);
+    } else if (!checkLicenes) {
+      setErrorMessage("Please Accept The License");
+      setSubmitEnabled(true);
+    } else {
+      setErrorMessage("");
+      setSubmitEnabled(false);
+    }
+
+    //   phoneError:
+    //     userObject.phone === "" || typeof userObject.phone != number
+    //       ? "Please Enter a valid Phone"
+    //       : "",
+  }, [userObject, checkLicenes]);
 
   function userSignUp(event) {
     event.preventDefault();
@@ -127,15 +169,20 @@ function SignUpPage() {
               />
             </div>
 
-            <input
-              type="email"
-              className="form-control "
-              placeholder="Enter your Email"
-              required
-              onChange={(event) =>
-                setUserObject({ ...userObject, email: event.target.value })
-              }
-            />
+            <div className="w-100">
+              <input
+                type="email"
+                className="form-control "
+                placeholder="Enter your Email"
+                required
+                onChange={(event) =>
+                  setUserObject({ ...userObject, email: event.target.value })
+                }
+              />
+              {errors?.emailError ? (
+                <span className=" ps-2 text-danger">{errors?.emailError}</span>
+              ) : null}
+            </div>
 
             <input
               type="text"
@@ -147,59 +194,79 @@ function SignUpPage() {
               }
             />
 
-            <div className="input-group ">
-              <input
-                type={isHiddenPassword ? "password" : "text"}
-                className="form-control"
-                placeholder="Enter your Password"
-                required
-                onChange={(event) =>
-                  setUserObject({
-                    ...userObject,
-                    password: event.target.value,
-                  })
-                }
-              />
-              <div className="input-group-append">
-                <span
-                  className=" input-group-text  h-100"
-                  onClick={handlePasswordType}
-                >
-                  {isHiddenPassword ? (
-                    <BsEyeSlashFill size={23} />
-                  ) : (
-                    <BsEyeFill size={23} />
-                  )}
-                </span>
+            <div className="w-100">
+              <div className="input-group ">
+                <input
+                  type={isHiddenPassword ? "password" : "text"}
+                  className="form-control"
+                  placeholder="Enter your Password"
+                  required
+                  onChange={(event) =>
+                    setUserObject({
+                      ...userObject,
+                      password: event.target.value,
+                    })
+                  }
+                />
+                <div className="input-group-append">
+                  <span
+                    className=" input-group-text  h-100"
+                    onClick={handlePasswordType}
+                  >
+                    {isHiddenPassword ? (
+                      <BsEyeSlashFill size={23} />
+                    ) : (
+                      <BsEyeFill size={23} />
+                    )}
+                  </span>
+                </div>
               </div>
+              {errors?.passwordError ? (
+                <span className="fs-6 ps-2 text-danger">
+                  {errors?.passwordError}
+                </span>
+              ) : null}
             </div>
 
-            <div className="input-group ">
-              <input
-                type={isHiddenPassword ? "password" : "text"}
-                className="form-control"
-                placeholder="Confirm your Password"
-                required
-                onChange={(event) => {
-                  if (userObject.password !== event.target.value) {
-                    setErrorMessages("Password Does Not Match");
-                  } else {
-                    setErrorMessages("");
-                  }
-                }}
-              />
-              <div className="input-group-append">
-                <span
-                  className=" input-group-text  h-100"
-                  onClick={handlePasswordType}
-                >
-                  {isHiddenPassword ? (
-                    <BsEyeSlashFill size={23} />
-                  ) : (
-                    <BsEyeFill size={23} />
-                  )}
-                </span>
+            <div className="w-100">
+              <div className="input-group ">
+                <input
+                  type={isHiddenPassword ? "password" : "text"}
+                  className="form-control"
+                  placeholder="Confirm your Password"
+                  required
+                  onChange={(event) => {
+                    if (userObject.password !== event.target.value) {
+                      setErrors({
+                        ...errors,
+                        confirmError: "Password Does Not Match",
+                      });
+                    } else {
+                      setErrors({
+                        ...errors,
+                        confirmError: "",
+                      });
+                    }
+                  }}
+                />
+                <div className="input-group-append">
+                  <span
+                    className=" input-group-text  h-100"
+                    onClick={handlePasswordType}
+                  >
+                    {isHiddenPassword ? (
+                      <BsEyeSlashFill size={23} />
+                    ) : (
+                      <BsEyeFill size={23} />
+                    )}
+                  </span>
+                </div>
               </div>
+              {errors?.confirmError ? (
+                <span className="fs-6 ps-2 text-danger">
+                  {errors?.confirmError}
+                </span>
+              ) : null}
             </div>
 
             <div className="align-self-start">
@@ -209,24 +276,26 @@ function SignUpPage() {
                 onChange={(event) => setCheckLicenes(event.target.checked)}
               />
               <label className="px-1">
-                I agree to all the Terms and Privacy Policies{" "}
+                I agree to all the Terms and Privacy Policies
               </label>
             </div>
 
             <div className="d-flex flex-column w-75">
               <button
                 className={submitEnabled ? "submitBtn" : "submitBtn-disabled"}
-                // onClick={userSignIn}
+                onClick={userSignUp}
                 disabled={submitEnabled}
               >
                 Create Account
               </button>
-              <span className="fs-6 ps-2 text-danger">{errorMessages}</span>
+              <span className="fs-6 ps-2 text-danger">{errorMessage}</span>
             </div>
 
             <div className="   d-flex align-items-center justify-content-center">
               <span> Already have an acount?</span>
-              <span className=" url-colored btn p-1">Sign In</span>
+              <Link to={"/login"} replace className=" url-colored btn p-1">
+                Sign In
+              </Link>
             </div>
 
             {/* <div className="d-flex   gap-2">
