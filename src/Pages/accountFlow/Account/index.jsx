@@ -97,7 +97,7 @@ const Account = () => {
                   style={{
                     backgroundImage: `url(${cover})`,
                     backgroundPosition: "center",
-                    backgroundSize: "cover",
+                    backgroundSize: "cover coverGlass",
                   }}
                 ></div>
               ))}
