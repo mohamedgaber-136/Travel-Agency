@@ -3,8 +3,8 @@ import "./accountFligjt.css";
 
 const AccountFlight = ({ image }) => {
   return (
-    <div>
-      <Container>
+    <div className="my-3">
+      <Container className="bg-white py-4 rounded-3">
         <div className="d-flex align-items-center flex-wrap gap-4 justify-content-between">
           <div className="d-flex flex-wrap gap-3 align-items-center">
             <div>
@@ -106,7 +106,7 @@ const AccountFlight = ({ image }) => {
             </div>
           </div>
           <div>
-            <button>Download Ticket</button>
+            <button className="download-ticket-btn">Download Ticket</button>
           </div>
         </div>
       </Container>
