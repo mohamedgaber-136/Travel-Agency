@@ -76,9 +76,9 @@ function LoginPage() {
         <title>Login</title>
       </Helmet>
       <div className="container loginParent d-flex justify-content-center align-items-center ">
-        <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 ">
+        <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100">
           <div
-            className="imgContainer shadow"
+            className="imgContainer shadow "
             style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
@@ -181,12 +181,12 @@ function LoginPage() {
 
             <span>Or login With</span>
 
-            <div className="d-flex   gap-2">
-              <button className="btn border seeAllBtn">
+            <div className="d-flex gap-2">
+              <button className="btn border d-flex flex-md-column justify-content-center align-items-center">
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </button>
-              <button className="btn border seeAllBtn">
+              <button className="btn border d-flex flex-md-column justify-content-center align-items-center">
                 <FaFacebook size={25} color="blue" />
                 <span className="px-2">Facebook</span>
               </button>

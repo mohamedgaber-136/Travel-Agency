@@ -1,8 +1,44 @@
 .signupParent {
   min-height: 800px;
+  background-color: yellow;
 }
 
 /* .signUpParent {
   padding: 50px ;
   gap: 5px;
 } */
+
+
+.imgContainer {
+  border-radius: 20px;
+  width: 40% !important;
+  height: 500px !important;
+}
+.logForm {
+  width: 45% !important;
+  padding: 25px;
+}
+
+@media (max-width: 767px) {
+  .logForm {
+    width: 80% !important;
+    height: 100% !important;
+    z-index: 100;
+  }
+
+  .loginParent {
+    position: relative !important;
+  }
+
+  .imgContainer {
+    width: 90% !important;
+    height: 90% !important;
+    position: absolute;
+    /* opacity: 0.7; */
+  }
+}
+
+.form-control {
+  padding: 0.7rem !important;
+  /* background-color: yellow !important; */
+}

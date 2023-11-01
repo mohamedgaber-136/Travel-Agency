@@ -116,8 +116,8 @@ function SignUpPage() {
         <meta charSet="utf-8" />
         <title>SignUp</title>
       </Helmet>
-      <div className="container signupParent d-flex justify-content-center align-items-center ">
-        <div className="  justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 h-100">
+      <div className="container loginParent d-flex justify-content-center align-items-center ">
+        <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 ">
           <div
             className="imgContainer shadow"
             style={{
@@ -126,6 +126,7 @@ function SignUpPage() {
               backgroundSize: "cover",
             }}
           />
+
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 h-100 bg-light"
             onSubmit={userSignUp}
