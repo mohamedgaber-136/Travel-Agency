@@ -126,6 +126,29 @@ function SignUpPage() {
               backgroundSize: "cover",
             }}
           />
+          {/* <button
+            onClick={() => {
+              // Create a root reference
+              const storage = getStorage();
+
+              // Create a reference to 'mountains.jpg'
+              const mountainsRef = ref(storage, "loginImg.png");
+
+              // Create a reference to 'images/mountains.jpg'
+              // const mountainImagesRef = ref(
+              //   storage,
+              //   "loginImg.png"
+              // );
+
+              // console.log(mountainImagesRef, "data");
+
+              // While the file names are the same, the references point to different files
+              // mountainsRef.name === mountainImagesRef.name;           // true
+              // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false
+            }}
+          >
+            Upload image
+          </button> */}
 
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 h-100 bg-light"
@@ -173,7 +196,7 @@ function SignUpPage() {
                   setErrors({
                     ...errors,
                     emailError: !event.target.value.match(
-                      /^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/
+                      /^[a-zA-Z]+[a-zA-Z0-9-_.]*@[a-z]+\.[a-z]+/
                     )
                       ? "This Email Is Not Valid"
                       : "",
