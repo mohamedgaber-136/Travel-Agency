@@ -11,6 +11,7 @@ import { Footer } from "../Components/Footer/Footer";
 import AddHotelsProvider from "../store/store";
 import SearchContextProvider from "../store/searchStore";
 import BookingDetails from "../Pages/BookingDetails/BookingDetails";
+import AllCities from "../Pages/AllCities/AllCities";
 
 const AppRouter = () => {
   return (
@@ -24,6 +25,7 @@ const AppRouter = () => {
           <Route path="signUp" element={<SignUpPage />} />
           <Route path="bookingDetails" element={<BookingDetails />} />
           <Route path="account" element={<Account />} />
+          <Route path="allcities" element={<AllCities/>} />
         </Routes>
         <AddHotelsProvider>
           <Routes>
