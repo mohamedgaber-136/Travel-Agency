@@ -11,16 +11,12 @@ import { Footer } from "../Components/Footer/Footer";
 import AddHotelsProvider from "../store/store";
 import SearchContextProvider from "../store/searchStore";
 import BookingDetails from "../Pages/BookingDetails/BookingDetails";
-<<<<<<< HEAD
-import AllCities from "../Pages/AllCities/AllCities";
-=======
 import AccountLayout from "../Layout/accountLayout";
 import AccountHistory from "../Components/accountFlow/AccountHistory/AccountHistory";
 import AccountHistoryLayout from "../Layout/AccountHistoryLayout";
 import AccountFlights from "../Components/accountFlow/AccountHistory/AccountHistory";
 import AccountStays from "../Components/accountFlow/accountStays/AccountStays";
 import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
->>>>>>> 1ccd04675f6de49bb1bfcba641e14ae2c1df2e50
 
 const AppRouter = () => {
   return (
@@ -33,10 +29,6 @@ const AppRouter = () => {
           <Route path="login" element={<LoginPage />} />
           <Route path="signUp" element={<SignUpPage />} />
           <Route path="bookingDetails" element={<BookingDetails />} />
-<<<<<<< HEAD
-          <Route path="account" element={<Account />} />
-          <Route path="allcities" element={<AllCities/>} />
-=======
           <Route path="account" element={<AccountLayout />}>
             <Route index={true} element={<Account />} />
             <Route path="history" element={<AccountHistoryLayout />}>
@@ -45,7 +37,6 @@ const AppRouter = () => {
             </Route>
             <Route path="payment" element={<AccountPayment />} />
           </Route>
->>>>>>> 1ccd04675f6de49bb1bfcba641e14ae2c1df2e50
         </Routes>
         <AddHotelsProvider>
           <Routes>
