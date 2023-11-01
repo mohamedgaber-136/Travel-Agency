@@ -5,20 +5,11 @@ import "../Login/Login.css";
 import "./SignUp.css";
 import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
-import {
-  addDoc,
-  collection,
-  getDoc,
-  getDocs,
-  query,
-  where,
-} from "@firebase/firestore";
-import { createUserWithEmailAndPassword } from "@firebase/auth";
+import { addDoc, collection, getDocs, query, where } from "@firebase/firestore";
 import { Link } from "react-router-dom";
 
 function SignUpPage() {
-  const { authbase, database, setCurrentUserObj, currentUserObj } =
-    useContext(searchContext);
+  const { database, setCurrentUserObj } = useContext(searchContext);
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,6 +21,7 @@ function SignUpPage() {
     lastName: "",
     email: "",
     password: "",
+    confirmPassword: "",
     phone: "",
     address: "",
     imageURL: "",
@@ -43,77 +35,72 @@ function SignUpPage() {
   }
 
   useEffect(() => {
-    setErrors({
-      emailError: !userObject.email.match(
-        /^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/
-      )
-        ? "please Enter Valid Email"
-        : null,
-      passwordError:
-        userObject.password.length < 6
-          ? "Passwords Should Be 6 characters At Least"
-          : "",
-      licenesError: !checkLicenes ? "Please Accepte Policies" : "",
-    });
+    console.log(submitEnabled, "submit");
+
+    // setErrors({
+    //   emailError: !userObject.email.match(
+    //     /^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/
+    //   )
+    //     ? "please Enter Valid Email"
+    //     : null,
+    //   passwordError:
+    //     userObject.password.length < 6
+    //       ? "Passwords Should Be 6 characters At Least"
+    //       : "",
+    //   licenesError: !checkLicenes ? "Please Accepte Policies" : "",
+    // });
 
     if (
       userObject.firstName === "" ||
       userObject.lastName === "" ||
       userObject.email === "" ||
       userObject.phone === "" ||
-      userObject.password === ""
-      // ||
-      // !checkLicenes
+      userObject.password === "" ||
+      userObject.confirmPassword === ""
     ) {
       setErrorMessage("Please Enter All Required Data");
-      setSubmitEnabled(true);
-    } else if (!checkLicenes) {
-      setErrorMessage("Please Accept The License");
-      setSubmitEnabled(true);
-    } else {
+      setSubmitEnabled(false);
+    } else if (
+      userObject.password.length < 6 ||
+      userObject.password !== userObject.confirmPassword ||
+      !userObject.email.match(/^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/)
+    ) {
       setErrorMessage("");
       setSubmitEnabled(false);
+    } else if (!checkLicenes) {
+      setErrorMessage("Make Sure To Accept The Licenes");
+      setSubmitEnabled(false);
+    } else {
+      setErrorMessage("");
+      setSubmitEnabled(true);
     }
 
     //   phoneError:
     //     userObject.phone === "" || typeof userObject.phone != number
     //       ? "Please Enter a valid Phone"
     //       : "",
-  }, [userObject, checkLicenes]);
+  }, [userObject, checkLicenes, submitEnabled]);
 
   function userSignUp(event) {
     event.preventDefault();
-    // const usersRef = collection(database, "users");
-    // const q = query(usersRef, where("email", "==", userObject.email)).then(
-    // (data) => console.log(data, "query")
-    // );
-    // check if all data entered is correct
-    console.log(userObject, "user");
 
-    // if (!checkLicenes) {
-    //   // setErrorMessage("Please Accept the License");
-    // } else {
-    //   console.log(userObject, "user");
-    //   console.log(userObject.email, "user");
-    //   console.log(userObject.password, "user");
+    if (submitEnabled) {
+      console.log("submit");
+      const usersRef = collection(database, "users");
 
-    //   const usersRef = collection(database, "users");
-    //   const que = query(usersRef, where("email", "==", userObject.email));
-    //   getDocs(que).then((snapshot) => {
-    //     if (snapshot.docs.length > 0) {
-    //       // setErrorMessage("This Email Is Already In Use");
-    //     } else {
-    //       // setErrorMessage("");
-    //       addDoc(usersRef, userObject).then((snapshot) => {
-    //         console.log(snapshot, "djfhsdj");
-    //         sessionStorage.setItem("currentUser", snapshot.id);
-    //         setCurrentUserObj({ ...userObject, id: snapshot.id });
-    //         // setCurrentUserObj({...currentUserObj, id: snapshot.id });
-    //       });
-    //     }
-    //     console.log(snapshot.docs, "sdjkfhdjs");
-    //   });
-    // }
+      const que = query(usersRef, where("email", "==", userObject.email));
+      getDocs(que).then((snapshot) => {
+        if (snapshot.docs.length > 0) {
+          setErrorMessage("This Email Is Already In Use");
+        } else {
+          addDoc(usersRef, userObject).then((snapshot) => {
+            console.log(snapshot, "djfhsdj");
+            sessionStorage.setItem("currentUser", snapshot.id);
+            setCurrentUserObj({ ...userObject, id: snapshot.id });
+          });
+        }
+      });
+    }
 
     // sessionStorage.setItem("currentUser", "MBBTUT1Njk33i6BB3uKr");
   }
@@ -175,9 +162,18 @@ function SignUpPage() {
                 className="form-control "
                 placeholder="Enter your Email"
                 required
-                onChange={(event) =>
-                  setUserObject({ ...userObject, email: event.target.value })
-                }
+                onChange={(event) => {
+                  setUserObject({ ...userObject, email: event.target.value });
+
+                  setErrors({
+                    ...errors,
+                    emailError: !event.target.value.match(
+                      /^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/
+                    )
+                      ? "This Email Is Not Valid"
+                      : "",
+                  });
+                }}
               />
               {errors?.emailError ? (
                 <span className=" ps-2 text-danger">{errors?.emailError}</span>
@@ -201,12 +197,22 @@ function SignUpPage() {
                   className="form-control"
                   placeholder="Enter your Password"
                   required
-                  onChange={(event) =>
+                  onChange={(event) => {
                     setUserObject({
                       ...userObject,
                       password: event.target.value,
-                    })
-                  }
+                    });
+
+                    setErrors({
+                      ...errors,
+                      confirmError:
+                        event.target.value.length < 6
+                          ? "Passwords Should Be 6 Characters At Least"
+                          : userObject.confirmPassword !== event.target.value
+                          ? "Password Does Not Match"
+                          : "",
+                    });
+                  }}
                 />
                 <div className="input-group-append">
                   <span
@@ -221,11 +227,11 @@ function SignUpPage() {
                   </span>
                 </div>
               </div>
-              {errors?.passwordError ? (
+              {/* {errors?.passwordError ? (
                 <span className="fs-6 ps-2 text-danger">
                   {errors?.passwordError}
                 </span>
-              ) : null}
+              ) : null} */}
             </div>
 
             <div className="w-100">
@@ -236,17 +242,18 @@ function SignUpPage() {
                   placeholder="Confirm your Password"
                   required
                   onChange={(event) => {
-                    if (userObject.password !== event.target.value) {
-                      setErrors({
-                        ...errors,
-                        confirmError: "Password Does Not Match",
-                      });
-                    } else {
-                      setErrors({
-                        ...errors,
-                        confirmError: "",
-                      });
-                    }
+                    setUserObject({
+                      ...userObject,
+                      confirmPassword: event.target.value,
+                    });
+
+                    setErrors({
+                      ...errors,
+                      confirmError:
+                        userObject.password !== event.target.value
+                          ? "Passwords Does Not Match"
+                          : "",
+                    });
                   }}
                 />
                 <div className="input-group-append">
@@ -273,7 +280,15 @@ function SignUpPage() {
               <input
                 type="checkbox"
                 className="form-check-input "
-                onChange={(event) => setCheckLicenes(event.target.checked)}
+                onChange={(event) => {
+                  setCheckLicenes(event.target.checked);
+                  setErrors({
+                    ...errors,
+                    licenesError: event.target.checked
+                      ? ""
+                      : "Make Sure To Accept The Licenes",
+                  });
+                }}
               />
               <label className="px-1">
                 I agree to all the Terms and Privacy Policies
@@ -284,7 +299,6 @@ function SignUpPage() {
               <button
                 className={submitEnabled ? "submitBtn" : "submitBtn-disabled"}
                 onClick={userSignUp}
-                disabled={submitEnabled}
               >
                 Create Account
               </button>
