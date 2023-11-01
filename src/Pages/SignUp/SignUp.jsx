@@ -6,15 +6,16 @@ import "./SignUp.css";
 import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
 import { addDoc, collection, getDocs, query, where } from "@firebase/firestore";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function SignUpPage() {
+  const navigate = useNavigate();
+
   const { database, setCurrentUserObj } = useContext(searchContext);
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
   const [errors, setErrors] = useState("");
-
   const [checkLicenes, setCheckLicenes] = useState(false);
   const [userObject, setUserObject] = useState({
     firstName: "",
@@ -30,6 +31,7 @@ function SignUpPage() {
     favourites: [],
     cards: [],
   });
+
   function handlePasswordType() {
     setIsHiddenPassword(!isHiddenPassword);
   }
@@ -88,15 +90,20 @@ function SignUpPage() {
       console.log("submit");
       const usersRef = collection(database, "users");
 
-      const que = query(usersRef, where("email", "==", userObject.email));
+      const que = query(
+        usersRef,
+        where("email", "==", userObject.email) ||
+          where("phone", "==", userObject.phone)
+      );
       getDocs(que).then((snapshot) => {
         if (snapshot.docs.length > 0) {
-          setErrorMessage("This Email Is Already In Use");
+          setErrorMessage("This Email or Phone Is Already In Use");
         } else {
           addDoc(usersRef, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
             sessionStorage.setItem("currentUser", snapshot.id);
             setCurrentUserObj({ ...userObject, id: snapshot.id });
+            navigate("/");
           });
         }
       });
