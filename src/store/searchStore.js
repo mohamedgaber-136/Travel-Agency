@@ -59,6 +59,14 @@ export default function SearchContextProvider(props) {
   // (snapshot) => console.log(snapshot)
   //   );
 
+  function isLoggedUser() {
+    if (currentUserObj.id === "0") {
+      return false;
+    } else {
+      return true;
+    }
+  }
+
   return (
     <searchContext.Provider
       value={{
