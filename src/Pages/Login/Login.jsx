@@ -23,7 +23,19 @@ function LoginPage() {
     rememberMe: true,
   });
 
-  useEffect(() => {
+  // useEffect(() => {
+  //   if (userObject.email === "" || userObject.password === "") {
+  //     setSubmitEnabled(false);
+  //     setErrorMessage("Make Sure To Enter Email and Password");
+  //   } else {
+  //     setSubmitEnabled(true);
+  //     setErrorMessage("");
+  //   }
+  // }, [userObject]);
+
+  function userSignIn(event) {
+    event.preventDefault();
+
     if (userObject.email === "" || userObject.password === "") {
       setSubmitEnabled(false);
       setErrorMessage("Make Sure To Enter Email and Password");
@@ -31,10 +43,6 @@ function LoginPage() {
       setSubmitEnabled(true);
       setErrorMessage("");
     }
-  }, [userObject]);
-
-  function userSignIn(event) {
-    event.preventDefault();
 
     const que = query(usersReference, where("email", "==", userObject.email));
     getDocs(que).then((snapshot) => {
@@ -92,9 +100,14 @@ function LoginPage() {
               className="form-control "
               placeholder="Enter your Email"
               required
-              onChange={(event) =>
-                setUserObject({ ...userObject, email: event.target.value })
-              }
+              onChange={(event) => {
+                setUserObject({ ...userObject, email: event.target.value });
+                if (event.target.value === "") {
+                  setErrorMessage("Email can not be empty ");
+                } else {
+                  setErrorMessage("");
+                }
+              }}
             />
 
             <div className="input-group ">
@@ -103,12 +116,17 @@ function LoginPage() {
                 className="form-control"
                 placeholder="Enter your Password"
                 required
-                onChange={(event) =>
+                onChange={(event) => {
                   setUserObject({
                     ...userObject,
                     password: event.target.value,
-                  })
-                }
+                  });
+                  if (event.target.value === "") {
+                    setErrorMessage("password can not be empty ");
+                  } else {
+                    setErrorMessage("");
+                  }
+                }}
               />
               <div className="input-group-append">
                 <span
