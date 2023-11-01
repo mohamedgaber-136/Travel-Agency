@@ -43,7 +43,6 @@ const AccountLayout = () => {
                 htmlFor="upload"
                 className="d-flex mb-4 me-3 gap-2 py-2 px-4 rounded-3 z-3 bg-info align-items-center account__btn"
                 onClick={() => setModalShow(true)}
-
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,17 +60,17 @@ const AccountLayout = () => {
                 </svg>
                 Set a new cover
               </label>
-               <Modalimgs
-                   show={modalShow}
-                   onHide={() => setModalShow(false)}
-                   imgsCovres={imgsCovres}
-                   addCover={addCover}
-                 />
+              <Modalimgs
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                imgsCovres={imgsCovres}
+                addCover={addCover}
+              />
             </div>
           </div>
         </Container>
         <Container>
-            <ProfileImg />
+          <ProfileImg />
           <div className="account__selection px-4 account__main-links">
             <NavLink
               to="/account"

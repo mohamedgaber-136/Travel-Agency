@@ -2,7 +2,6 @@ import React from "react";
 import { Container } from "react-bootstrap";
 import "./index.css";
 import AccountInfo from "../../../Components/accountFlow/accountInfo/accountInfo";
-
 import { Helmet } from "react-helmet";
 const Account = () => {
   return (
