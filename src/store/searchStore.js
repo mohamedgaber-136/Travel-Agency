@@ -30,7 +30,8 @@ export default function SearchContextProvider(props) {
 
   useEffect(() => {
     if (currentUserObj?.id === "0") {
-      const userID = sessionStorage.getItem("currentUser");
+      // const userID = sessionStorage.getItem("currentUser");
+      const userID = localStorage.getItem("currentUser");
       if (userID !== null) {
         const currentRef = doc(database, "users", userID);
         getDoc(currentRef).then((snapshot) => {

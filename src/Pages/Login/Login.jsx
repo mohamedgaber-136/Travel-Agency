@@ -20,7 +20,7 @@ function LoginPage() {
   const [userObject, setUserObject] = useState({
     email: "",
     password: "",
-    rememberMe: false,
+    rememberMe: true,
   });
 
   useEffect(() => {
@@ -44,7 +44,11 @@ function LoginPage() {
         console.log(currentUser.password, "pass");
         if (currentUser.password === userObject.password) {
           setCurrentUserObj({ ...currentUser, id: snapshot.docs[0].id });
-          sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+          if (userObject.rememberMe) {
+            localStorage.setItem("currentUser", snapshot.docs[0].id);
+          } else {
+            sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+          }
           navigate("/");
         } else {
           setErrorMessage("Password is Incorrect");
@@ -120,22 +124,24 @@ function LoginPage() {
               </div>
             </div>
 
-            {/* <div className="d-flex justify-content-between align-items-center w-100 ">
+            <div className="d-flex justify-content-between align-items-center w-100 ">
               <div>
                 <input
                   type="checkbox"
+                  defaultValue={userObject.rememberMe}
+                  // checked={userObject.rememberMe}
                   className="form-check-input"
                   onChange={(event) =>
                     setUserObject({
                       ...userObject,
-                      rememberMe: !userObject.rememberMe,
+                      rememberMe: event.target.value,
                     })
                   }
                 />
                 <label className="px-1">Remember me </label>
               </div>
-              <span className="btn p-0 url-colored">Forgot password?</span>
-            </div> */}
+              {/* <span className="btn p-0 url-colored">Forgot password?</span> */}
+            </div>
 
             <div className="d-flex flex-column w-75 py-2">
               <button
@@ -150,7 +156,7 @@ function LoginPage() {
 
             <div className="   d-flex align-items-center justify-content-center">
               <span> Don't have an account?</span>
-              <Link to={"signUp"} replace className=" url-colored btn p-1">
+              <Link to={"/signUp"} replace className=" url-colored btn p-1">
                 Sign Up
               </Link>
             </div>

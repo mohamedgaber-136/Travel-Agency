@@ -96,7 +96,8 @@ function SignUpPage() {
         } else {
           addDoc(usersReference, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
-            sessionStorage.setItem("currentUser", snapshot.id);
+            // sessionStorage.setItem("currentUser", snapshot.id);
+            localStorage.setItem("currentUser", snapshot.id);
             setCurrentUserObj({ ...userObject, id: snapshot.id });
             navigate("/");
           });
