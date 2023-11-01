@@ -11,7 +11,7 @@ const AccountPayment = () => {
         <h2 className="py-3">AccountPayment</h2>
       </Container>
       <Container className="bg-white py-3 rounded-3 d-flex gap-3 visa-flex">
-        <div className="visa p-3 rounded-3">
+        <div className="visa p-3 rounded-3 add-visa-width ">
           <div className="d-flex align-items-start justify-content-between visa-content">
             <div>
               <p className="mb-0 lh-sm">**** **** ****</p>
@@ -57,7 +57,7 @@ const AccountPayment = () => {
           </div>
         </div>
         <div
-          className="add-visa py-3 rounded-3"
+          className="add-visa py-3 rounded-3 add-visa-width"
           onClick={() => setModalShow(true)}
         >
           <svg
