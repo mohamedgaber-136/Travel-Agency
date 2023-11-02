@@ -7,25 +7,32 @@ import Loading from "../../Components/Loading/Loading";
 export default function AllCities() {
   const [cityImg, setCity] = useState([]);
   useEffect(() => {
-    // getAllCities()
+    getAllCities()
   }, []);
   const getAllCities = async () => {
     let arr = [];
-    const url =
-      "https://nomad-list-cities.p.rapidapi.com/nomad-list/europe?size=30&page=1&sort=desc&sort_by=overall_score";
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "872d9711d6msh649af9c6f912c09p1fa3ffjsn9fd6f1d47461",
-        "X-RapidAPI-Host": "nomad-list-cities.p.rapidapi.com",
-      },
-    };
-    const res = await fetch(url, options);
-    const data = await res.json();
-    const cities = data.map((city) => city.name);
-    for (let i = 0; i < cities.length; i++) {
+    // const url =
+    //   "https://nomad-list-cities.p.rapidapi.com/nomad-list/europe?size=30&page=1&sort=desc&sort_by=overall_score";
+    // const options = {
+    //   method: "GET",
+    //   headers: {
+    //     "X-RapidAPI-Key": "872d9711d6msh649af9c6f912c09p1fa3ffjsn9fd6f1d47461",
+    //     "X-RapidAPI-Host": "nomad-list-cities.p.rapidapi.com",
+    //   },
+    // };
+    // const res = await fetch(url, options);
+    // const data = await res.json();
+    const cities = all.map(c => c.name)
+    for (let i = cities.length -1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i+1));
+      let k = cities  [i];
+      cities[i] = cities[j];
+      cities[j] = k;
+    }
+    const spliceCities = cities.splice(0,25);
+    for (let i = 0; i < spliceCities.length; i++) {
       const res = await axios.get(
-        `https://api.pexels.com/v1/search/?page=1&per_page=2&query=${cities[i]}`,
+        `https://api.pexels.com/v1/search/?page=1&per_page=2&query=${spliceCities[i]}`,
         {
           headers: {
             Authorization:
@@ -36,7 +43,7 @@ export default function AllCities() {
       console.log(res.data?.photos[0]?.src?.portrait);
       arr.push({
         img: res.data?.photos[0]?.src?.original,
-        title: cities[i],
+        title: spliceCities[i],
         id: Math.floor(Math.random() * 1000),
       });
     }

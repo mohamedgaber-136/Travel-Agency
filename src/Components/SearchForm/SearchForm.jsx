@@ -7,7 +7,7 @@ export const SearchForm = () => {
   const navigate = useNavigate();
   let [guest, setGuest] = useState(1);
   let [room, setRoom] = useState(1);
-  const [isValid, setValidatation] = useState(false);
+  const [isValid, setValidatation] = useState(true);
   let [showAddTable, setAddTable] = useState(false);
   const { searchData, setSeachData } = useContext(searchContext);
   const addGuest = (x, y) => {
@@ -38,9 +38,10 @@ export const SearchForm = () => {
       GuestAndRooms: event.target[3].value,
     };
     setSeachData({ ...data });
+    navigate(`/CountryHotels/${data.destination}`,{replace:true});
     setValidatation(await searchSchema.isValid(searchData));
-    navigate(`CountryHotels/${data.destination}`);
   };
+  console.log(searchData)
   return (
     <form
       onSubmit={getSearchData}

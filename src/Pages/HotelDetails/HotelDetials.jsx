@@ -6,19 +6,20 @@ import stars from './assets/Frame 52.png'
 import star from './assets/Stars.png'
 import locationIcon from './assets/Location.png'
 import unFillFav from './assets/Vector.png'
+import FillFav from './assets/heart.png'
 import share from './assets/Share.png'
 import imgHotel from './assets/Rectangle 3.png'
 import 'bootstrap/js/dist/carousel'
 import Loading from '../../Components/Loading/Loading'
 export default function HotelDetials() {
     const {id} =useParams()
-    const{getHotelsObj,hotelObj}= useContext(addHotelsContext)
+    const{getHotelsObj,hotelObj,isFavorites,isFavoritesClick}= useContext(addHotelsContext)
     useEffect(()=>{
      getHotelsObj(id)
     },[])
 
   return (
-    hotelObj.length>0 ?<div className='container details'>
+    hotelObj.length!==0 ?<div className='container details'>
     {/* title and price  */}
     <div className='d-flex flex-md-row flex-column'>
      <div className='col-md-11 col-12'>
@@ -43,28 +44,10 @@ export default function HotelDetials() {
                           <p className='m-text text-muted'>{hotelObj?.numberReviews} Reviews</p>
                   </div>
                   <div className='d-flex gap-3'>
-                  <div style={{
-                          width:'48px',
-                          height:'48px',
-                          border:'1px solid #3EB489',
-                          borderRadius:'5px',
-                          // padding:'2px',
-                          display:'flex',
-                          justifyContent:'center',
-                          alignItems:'center',
-                      }} className='col-3 col-md-1'>
-                         <img src={unFillFav} alt="" /> 
+                  <div onClick={isFavoritesClick} className='col-3 col-md-1 favIcon'>
+                    {hotelObj.isFav ?<img src={FillFav} alt="" /> :<img src={unFillFav} alt="" />}
                       </div>
-                      <div style={{
-                          width:'48px',
-                          height:'48px',
-                          border:'1px solid #3EB489',
-                          borderRadius:'5px',
-                          // padding:'2px',
-                          display:'flex',
-                          justifyContent:'center',
-                          alignItems:'center',
-                      }} className='col-3 col-md-1'>
+                      <div  className='col-3 col-md-1 favIcon'>
                          <img src={share} alt="" /> 
                       </div>
                       <button  className='button-style'>Book Now</button>
