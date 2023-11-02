@@ -11,12 +11,62 @@ import left from "../../assets/images/accountFlow/left.svg";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
 import { FloatingLabel, InputGroup } from "react-bootstrap";
 import { Helmet } from "react-helmet";
+import { countries } from "../../data/country";
+import { Visa } from "../../assets/images";
 
 const BookingDetails = () => {
   const [show, setShow] = useState(false);
-
+  const [cardNum, setCardNum] = useState("");
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+
+  // const spaceFun = (e) => {
+  //   let num = "";
+  //   // console.log(e.target.value);
+
+  //   // e.target.value.replace(/\s/g, " ");
+  //   // setCardNum(e.target.value.replace(/\s/g, " "));
+  //   // for (let i = 0; i < e.target.value.length; i++) {
+  //   //   if (i % 4 === 0 && i > 0) {
+  //   //     num = e.target.value.concat(" ");
+  //   //     // num = num.concat(e.target.value[i]);
+  //   //     console.log(num, "5555");
+
+  //   //     // e.target.value = num;
+  //   //     setCardNum(num);
+  //   //   }
+  //   // }
+  //   switch (e.target.value.length) {
+  //     case 4:
+  //     case 9:
+  //       e.target.value += " ";
+  //       break;
+
+  //     default:
+  //       break;
+  //   }
+  // };
+  // console.log(cardNum);
+
+  // const dateInput = (e) => {
+  //   for (let i = 0; i <= e.target.value.length; i++) {
+  //     switch (i) {
+  //       case 4:
+  //         e.target.value += " ";
+  //         console.log(i);
+
+  //         break;
+  //       case 9:
+  //         e.target.value += " ";
+  //         console.log(i);
+  //         break;
+  //       default:
+  //         break;
+  //     }
+  //   }
+  //   console.log(e.target.value);
+  // };
+
   return (
     <>
       {" "}
@@ -153,20 +203,27 @@ const BookingDetails = () => {
           <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
 
           <Modal.Body className="p-4">
-            <form className="d-flex">
+            <form className="d-flex flex-column ">
               <div className="col">
-                <div className="coolinput ">
-                  <label
-                    for="card-number"
-                    className="text fw-normal labelText "
-                  >
-                    Card Number
-                  </label>
-                  <input
-                    type="number"
-                    className="visa rounded-2 placeStyle"
-                    placeholder="4321 4321 4321 4321"
-                  />
+                <div className="coolinput">
+                  <div className="inputVisa input-group coolinput">
+                    <label
+                      for="card-number"
+                      className="text fw-normal labelText "
+                    >
+                      Card Number
+                    </label>
+                    <input
+                      type="text"
+                      className=" rounded-2 placeStyle"
+                      placeholder="4321 4321 4321 4321"
+                      // maxLength={14}
+                      defaultValue={cardNum}
+                      // onChange={dateInput}
+                      required
+                    />
+                    <img src={Visa} alt="" className="visaDetails" />
+                  </div>
                   <div className="mb-3 d-flex justify-content-between gap-3">
                     <div className="">
                       <label className=" text fw-normal labelText">
@@ -174,10 +231,11 @@ const BookingDetails = () => {
                       </label>
                       <br />
                       <input
-                        className="me-2 w-100 input placeStyle rounded-2"
+                        className="me-2 w-100 input placeStyle rounded-2  form-control"
                         placeholder="02/27"
                         // type="date"
                         // aria-label="Exp. Date"
+                        required
                       />
                     </div>
                     <div>
@@ -185,9 +243,10 @@ const BookingDetails = () => {
                       <input
                         // aria-label="CVC"
                         type="text"
-                        className="me-2 w-100 placeStyle  rounded-2"
+                        className="me-2 w-100 placeStyle  rounded-2  form-control"
                         placeholder="456"
                         maxLength={3}
+                        required
                       />
                     </div>
                   </div>
@@ -196,8 +255,9 @@ const BookingDetails = () => {
                   </label>
                   <input
                     type="text"
-                    className="name placeStyle rounded-2"
+                    className="name placeStyle rounded-2 form-control w-100"
                     placeholder="Jon Doe"
+                    required
                   />
                   <div class="input-group d-flex">
                     <div className="col">
@@ -205,52 +265,59 @@ const BookingDetails = () => {
                         Country Or Region
                       </label>
                       <select
-                        className="form-select rounded-2 "
+                        className="form-select rounded-2  form-control"
                         id="inputGroupSelect04"
                         aria-label="Example select with button addon"
                       >
-                        <option>United States</option>
-                        <option value="1">Turkey</option>
-                        <option value="2">England</option>
-                        <option value="3">Egypt</option>
+                        <option value="Choose a country" selected>
+                          Choose a country
+                        </option>
+                        {countries.map((x) => (
+                          <option value={x.name} key={x.id}>
+                            {x.name}{" "}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
+              <Modal.Footer>
+                <div className="text">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input input"
+                      type="checkbox"
+                      value=""
+                      id="invalidCheck"
+                      required
+                    />
+                    <label
+                      className=" text form-check-label  form-control"
+                      forHtml="invalidCheck"
+                      required
+                    >
+                      Securely save my information for 1-click checkout
+                    </label>
+                  </div>
+
+                  <Button
+                    type="submit"
+                    onClick={handleClose}
+                    className="w-100 text my-2 book-btn "
+                  >
+                    Add Card
+                  </Button>
+                  <p className="text fw-light fs-0 m-auto">
+                    By confirming your subscription, you allow The Outdoor Inn
+                    Crowd Limited to charge your card for this payment and
+                    future payments in accordance with their terms. You can
+                    always cancel your subscription.
+                  </p>
+                </div>
+              </Modal.Footer>
             </form>
           </Modal.Body>
-          <Modal.Footer>
-            <div className="text">
-              <div class="form-check">
-                <input
-                  class="form-check-input input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckIndeterminate"
-                />
-                <label
-                  className=" text form-check-label "
-                  for="flexCheckIndeterminate"
-                >
-                  Securely save my information for 1-click checkout
-                </label>
-              </div>
-
-              <Button
-                onClick={handleClose}
-                className="w-100 text my-2 book-btn "
-              >
-                Add Card
-              </Button>
-              <p className="text fw-light fs-0 m-auto">
-                By confirming your subscription, you allow The Outdoor Inn Crowd
-                Limited to charge your card for this payment and future payments
-                in accordance with their terms. You can always cancel your
-                subscription.
-              </p>
-            </div>
-          </Modal.Footer>
         </Modal>
       </div>
     </>

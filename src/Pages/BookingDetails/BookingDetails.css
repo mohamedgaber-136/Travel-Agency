@@ -127,9 +127,18 @@ font-weight: 600;
     color: #000;
 }
 
-.visa {
-    background-image: url('../../assets/images/accountFlow/Visa.svg') no-repeat right !important;
-    background-size: 20px;
+.visaDetails {
+    width: 30px;
+    height: 30px;
+    object-fit: cover;
+    position: absolute;
+    right: 10px;
+    top: 50%;
+    border: none;
+    transform: translateY(-25%);
+}
+.inputVisa{
+    position: relative;
 }
 
 .labelText{
