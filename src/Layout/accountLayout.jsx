@@ -2,7 +2,7 @@ import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { accountAvatar, accountBg } from "../assets/images";
 import React, { useContext, useEffect, useState } from "react";
-import { Outlet } from "react-router";
+import { Outlet, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
 import img2 from "./CoverImgs/pexels-lumn-167699.jpg";
@@ -15,6 +15,7 @@ import Modalimgs from "./Modalimgs";
 import { ProfileImg } from "./ProfileImg";
 import { searchContext } from "../store/searchStore";
 const AccountLayout = () => {
+  const { id } = useParams();
   const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
     useContext(searchContext);
   const [Cover, setCover] = useState(null);
@@ -84,20 +85,22 @@ const AccountLayout = () => {
           <ProfileImg />
           <div className="account__selection px-4 account__main-links">
             <NavLink
-              to="/account"
+              to={"/account/" + id}
               end
               className="account__brdr position-relative py-3 w-33"
             >
               <h4>Account</h4>
             </NavLink>
             <NavLink
-              to="/account/history"
+              to={`/account/${id}/history`}
+              // to="/account/history"
               className="account__brdr line py-3 w-33"
             >
               <h4>History</h4>
             </NavLink>
             <NavLink
-              to="/account/payment"
+              to={`/account/${id}/payment`}
+              // to="/account/payment"
               className="account__brdr line py-3 w-33"
             >
               <h4>Payment method</h4>

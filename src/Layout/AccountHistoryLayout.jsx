@@ -1,7 +1,8 @@
 import { Container } from "react-bootstrap";
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useParams } from "react-router-dom";
 
 const AccountHistoryLayout = () => {
+  const { id } = useParams();
   return (
     <div className="my-5 mt-3">
       <Container className=" rounded-3 py-4">
@@ -9,7 +10,7 @@ const AccountHistoryLayout = () => {
         <Container>
           <div className="account__selection px-4 ">
             <NavLink
-              to="/account/history"
+              to={`/account/${id}/history`}
               end
               className="account__brdr position-relative py-3 w-50"
             >
@@ -30,7 +31,7 @@ const AccountHistoryLayout = () => {
               </h4>
             </NavLink>
             <NavLink
-              to="/account/history/stays"
+              to={`/account/${id}/history/stays`}
               className="account__brdr line py-3 w-50"
             >
               <h4>

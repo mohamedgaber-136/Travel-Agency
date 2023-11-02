@@ -31,7 +31,15 @@ const AppRouter = () => {
             <Route path="login" element={<LoginPage />} />
             <Route path="signUp" element={<SignUpPage />} />
             <Route path="bookingDetails" element={<BookingDetails />} />
-            <Route path="account/:id" element={<Account />} />
+            {/* <Route path="account/:id" element={<Account />} /> */}
+            <Route path="account/:id" element={<AccountLayout />}>
+              <Route index={true} element={<Account />} />
+              <Route path="history" element={<AccountHistoryLayout />}>
+                <Route index={true} element={<AccountFlights />} />
+                <Route path="stays" element={<AccountStays />} />
+              </Route>
+              <Route path="payment" element={<AccountPayment />} />
+            </Route>
             <Route path="allcities" element={<AllCities />} />
             <Route path="*" element={<NotFoundPage />} />
             <Route path="CountryHotels/:countryTitle" element={<AddHotels />} />

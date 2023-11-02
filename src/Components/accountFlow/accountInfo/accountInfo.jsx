@@ -1,8 +1,62 @@
-import { useState } from "react";
+import { useRef, useState } from "react";
 
-const AccountInfo = ({ label, content, btn = false, name }) => {
+const AccountInfo = ({
+  label,
+  btn = false,
+  name,
+  setInputs,
+  inputs,
+  errorMessage,
+  setErrorMessage,
+}) => {
   const [readOnly, setReadOnly] = useState(true);
-  const [inputVal, setInputVal] = useState(content);
+  const inputRef = useRef();
+
+  const handleInputChange = (e) => {
+    setInputs({ ...inputs, [e.target.name]: e.target.value });
+    if (e.target.value === "") {
+      setErrorMessage({
+        ...errorMessage,
+        [e.target.name]: "value is required",
+      });
+    }
+    // !userObject.email.match(/^[a-zA-Z]+[a-zA-Z0-9-_.]*@[a-z]+\.[a-z]+/) ||
+    // !userObject.name.match(/^[a-zA-Z]{3,}/) ||
+    // !userObject.phone.match(/^[0-9]{9,}/)
+    else {
+      const val = e.target.value;
+      const input = e.target.name;
+
+      if (
+        !val.match(/^[a-zA-Z]+[a-zA-Z0-9-_.]*@[a-z]+\.[a-z]+/) &&
+        input === "email"
+      ) {
+        setErrorMessage({
+          ...errorMessage,
+          [e.target.name]: "Please Enter valid email",
+        });
+      } else if (!val.match(/^[a-zA-Z]{3,}/) && input === "name") {
+        setErrorMessage({
+          ...errorMessage,
+          [e.target.name]: "Name Can Not Be Less Than 3 And Only Charachtersl",
+        });
+      } else if (!val.match(/^[0-9]{9,}/) && input === "phone") {
+        setErrorMessage({
+          ...errorMessage,
+          [e.target.name]: "Enter Valid phone",
+        });
+      } else {
+        setErrorMessage({
+          name: "",
+          email: "",
+          password: "",
+          phone: "",
+          address: "",
+          birthdate: "",
+        });
+      }
+    }
+  };
 
   return (
     <div className="d-flex align-items-center flex-wrap gap-2 justify-content-between pb-4">
@@ -10,12 +64,13 @@ const AccountInfo = ({ label, content, btn = false, name }) => {
         <span>{label}</span> <br />
         <div className="d-flex gap-2">
           <input
+            ref={inputRef}
             type="text"
             className="border-0 px-2"
-            value={inputVal}
+            value={inputs[name]}
             readOnly={readOnly}
             name={name}
-            onChange={(e) => setInputVal(e.target.value)}
+            onChange={handleInputChange}
           />
           {!readOnly && (
             <button
@@ -26,6 +81,7 @@ const AccountInfo = ({ label, content, btn = false, name }) => {
             </button>
           )}
         </div>
+        <p className="text-danger">{errorMessage[name]}</p>
       </div>
       <div className="d-flex justify-content-between flex-wrap gap-3">
         {btn && (
@@ -49,7 +105,10 @@ const AccountInfo = ({ label, content, btn = false, name }) => {
         )}
 
         <button
-          onClick={() => setReadOnly(false)}
+          onClick={() => {
+            inputRef.current.focus();
+            setReadOnly(false);
+          }}
           className="btn btn-outline-success d-flex py-1 px-3 align-items-center gap-1"
         >
           <svg
