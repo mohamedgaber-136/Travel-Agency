@@ -38,10 +38,11 @@ export const SearchForm = () => {
       GuestAndRooms: event.target[3].value,
     };
     setSeachData({ ...data });
-    navigate(`/CountryHotels/${data.destination}`,{replace:true});
-    setValidatation(await searchSchema.isValid(searchData));
+    let isValid = await searchSchema.isValid(searchData);
+    if (isValid) {
+      navigate(`/CountryHotels/${data.destination}`, { replace: true });
+    }
   };
-  console.log(searchData)
   return (
     <form
       onSubmit={getSearchData}

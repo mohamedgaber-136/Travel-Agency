@@ -1,10 +1,16 @@
 import { Container } from "react-bootstrap";
 import "./accountPayment.css";
 import React from "react";
+import {useContext} from 'react'
 import PaymentModal from "./modal";
-const AccountPayment = () => {
-  const [modalShow, setModalShow] = React.useState(false);
+import { searchContext } from "../store/searchStore";
 
+const AccountPayment = () => {
+  let {authorized}= useContext(searchContext)
+  const [modalShow, setModalShow] = React.useState(false);
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div>
       <Container>

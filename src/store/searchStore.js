@@ -23,7 +23,7 @@ export const searchContext = createContext(0);
 export default function SearchContextProvider(props) {
   let [searchData, setSeachData] = useState({});
   const [currentUserObj, setCurrentUserObj] = useState({ id: "0" });
-
+  let [authorized, setAuthorized] = useState(false);
   initializeApp(firebaseConfig);
   const database = getFirestore();
   //   const authbase = getAuth();
@@ -83,6 +83,8 @@ export default function SearchContextProvider(props) {
         usersReference,
         currentUserObj,
         updateCurrentUser,
+        authorized,
+        setAuthorized,
       }}
     >
       {props.children}

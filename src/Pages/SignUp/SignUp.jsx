@@ -13,7 +13,7 @@ import { accountAvatar, accountBg } from "../../assets/images";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const { setCurrentUserObj, usersReference } = useContext(searchContext);
+  const { setCurrentUserObj, usersReference ,setAuthorized } = useContext(searchContext);
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -84,32 +84,13 @@ function SignUpPage() {
         if (snapshot.docs.length > 0) {
           setErrorMessage("This Email or Phone Is Already In Use");
         } else {
+          setAuthorized(true)
           swal({
             icon: "success",
             button: false,
             closeOnClickOutside: false,
             timer: 2000,
-            // content: (
-            //   <div class="progressbar">
-            //     <svg class="progressbar__svg">
-            //       <circle
-            //         cx="80"
-            //         cy="80"
-            //         r="70"
-            //         class="progressbar__svg-circle circle-html shadow-html"
-            //       ></circle>
-            //     </svg>
-            //     <span class="progressbar__text shadow-html">
-            //       Sign Up Succssfully
-            //     </span>
-            //   </div>
-            // ),
           }).then(() => navigate("/"));
-
-          // interv = setTimeout(() => {
-          //   navigate("/");
-          // }, 2000);
-
           addDoc(usersReference, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
             // sessionStorage.setItem("currentUser", snapshot.id);
