@@ -23,20 +23,25 @@ import NotFoundPage from "../Pages/notFound/notFound";
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <NavigationBar />
-
       <SearchContextProvider>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signUp" element={<SignUpPage />} />
-          <Route path="bookingDetails" element={<BookingDetails />} />
-          <Route path="account" element={<Account />} />
-          <Route path="allcities" element={<AllCities />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <NavigationBar />
         <AddHotelsProvider>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signUp" element={<SignUpPage />} />
+            <Route path="bookingDetails" element={<BookingDetails />} />
+            {/* <Route path="account/:id" element={<Account />} /> */}
+            <Route path="account/:id" element={<AccountLayout />}>
+              <Route index={true} element={<Account />} />
+              <Route path="history" element={<AccountHistoryLayout />}>
+                <Route index={true} element={<AccountFlights />} />
+                <Route path="stays" element={<AccountStays />} />
+              </Route>
+              <Route path="payment" element={<AccountPayment />} />
+            </Route>
+            <Route path="allcities" element={<AllCities />} />
+            <Route path="*" element={<NotFoundPage />} />
             <Route path="CountryHotels/:countryTitle" element={<AddHotels />} />
             <Route
               path="CountryHotels/:countryTitle/hotelDetials/:id"

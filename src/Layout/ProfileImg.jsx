@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { accountAvatar } from "../assets/images";
 import profile1 from "./ProfileAvatars/profile1.jpg";
 import profile2 from "./ProfileAvatars/profile2.jpg";
@@ -11,8 +11,11 @@ import profile8 from "./ProfileAvatars/profile8.jpg";
 import profile9 from "./ProfileAvatars/profile9.jpg";
 import profile10 from "./ProfileAvatars/profile10.jpg";
 import Modalimgs from "./Modalimgs";
+import { searchContext } from "./../store/searchStore";
 export const ProfileImg = () => {
-  const [ProfileAvatar, setAvatar] = useState(accountAvatar);
+  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
+    useContext(searchContext);
+  const [ProfileAvatar, setAvatar] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   console.log(modalShow);
   function addCover(x) {
@@ -30,21 +33,37 @@ export const ProfileImg = () => {
     profile9,
     profile10,
   ];
+  useEffect(() => {
+    if (ProfileAvatar !== null) {
+      updateCurrentUser({ profileImg: ProfileAvatar });
+      setCurrentUserObj({ ...currentUserObj, profileImg: ProfileAvatar });
+    }
+  }, [ProfileAvatar]);
+
   return (
     <div className="account__avatar d-flex flex-column align-items-center ">
       <img
-        src={ProfileAvatar}
+        src={currentUserObj?.profileImg}
         alt=""
         className="account__avatar__img rounded-circle"
         onClick={() => setModalShow(true)}
       />
-      <div className="text-center">
-        <h4 className="m-0">Mahmoud Serag</h4>
-        <p>mmmmmmmmmmmmmm hhhhhhhhhhh</p>
+      <div
+        className={
+          currentUserObj.firstName === undefined
+            ? "d-none"
+            : "text-center mb-2 avatarName "
+        }
+      >
+        <h4 className="m-0">{`${
+          currentUserObj.firstName !== undefined ? currentUserObj.firstName : ""
+        } ${
+          currentUserObj.lastName !== undefined ? currentUserObj.lastName : ""
+        }`}</h4>
       </div>
       <Modalimgs
-       show={modalShow}
-       onHide={() => setModalShow(false)}
+        show={modalShow}
+        onHide={() => setModalShow(false)}
         imgsCovres={profileImgs}
         addCover={addCover}
       />

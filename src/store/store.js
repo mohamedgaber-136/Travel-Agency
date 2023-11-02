@@ -7,23 +7,28 @@ export default function AddHotelsProvider(props){
     const {searchData}=useContext(searchContext)
     const [addHotels,setAddHotels]=useState([])
     const[hotelObj,setHotelObj]=useState({})
-
+    let [isFavorites,setIsFavorites]=useState(false)
+    const isFavoritesClick=()=>{
+        hotelObj.isFav= !hotelObj.isFav
+    // isFavorites = !isFavorites
+    setIsFavorites(hotelObj.isFav)
+    }
     const getHotels= async() =>{
         console.log(searchData.destination)
         const options = {
             method: 'GET',
             headers: {
-                'X-RapidAPI-Key': '4914fa0e31mshe8d9a281d6baf68p162f1ejsn1b496b986012',
+                'X-RapidAPI-Key': 'd2bbef58f4msh9acc2a7990e776ep114c48jsnfa0cf59d669c',
                 'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
             }
         };
           const resId= await fetch(`https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=${searchData.destination}`,options)     
-          const getResId= await resId.json()
-          const cityId = await getResId.data[0].geoId
+          const getResId= await resId?.json()
+          const cityId = await getResId?.data[0]?.geoId
           console.log(cityId)
           const res = await fetch(`https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels?geoId=${cityId}8&checkIn=2023-11-09&checkOut=2023-11-11&pageNumber=1&currencyCode=USD`,options) 
-          const data =await res.json();
-          setAddHotels([...data.data.data])
+          const data =await res?.json();
+          setAddHotels([...data?.data?.data])
           console.log(data,"aya a7ga")
           console.log(addHotels)
     }
@@ -32,17 +37,17 @@ export default function AddHotelsProvider(props){
         const options = {
           method: 'GET',
           headers: {
-            'X-RapidAPI-Key': '4914fa0e31mshe8d9a281d6baf68p162f1ejsn1b496b986012',
+            'X-RapidAPI-Key': 'd2bbef58f4msh9acc2a7990e776ep114c48jsnfa0cf59d669c',
             'X-RapidAPI-Host': 'tripadvisor16.p.rapidapi.com'
       }
   };
   // 21213729
   const res = await fetch(url,options) 
   const data =await res.json();
-  setHotelObj({...data.data})
+  setHotelObj({...data.data,isFav:false})
   console.log(data.data)
       }
-    return <addHotelsContext.Provider value={{addHotels,getHotels,getHotelsObj,hotelObj}}>
+    return <addHotelsContext.Provider value={{addHotels,getHotels,getHotelsObj,hotelObj,isFavoritesClick,isFavorites}}>
         {props.children}
          </addHotelsContext.Provider>
 }
