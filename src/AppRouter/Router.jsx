@@ -23,20 +23,17 @@ import NotFoundPage from "../Pages/notFound/notFound";
 const AppRouter = () => {
   return (
     <BrowserRouter>
-      <NavigationBar />
-
       <SearchContextProvider>
-        <Routes>
-          <Route path="/" element={<LandingPage />} />
-          <Route path="login" element={<LoginPage />} />
-          <Route path="signUp" element={<SignUpPage />} />
-          <Route path="bookingDetails" element={<BookingDetails />} />
-          <Route path="account" element={<Account />} />
-          <Route path="allcities" element={<AllCities />} />
-          <Route path="*" element={<NotFoundPage />} />
-        </Routes>
+        <NavigationBar />
         <AddHotelsProvider>
           <Routes>
+            <Route path="/" element={<LandingPage />} />
+            <Route path="login" element={<LoginPage />} />
+            <Route path="signUp" element={<SignUpPage />} />
+            <Route path="bookingDetails" element={<BookingDetails />} />
+            <Route path="account/:id" element={<Account />} />
+            <Route path="allcities" element={<AllCities />} />
+            <Route path="*" element={<NotFoundPage />} />
             <Route path="CountryHotels/:countryTitle" element={<AddHotels />} />
             <Route
               path="CountryHotels/:countryTitle/hotelDetials/:id"

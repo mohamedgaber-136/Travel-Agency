@@ -1,7 +1,7 @@
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { accountAvatar, accountBg } from "../assets/images";
-import React, { useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Outlet } from "react-router";
 import { NavLink } from "react-router-dom";
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
@@ -13,13 +13,24 @@ import img7 from "./CoverImgs/pexels-sam-kolder-2387873.jpg";
 import img8 from "./CoverImgs/pexels-francesco-ungaro-2325446.jpg";
 import Modalimgs from "./Modalimgs";
 import { ProfileImg } from "./ProfileImg";
+import { searchContext } from "../store/searchStore";
 const AccountLayout = () => {
-  const [Cover, setCover] = useState(accountBg);
+  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
+    useContext(searchContext);
+  const [Cover, setCover] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const imgsCovres = [img1, img2, img3, img4, img6, img7, img8];
   function addCover(x) {
     setCover(x);
   }
+
+  useEffect(() => {
+    console.log(Cover, "cover");
+    if (Cover !== null) {
+      updateCurrentUser({ coverImg: Cover });
+      setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
+    }
+  }, [Cover]);
 
   return (
     <>
@@ -32,7 +43,7 @@ const AccountLayout = () => {
           <div className="pt-4 ">
             <div
               style={{
-                backgroundImage: `url(${Cover})`,
+                backgroundImage: `url(${currentUserObj?.coverImg})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
               }}
