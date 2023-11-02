@@ -5,9 +5,10 @@ import "../Login/Login.css";
 import "./SignUp.css";
 import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
-import { addDoc, collection, getDocs, query, where } from "@firebase/firestore";
+import { addDoc, getDocs, query, where } from "@firebase/firestore";
 import { Link, useNavigate } from "react-router-dom";
-import { getStorage, ref } from "firebase/storage";
+import swal from "sweetalert";
+import { accountAvatar, accountBg } from "../../assets/images";
 
 function SignUpPage() {
   const navigate = useNavigate();
@@ -26,29 +27,18 @@ function SignUpPage() {
     confirmPassword: "",
     phone: "",
     address: "",
-    profileImg: "",
-    coverImg: "",
+    profileImg: accountAvatar,
+    coverImg: accountBg,
     birthDate: "",
     bookinds: [],
     favourites: [],
     cards: [],
   });
 
+  let interv;
+
   useEffect(() => {
     console.log(submitEnabled, "submit");
-
-    // setErrors({
-    //   emailError: !userObject.email.match(
-    //     /^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/
-    //   )
-    //     ? "please Enter Valid Email"
-    //     : null,
-    //   passwordError:
-    //     userObject.password.length < 6
-    //       ? "Passwords Should Be 6 characters At Least"
-    //       : "",
-    //   licenesError: !checkLicenes ? "Please Accepte Policies" : "",
-    // });
 
     if (
       userObject.firstName === "" ||
@@ -63,7 +53,10 @@ function SignUpPage() {
     } else if (
       userObject.password.length < 6 ||
       userObject.password !== userObject.confirmPassword ||
-      !userObject.email.match(/^[a-zA-Z]+[a-zA-Z0-9]*@[a-z]+\.[a-z]+/)
+      !userObject.email.match(/^[a-zA-Z]+[a-zA-Z0-9-_.]*@[a-z]+\.[a-z]+/) ||
+      !userObject.firstName.match(/^[a-zA-Z]{3,}/) ||
+      !userObject.lastName.match(/^[a-zA-Z]{3,}/) ||
+      !userObject.phone.match(/^[0-9]{9,}/)
     ) {
       setErrorMessage("");
       setSubmitEnabled(false);
@@ -74,11 +67,6 @@ function SignUpPage() {
       setErrorMessage("");
       setSubmitEnabled(true);
     }
-
-    //   phoneError:
-    //     userObject.phone === "" || typeof userObject.phone != number
-    //       ? "Please Enter a valid Phone"
-    //       : "",
   }, [userObject, checkLicenes, submitEnabled]);
 
   function userSignUp(event) {
@@ -96,19 +84,48 @@ function SignUpPage() {
         if (snapshot.docs.length > 0) {
           setErrorMessage("This Email or Phone Is Already In Use");
         } else {
+          swal({
+            icon: "success",
+            button: false,
+            closeOnClickOutside: false,
+            timer: 2000,
+            // content: (
+            //   <div class="progressbar">
+            //     <svg class="progressbar__svg">
+            //       <circle
+            //         cx="80"
+            //         cy="80"
+            //         r="70"
+            //         class="progressbar__svg-circle circle-html shadow-html"
+            //       ></circle>
+            //     </svg>
+            //     <span class="progressbar__text shadow-html">
+            //       Sign Up Succssfully
+            //     </span>
+            //   </div>
+            // ),
+          }).then(() => navigate("/"));
+
+          // interv = setTimeout(() => {
+          //   navigate("/");
+          // }, 2000);
+
           addDoc(usersReference, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
             // sessionStorage.setItem("currentUser", snapshot.id);
             localStorage.setItem("currentUser", snapshot.id);
             setCurrentUserObj({ ...userObject, id: snapshot.id });
-            navigate("/");
           });
         }
       });
     }
-
-    // sessionStorage.setItem("currentUser", "MBBTUT1Njk33i6BB3uKr");
   }
+
+  useEffect(() => {
+    return () => {
+      clearTimeout(interv);
+    };
+  }, []);
 
   return (
     <>
@@ -126,29 +143,6 @@ function SignUpPage() {
               backgroundSize: "cover",
             }}
           />
-          {/* <button
-            onClick={() => {
-              // Create a root reference
-              const storage = getStorage();
-
-              // Create a reference to 'mountains.jpg'
-              const mountainsRef = ref(storage, "loginImg.png");
-
-              // Create a reference to 'images/mountains.jpg'
-              // const mountainImagesRef = ref(
-              //   storage,
-              //   "loginImg.png"
-              // );
-
-              // console.log(mountainImagesRef, "data");
-
-              // While the file names are the same, the references point to different files
-              // mountainsRef.name === mountainImagesRef.name;           // true
-              // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false
-            }}
-          >
-            Upload image
-          </button> */}
 
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 h-100 bg-light"
@@ -165,6 +159,7 @@ function SignUpPage() {
                 placeholder="Firstname"
                 type="text"
                 class="form-control"
+                title="First Name Can Not Be Less Than 3 And Only Charachters"
                 onChange={(event) =>
                   setUserObject({
                     ...userObject,
@@ -178,8 +173,12 @@ function SignUpPage() {
                 placeholder="Lastname"
                 type="text"
                 class="form-control"
+                title="Last Name Can Not Be Less Than 3 And Only Charachters"
                 onChange={(event) =>
-                  setUserObject({ ...userObject, lastName: event.target.value })
+                  setUserObject({
+                    ...userObject,
+                    lastName: event.target.value,
+                  })
                 }
               />
             </div>
@@ -189,6 +188,7 @@ function SignUpPage() {
                 type="email"
                 className="form-control "
                 placeholder="Enter your Email"
+                title="Email Should Include @"
                 required
                 onChange={(event) => {
                   setUserObject({ ...userObject, email: event.target.value });
@@ -212,6 +212,7 @@ function SignUpPage() {
               type="text"
               className="form-control "
               placeholder="Enter your Phone"
+              title="Phone Can Not Be Less Than 9"
               required
               onChange={(event) =>
                 setUserObject({ ...userObject, phone: event.target.value })
@@ -358,3 +359,27 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
+
+/* <button
+            onClick={() => {
+              // Create a root reference
+              const storage = getStorage();
+
+              // Create a reference to 'mountains.jpg'
+              const mountainsRef = ref(storage, "loginImg.png");
+
+              // Create a reference to 'images/mountains.jpg'
+              // const mountainImagesRef = ref(
+              //   storage,
+              //   "loginImg.png"
+              // );
+
+              // console.log(mountainImagesRef, "data");
+
+              // While the file names are the same, the references point to different files
+              // mountainsRef.name === mountainImagesRef.name;           // true
+              // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false
+            }}
+          >
+            Upload image
+          </button> */

@@ -6,6 +6,7 @@ import {
   getDoc,
   getFirestore,
   onSnapshot,
+  updateDoc,
 } from "firebase/firestore";
 
 const firebaseConfig = {
@@ -49,15 +50,28 @@ export default function SearchContextProvider(props) {
   const currentRef = doc(database, "users", currentUserObj?.id);
   onSnapshot(currentRef, (snapshot) => {
     console.log(snapshot.data(), "snapshot listen");
+    // setCurrentUserObj(snapshot.data());
   });
   //   }
   // }, [currentUserObj.id]);
 
   // to update the user data
-  // const docRef = doc(database, "users", "iPEM2P83CxXFucngXpWq");
-  // updateDoc(docRef, { address: "Hello From The Other Side" }).then(
-  // (snapshot) => console.log(snapshot)
-  //   );
+  const updateCurrentUser = (change) => {
+    if (currentUserObj?.id !== "0") {
+      updateDoc(currentRef, { ...change }).then((snapshot) => {
+        // setCurrentUserObj(snapshot.data());
+        console.log(snapshot, "update");
+      });
+    }
+  };
+
+  function isLoggedUser() {
+    if (currentUserObj.id === "0") {
+      return false;
+    } else {
+      return true;
+    }
+  }
 
   return (
     <searchContext.Provider
@@ -67,6 +81,8 @@ export default function SearchContextProvider(props) {
         database,
         setCurrentUserObj,
         usersReference,
+        currentUserObj,
+        updateCurrentUser,
       }}
     >
       {props.children}

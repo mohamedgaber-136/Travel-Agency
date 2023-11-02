@@ -1,8 +1,8 @@
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
 import { accountAvatar, accountBg } from "../assets/images";
-import React, { useState } from "react";
-import { Outlet } from "react-router";
+import React, { useContext, useEffect, useState } from "react";
+import { Outlet, useParams } from "react-router";
 import { NavLink } from "react-router-dom";
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
 import img2 from "./CoverImgs/pexels-lumn-167699.jpg";
@@ -13,13 +13,25 @@ import img7 from "./CoverImgs/pexels-sam-kolder-2387873.jpg";
 import img8 from "./CoverImgs/pexels-francesco-ungaro-2325446.jpg";
 import Modalimgs from "./Modalimgs";
 import { ProfileImg } from "./ProfileImg";
+import { searchContext } from "../store/searchStore";
 const AccountLayout = () => {
-  const [Cover, setCover] = useState(accountBg);
+  const { id } = useParams();
+  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
+    useContext(searchContext);
+  const [Cover, setCover] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const imgsCovres = [img1, img2, img3, img4, img6, img7, img8];
   function addCover(x) {
     setCover(x);
   }
+
+  useEffect(() => {
+    console.log(Cover, "cover");
+    if (Cover !== null) {
+      updateCurrentUser({ coverImg: Cover });
+      setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
+    }
+  }, [Cover]);
 
   return (
     <>
@@ -32,7 +44,7 @@ const AccountLayout = () => {
           <div className="pt-4 ">
             <div
               style={{
-                backgroundImage: `url(${Cover})`,
+                backgroundImage: `url(${currentUserObj?.coverImg})`,
                 backgroundPosition: "center",
                 backgroundSize: "cover",
               }}
@@ -43,7 +55,6 @@ const AccountLayout = () => {
                 htmlFor="upload"
                 className="d-flex mb-4 me-3 gap-2 py-2 px-4 rounded-3 z-3 bg-info align-items-center account__btn"
                 onClick={() => setModalShow(true)}
-
               >
                 <svg
                   xmlns="http://www.w3.org/2000/svg"
@@ -61,33 +72,35 @@ const AccountLayout = () => {
                 </svg>
                 Set a new cover
               </label>
-               <Modalimgs
-                   show={modalShow}
-                   onHide={() => setModalShow(false)}
-                   imgsCovres={imgsCovres}
-                   addCover={addCover}
-                 />
+              <Modalimgs
+                show={modalShow}
+                onHide={() => setModalShow(false)}
+                imgsCovres={imgsCovres}
+                addCover={addCover}
+              />
             </div>
           </div>
         </Container>
         <Container>
-            <ProfileImg />
+          <ProfileImg />
           <div className="account__selection px-4 account__main-links">
             <NavLink
-              to="/account"
+              to={"/account/" + id}
               end
               className="account__brdr position-relative py-3 w-33"
             >
               <h4>Account</h4>
             </NavLink>
             <NavLink
-              to="/account/history"
+              to={`/account/${id}/history`}
+              // to="/account/history"
               className="account__brdr line py-3 w-33"
             >
               <h4>History</h4>
             </NavLink>
             <NavLink
-              to="/account/payment"
+              to={`/account/${id}/payment`}
+              // to="/account/payment"
               className="account__brdr line py-3 w-33"
             >
               <h4>Payment method</h4>

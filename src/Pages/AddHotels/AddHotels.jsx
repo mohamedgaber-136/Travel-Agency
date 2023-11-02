@@ -1,20 +1,24 @@
-import React, { useContext} from 'react'
+import React, { useContext, useEffect} from 'react'
 import locationIcon from './Location.png'
 import unFillFav from './Vector.png'
+import FillFav from '../HotelDetails/assets/heart.png'
 import "./addhotels.css"
 import { SearchForm } from '../../Components/SearchForm/SearchForm'
 import { useNavigate, useParams } from 'react-router-dom'
 import {addHotelsContext } from '../../store/store'
 import { Helmet } from "react-helmet";
-
+import Loading from '../../Components/Loading/Loading'
 export default function AddHotels() {
     const {countryTitle} =useParams()
     const navigate =useNavigate()
-    const {addHotels,getHotels}=useContext(addHotelsContext)
+    const {addHotels,getHotels ,isFavorites ,isFavoritesClick}=useContext(addHotelsContext)
     const goToDetails =(id)=>{
     navigate(`hotelDetials/${id}`)
     }
-    
+    useEffect(()=>{
+      console.log(countryTitle)
+      // getHotels()
+    })
   return (
     <>
       {" "}
@@ -31,8 +35,8 @@ export default function AddHotels() {
         >
           <SearchForm />
         </div>
-            <button onClick={()=>getHotels()}>Get Data</button>
-        {addHotels?.map(hotel=><div key={hotel.id} className='container p-3'>
+       {addHotels.length?
+        addHotels?.map(hotel=><div key={hotel.id} className='container p-3'>
             <div className='card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start'>
                 <div className=''>
                     <img  src={`${hotel.cardPhotos[0]?.sizes.urlTemplate.replace('{width}','300').replace('{height}','300')}`} alt="" />
@@ -63,19 +67,10 @@ export default function AddHotels() {
                     </div>
                         
                     <div className='d-flex flex-row mt-5 gap-2 '>
-                    <div style={{
-                            // width:'50px',
-                            height:'50px',
-                            border:'1px solid #3EB489',
-                            borderRadius:'5px',
-                            // padding:'2px',
-                            display:"flex",
-                            justifyContent:'center',
-                            alignItems:'center',
-                        }} className='col-3 col-md-1'>
-                           <img src={unFillFav} alt="" /> 
+                    <div onClick={isFavoritesClick} className='col-3 col-md-1 favIcon'>
+                           {isFavorites?<img src={FillFav} alt="" />:<img src={unFillFav} alt="" />} 
                         </div>
-                        <button onClick={()=>goToDetails(hotel.id   )} className='col-9 col-md-11' style={{
+                        <button onClick={()=>goToDetails(hotel.id)} className='col-9 col-md-11' style={{
                             backgroundColor:'#3EB489',
                             color:'black',
                             borderRadius:'5px',
@@ -84,7 +79,7 @@ export default function AddHotels() {
                     </div>
                 </div>
             </div>
-        </div>)}
+        </div>):<Loading/>}
     </div>
     </>
 
