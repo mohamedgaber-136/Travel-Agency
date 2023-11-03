@@ -54,6 +54,7 @@ const AppRouter = () => {
               <Route path="login" element={<LoginLazy />} />
               <Route path="signUp" element={<SignUpLazy />} />
               <Route path="bookingDetails" element={<BookingDetails />} />
+              
               {/* <Route path="account/:id" element={<Account />} /> */}
               <Route path="account/:id" element={<AccountLazy />}>
                 <Route index={true} element={<Account />} />
