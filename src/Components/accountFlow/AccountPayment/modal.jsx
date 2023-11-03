@@ -50,7 +50,7 @@ export default function PaymentModal(props) {
                 className="name placeStyle rounded-2 ps-2"
                 placeholder="Jon Doe"
               />
-              <div class="input-group d-flex">
+              <div className="input-group d-flex">
                 <div className="col">
                   <label className="text fw-normal  labelText">
                     Country Or Region
@@ -73,9 +73,9 @@ export default function PaymentModal(props) {
       </Modal.Body>
       <Modal.Footer>
         <div className="text">
-          <div class="form-check">
+          <div className="form-check">
             <input
-              class="form-check-input input ps-2"
+              className="form-check-input input ps-2"
               type="checkbox"
               value=""
               id="flexCheckIndeterminate"

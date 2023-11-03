@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Container } from "react-bootstrap";
 import "./index.css";
 import AccountInfo from "../../../Components/accountFlow/accountInfo/accountInfo";
@@ -6,25 +6,36 @@ import { Helmet } from "react-helmet";
 import { searchContext } from "../../../store/searchStore";
 import { Navigate } from "react-router-dom";
 import { Suspense } from "react";
-import AccountLayout from '../../../Layout/accountLayout'
+import AccountLayout from "../../../Layout/accountLayout";
+
+const initialObj = {
+  firstName: "",
+  email: "",
+  password: "",
+  phone: "",
+};
 const Account = () => {
   const { currentUserObj, authorized } = useContext(searchContext);
-  const [inputs, setInputs] = useState(currentUserObj);
-  const [errorMessage, setErrorMessage] = useState({
-    firstName: "",
-    email: "",
-    password: "",
-    phone: "",
-  });
-  console.log(authorized)
-  if (!authorized) {
-    return <Navigate to="/login" />;
-  }
+
+  const [inputs, setInputs] = useState(initialObj);
+  const [errorMessage, setErrorMessage] = useState(initialObj);
+
+  useEffect(() => {
+    if (currentUserObj?.id === "0") {
+      return;
+    } else {
+      setInputs({ ...inputs, ...currentUserObj });
+    }
+  }, [currentUserObj]);
+  // if (!authorized) {
+  //   return <Navigate to="/login" />;
+  // }
+
   return (
     <Suspense
       fallback={
         <div className="d-flex justify-content-center align-items-center LoaderParent">
-          <div class="loader"></div>
+          <div className="loader"></div>
         </div>
       }
     >
@@ -33,12 +44,11 @@ const Account = () => {
         <title>Account-Information</title>
       </Helmet>
       <div className="bg pb-3">
-        <AccountLayout/>
+        {/* <AccountLayout/> */}
         <Container>
-          <h2 className="py-4">Account</h2>
           <div className="account__info rounded-3">
             <AccountInfo
-              label="Name"
+              label="First Name"
               name="firstName"
               inputs={inputs}
               setInputs={setInputs}
@@ -93,6 +103,7 @@ const Account = () => {
               label="Date of birth"
               content="01-01-1992"
               name="birthdate"
+              type="date"
               inputs={inputs}
               setInputs={setInputs}
               errorMessage={errorMessage}

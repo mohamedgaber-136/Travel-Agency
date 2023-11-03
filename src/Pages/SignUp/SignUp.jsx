@@ -13,7 +13,8 @@ import { accountAvatar, accountBg } from "../../assets/images";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const { setCurrentUserObj, usersReference ,setAuthorized } = useContext(searchContext);
+  const { setCurrentUserObj, usersReference, setAuthorized } =
+    useContext(searchContext);
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -84,7 +85,7 @@ function SignUpPage() {
         if (snapshot.docs.length > 0) {
           setErrorMessage("This Email or Phone Is Already In Use");
         } else {
-          setAuthorized(true)
+          setAuthorized(true);
           swal({
             icon: "success",
             button: false,
@@ -134,12 +135,12 @@ function SignUpPage() {
               <span>Signup now and get full access to our app.</span>
             </div>
 
-            <div class="d-flex w-100 gap-2">
+            <div className="d-flex w-100 gap-2">
               <input
                 required
                 placeholder="Firstname"
                 type="text"
-                class="form-control"
+                className="form-control"
                 title="First Name Can Not Be Less Than 3 And Only Charachters"
                 onChange={(event) =>
                   setUserObject({
@@ -153,7 +154,7 @@ function SignUpPage() {
                 required
                 placeholder="Lastname"
                 type="text"
-                class="form-control"
+                className="form-control"
                 title="Last Name Can Not Be Less Than 3 And Only Charachters"
                 onChange={(event) =>
                   setUserObject({

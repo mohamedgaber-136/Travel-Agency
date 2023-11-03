@@ -1,9 +1,9 @@
-import React, { useContext } from "react";
+import React, { useContext, useEffect } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
 import { NavigationBar } from "../Components/NavBar/Navbar";
 import AddHotels from "../Pages/AddHotels/AddHotels";
 import HotelDetials from "../Pages/HotelDetails/HotelDetials";
-import Account from "../Pages/accountFlow/Account";
+import Account from "../Pages/accountFlow/Account/accountPage";
 import { Footer } from "../Components/Footer/Footer";
 import AddHotelsProvider from "../store/store";
 import SearchContextProvider, { searchContext } from "../store/searchStore";
@@ -19,6 +19,7 @@ import NotFound from "../Pages/notFound/notFound";
 import LandingPage from "../Pages/Landing/LandingPage";
 // import AccountLayout from "../Layout/accountLayout";
 import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
+import AccountLayout from "../Layout/accountLayout";
 
 const AppRouter = () => {
   async function delayForDemo(promise) {
@@ -31,14 +32,14 @@ const AppRouter = () => {
     delayForDemo(import("../Pages/Landing/LandingPage"))
   );
   let AccountLazy = lazy(() =>
-    delayForDemo(import("../Pages/accountFlow/Account"))
+    delayForDemo(import("../Pages/accountFlow/Account/accountPage"))
   );
 
   return (
     <Suspense
       fallback={
         <div className="d-flex justify-content-center align-items-center LoaderParent">
-          <div class="loader"></div>
+          <div className="loader"></div>
         </div>
       }
     >
@@ -51,15 +52,18 @@ const AppRouter = () => {
               <Route path="login" element={<Login />} />
               <Route path="signUp" element={<SignUp />} />
               <Route path="bookingDetails" element={<BookingDetails />} />
-              
-              {/* <Route path="account/:id" element={<Account />} /> */}
-              <Route path="account/:id" element={<AccountLazy />}>
-              <Route path="history" element={<AccountHistoryLayout />}>
-                <Route index={true} element={<AccountFlights />} />
-                <Route path="stays" element={<AccountStays />} />
+
+              <Route path="account/:id" element={<AccountLayout />}>
+                <Route index={true} element={<Account />} />
+
+                <Route path="history" element={<AccountHistoryLayout />}>
+                  <Route index={true} element={<AccountFlights />} />
+                  <Route path="stays" element={<AccountStays />} />
+                </Route>
+                <Route path="payment" element={<AccountPayment />} />
               </Route>
-              <Route path="payment" element={<AccountPayment />} />
-              </Route>
+              {/* </Route> */}
+
               <Route path="allcities" element={<AllCities />} />
               <Route path="*" element={<NotFound />} />
               <Route
