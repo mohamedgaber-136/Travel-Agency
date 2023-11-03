@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
 // import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
@@ -14,19 +14,15 @@ import { Helmet } from "react-helmet";
 import { countries } from "../../data/country";
 import { Visa } from "../../assets/images";
 import { bookingSchema } from "./bookingValidation";
-import { searchContext } from "../../store/searchStore";
 // import * as yup from "yup";
 
 const BookingDetails = () => {
   // handle close modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
-    useContext(searchContext);
-  const [isValidData, setIsValidData] = useState(false);
 
   const [show, setShow] = useState(false);
-  // const [val, setVal] = useState("");
+  const [val, setVal] = useState("");
   const [formData, setFormData] = useState({
     // validation schema
     creditCard: "",
@@ -39,27 +35,17 @@ const BookingDetails = () => {
 
   // handle credi card input
   function cc_format(value) {
-    // function cc_format() {
-    // const v = formData.creditCard
     const v = value
       .replace(/\s+/g, "")
       .replace(/[^0-9]/gi, "")
-      .slice(0, 16);
-    // .substr(0, 16);
+      .substr(0, 16);
     const parts = [];
 
     for (let i = 0; i < v.length; i += 4) {
-      // if (i !== v.length - 1) {
-      console.log(v.substr(i, 4), "subpart");
-      console.log(parts, "parts");
-      // parts.push(v.slice(i, 4));
       parts.push(v.substr(i, 4));
-      // }
     }
 
-    // return parts.length > 1 ? parts.join(" ") : formData.creditCard;
     return parts.length > 1 ? parts.join(" ") : value;
-    // return parts.length > 1 ?parts.replace() : value;
   }
 
   // form validation
@@ -67,30 +53,11 @@ const BookingDetails = () => {
     e.preventDefault();
     console.log(formData, "rrrrrr");
 
-    // const isValid = await bookingSchema.isValid(formData);
-    setIsValidData(await bookingSchema.isValid(formData));
-    console.log(isValidData);
+    const isValid = await bookingSchema.isValid(formData);
+    console.log(isValid);
 
-    if (isValidData) {
+    if (isValid) {
       handleClose();
-
-      console.log(currentUserObj, "adduser");
-      updateCurrentUser({
-        cards: formData,
-      });
-
-      setFormData({
-        creditCard: "",
-        cvc: "",
-        expireDate: "",
-        username: "",
-        country: "",
-        license: "",
-      });
-      // setCurrentUserObj({
-      //   ...currentUserObj,
-      //   cards: formData,
-      // });
     }
   };
 
@@ -246,21 +213,15 @@ const BookingDetails = () => {
                       type="text"
                       className="rounded-2 placeStyle  form-control"
                       placeholder="4321 4321 4321 4321"
-                      maxLength={19}
-                      // value={cc_format(val)}
-                      value={cc_format(formData.creditCard)}
+                      // maxLength={14}
+                      value={cc_format(val)}
                       // defaultValue={cardNum}
-                      // pattern="[0-9 ]+"
                       onChange={(e) => {
-                        // setVal(e.target.value);
-                        const str = e.target.value.replace(/\s/g, "");
-
-                        if (!isNaN(str)) {
-                          setFormData({
-                            ...formData,
-                            creditCard: str,
-                          });
-                        }
+                        setFormData({
+                          ...formData,
+                          creditCard: e.target.value,
+                        });
+                        setVal(e.target.value);
                       }}
                       required
                     />
@@ -295,13 +256,10 @@ const BookingDetails = () => {
                         type="number"
                         className="me-2 w-100 placeStyle  rounded-2  form-control"
                         placeholder="456"
-                        value={formData.cvc}
                         onChange={(e) => {
-                          if (e.target.value.length <= 3) {
-                            setFormData({ ...formData, cvc: e.target.value });
-                          }
+                          setFormData({ ...formData, cvc: e.target.value });
                         }}
-                        maxLength={3}
+                        maxLength={"3"}
                         required
                       />
                     </div>

@@ -65,11 +65,11 @@
   width: 100%;
   height: 100%;
   fill: none;
-  stroke-width: 10;
+  strokewidth: 10;
   stroke-dasharray: 440;
   stroke-dashoffset: 440;
   stroke: white;
-  stroke-linecap: round;
+  strokelinecap: round;
   transform: translate(5px, 5px);
 }
 

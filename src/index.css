@@ -16,6 +16,10 @@ code {
   --mint-green: #8dd3bb;
 }
 
+.cursor-pointer {
+  cursor: pointer;
+}
+
 input[type="checkbox"]:checked {
   background-color: var(--mint-green) !important;
   /* color: black !important; */
@@ -76,7 +80,7 @@ input[type="checkbox"]:checked:after {
 }
 
 .loader::after {
-  content: '';
+  content: "";
   width: 48px;
   height: 48px;
   left: 0;
@@ -90,7 +94,7 @@ input[type="checkbox"]:checked:after {
 }
 
 .loader::before {
-  content: '';
+  content: "";
   box-sizing: border-box;
   position: absolute;
   left: 0;

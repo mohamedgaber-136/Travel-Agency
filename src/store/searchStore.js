@@ -1,4 +1,4 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useCallback, useEffect, useState } from "react";
 import { initializeApp } from "@firebase/app";
 import {
   collection,
@@ -27,31 +27,39 @@ export default function SearchContextProvider(props) {
   initializeApp(firebaseConfig);
   const database = getFirestore();
   //   const authbase = getAuth();
+
   const usersReference = collection(database, "users");
 
+  const userID = localStorage.getItem("currentUser");
+
+  const getUserData = () => {
+    const currentRef = doc(database, "users", userID);
+    getDoc(currentRef).then((snapshot) => {
+      console.log(snapshot.data(), "snap");
+      setCurrentUserObj({ ...snapshot.data(), id: userID });
+    });
+  };
+
+  const currentRef = doc(database, "users", currentUserObj?.id);
   useEffect(() => {
     if (currentUserObj?.id === "0") {
       // const userID = sessionStorage.getItem("currentUser");
-      const userID = localStorage.getItem("currentUser");
       if (userID !== null) {
-        const currentRef = doc(database, "users", userID);
-        getDoc(currentRef).then((snapshot) => {
-          console.log(snapshot.data(), "snap");
-          setCurrentUserObj({ ...snapshot.data(), id: userID });
-        });
+        getUserData();
       } else {
         console.log("no snapshot");
       }
     }
-  }, [currentUserObj]);
+  }, []);
+  onSnapshot(currentRef, (snapshot) => {
+    console.log(snapshot.data(), "snapshot listen");
+
+    // setCurrentUserObj(snapshot.data());
+    // setX("djkhjkh");
+  });
 
   // useEffect(() => {
   //   if (currentUserObj.id !== "0") {
-  const currentRef = doc(database, "users", currentUserObj?.id);
-  onSnapshot(currentRef, (snapshot) => {
-    console.log(snapshot.data(), "snapshot listen");
-    // setCurrentUserObj(snapshot.data());
-  });
   //   }
   // }, [currentUserObj.id]);
 
@@ -59,8 +67,8 @@ export default function SearchContextProvider(props) {
   const updateCurrentUser = (change) => {
     if (currentUserObj?.id !== "0") {
       updateDoc(currentRef, { ...change }).then((snapshot) => {
-        // setCurrentUserObj(snapshot.data());
-        console.log(snapshot, "update");
+        getUserData();
+        console.log("first");
       });
     }
   };
@@ -89,7 +97,7 @@ export default function SearchContextProvider(props) {
         updateCurrentUser,
         authorized,
         setAuthorized,
-        delayForDemo
+        delayForDemo,
       }}
     >
       {props.children}

@@ -75,6 +75,15 @@
   line-height: normal;
   opacity: 0.75;
 }
+@media (max-width: 575px) {
+  .account__brdr {
+    padding: 0 10px !important;
+  }
+  .account__brdr > h4 {
+    font-size: 13px;
+    text-align: left !important;
+  }
+}
 
 .bg {
   background: #fafbfc;
@@ -121,11 +130,11 @@
   padding: 10px;
   border-radius: 12px;
 }
-[ aria-labelledby="contained-modal-title-vcenter"]{
+[aria-labelledby="contained-modal-title-vcenter"] {
   z-index: 20;
 }
 @media (max-width: 767px) {
-  .coverBox{
+  .coverBox {
     width: 70px !important;
     height: 70px !important;
   }
