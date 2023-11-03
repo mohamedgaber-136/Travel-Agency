@@ -92,7 +92,7 @@ const AccountLayout = () => {
               end
               className="account__brdr position-relative py-3 w-33"
             >
-              <h4 className="text-center">Account</h4>
+              <h4 className="text-center ">Account</h4>
             </NavLink>
             <NavLink
               to={`/account/${id}/history`}
