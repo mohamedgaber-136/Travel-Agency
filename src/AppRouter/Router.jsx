@@ -16,7 +16,7 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import AllCities from "../Pages/AllCities/AllCities";
 import NotFound from "../Pages/notFound/notFound";
-import AccountLayout from "../Layout/accountLayout";
+// import AccountLayout from "../Layout/accountLayout";
 import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
 
 const AppRouter = () => {
@@ -25,22 +25,9 @@ const AppRouter = () => {
       setTimeout(resolve, 2000);
     }).then(() => promise);
   }
-  let LoginLazy = lazy(() => delayForDemo(import("../Pages/Login/Login")));
-  let SignUpLazy = lazy(() => delayForDemo(import("../Pages/SignUp/SignUp")));
-  let AccountLazy = lazy(() => delayForDemo(import("../Layout/accountLayout")));
+
   let LandingLazy = lazy(() =>
     delayForDemo(import("../Pages/Landing/LandingPage"))
-  );
-  let AllCitiesLazy = lazy(() =>
-    delayForDemo(import("../Pages/AllCities/AllCities"))
-  );
-  let NotFoundLazy = lazy(() =>
-    delayForDemo(import("../Pages/notFound/notFound"))
-  );
-  let AccountPaymentLazy = lazy(() =>
-    delayForDemo(
-      import("../Components/accountFlow/AccountPayment/AccountPayment")
-    )
   );
 
   return (
@@ -60,14 +47,13 @@ const AppRouter = () => {
               <Route path="login" element={<Login />} />
               <Route path="signUp" element={<SignUp />} />
               <Route path="bookingDetails" element={<BookingDetails />} />
-              <Route path="account/:id" element={<Account />} />
-                <Route index={true} element={<Account />} />
-                <Route path="history" element={<AccountHistoryLayout />}>
-                  <Route index={true} element={<AccountFlights />} />
-                  <Route path="stays" element={<AccountStays />} />
-                </Route>
-                <Route path="payment" element={<AccountPayment />} />
-              </Routes>
+              {/* <Route path="account/:id" element={<Account />} /> */}
+              <Route index={true} element={<Account />} />
+              <Route path="history" element={<AccountHistoryLayout />}>
+                <Route index={true} element={<AccountFlights />} />
+                <Route path="stays" element={<AccountStays />} />
+              </Route>
+              <Route path="payment" element={<AccountPayment />} />
               <Route path="allcities" element={<AllCities />} />
               <Route path="*" element={<NotFound />} />
               <Route
