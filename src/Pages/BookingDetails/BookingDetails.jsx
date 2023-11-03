@@ -21,7 +21,8 @@ const BookingDetails = () => {
   // handle close modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  const { currentUserObj, setCurrentUserObj } = useContext(searchContext);
+  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
+    useContext(searchContext);
   const [isValidData, setIsValidData] = useState(false);
 
   const [show, setShow] = useState(false);
@@ -71,6 +72,13 @@ const BookingDetails = () => {
     console.log(isValidData);
 
     if (isValidData) {
+      handleClose();
+
+      console.log(currentUserObj, "adduser");
+      updateCurrentUser({
+        cards: formData,
+      });
+
       setFormData({
         creditCard: "",
         cvc: "",
@@ -79,19 +87,12 @@ const BookingDetails = () => {
         country: "",
         license: "",
       });
-
-      handleClose();
+      // setCurrentUserObj({
+      //   ...currentUserObj,
+      //   cards: formData,
+      // });
     }
   };
-
-  useEffect(() => {
-    if (isValidData) {
-      setCurrentUserObj({
-        ...currentUserObj,
-        cards: formData,
-      });
-    }
-  }, [isValidData]);
 
   return (
     <>
