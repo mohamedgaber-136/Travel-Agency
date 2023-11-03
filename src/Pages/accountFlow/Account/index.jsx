@@ -44,6 +44,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'text'}
             />
             <AccountInfo
               label="Last Name"
@@ -52,6 +53,8 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'text'}
+
             />
             <AccountInfo
               label="Email"
@@ -61,6 +64,8 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'text'}
+
             />
             <AccountInfo
               label="Password"
@@ -70,6 +75,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'password'}
             />
             <AccountInfo
               label="Phone number"
@@ -79,6 +85,8 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'text'}
+
             />
             <AccountInfo
               label="Address"
@@ -88,6 +96,8 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'text'}
+
             />
             <AccountInfo
               label="Date of birth"
@@ -97,6 +107,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
+              type={'text'}
             />
           </div>
         </Container>

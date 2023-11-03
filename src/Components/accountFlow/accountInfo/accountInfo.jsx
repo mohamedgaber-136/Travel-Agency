@@ -1,6 +1,5 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { searchContext } from "../../../store/searchStore";
-
 const AccountInfo = ({
   label,
   btn = false,
@@ -9,9 +8,11 @@ const AccountInfo = ({
   inputs,
   errorMessage,
   setErrorMessage,
+  type,
 }) => {
   const { updateCurrentUser } = useContext(searchContext);
   const [readOnly, setReadOnly] = useState(true);
+  const [checkState, setCheckState] = useState(true);
   const inputRef = useRef();
 
   const handleInputChange = (e) => {
@@ -64,7 +65,11 @@ const AccountInfo = ({
     updateCurrentUser(inputs);
     setReadOnly(true);
   };
-
+  useEffect(()=>{
+    return ()=> setReadOnly(true);
+    
+  },[])
+  console.log(readOnly,'readonly')
   return (
     <div className="d-flex align-items-center flex-wrap gap-2 justify-content-between pb-4">
       <div>
@@ -72,8 +77,12 @@ const AccountInfo = ({
         <div className="d-flex gap-2">
           <input
             ref={inputRef}
-            type="text"
-            className="border-0 px-2"
+            type={readOnly == false ? "text" : type}
+            className={
+              readOnly == false
+                ? "border-0 px-2 "
+                : "border-0 px-2 AccountInPut"
+            }
             value={inputs[name]}
             readOnly={readOnly}
             name={name}
