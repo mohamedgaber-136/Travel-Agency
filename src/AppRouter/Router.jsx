@@ -16,6 +16,7 @@ import Login from "../Pages/Login/Login";
 import SignUp from "../Pages/SignUp/SignUp";
 import AllCities from "../Pages/AllCities/AllCities";
 import NotFound from "../Pages/notFound/notFound";
+import LandingPage from "../Pages/Landing/LandingPage";
 // import AccountLayout from "../Layout/accountLayout";
 import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
 
@@ -28,6 +29,9 @@ const AppRouter = () => {
 
   let LandingLazy = lazy(() =>
     delayForDemo(import("../Pages/Landing/LandingPage"))
+  );
+  let AccountLazy = lazy(() =>
+    delayForDemo(import("../Pages/accountFlow/Account"))
   );
 
   return (
@@ -47,13 +51,14 @@ const AppRouter = () => {
               <Route path="login" element={<Login />} />
               <Route path="signUp" element={<SignUp />} />
               <Route path="bookingDetails" element={<BookingDetails />} />
-              {/* <Route path="account/:id" element={<Account />} /> */}
-              <Route index={true} element={<Account />} />
+              <Route path="account/:id" element={<AccountLazy />}>
+                <Route index={true} element={<Account />} />
               <Route path="history" element={<AccountHistoryLayout />}>
                 <Route index={true} element={<AccountFlights />} />
                 <Route path="stays" element={<AccountStays />} />
               </Route>
               <Route path="payment" element={<AccountPayment />} />
+              </Route>
               <Route path="allcities" element={<AllCities />} />
               <Route path="*" element={<NotFound />} />
               <Route

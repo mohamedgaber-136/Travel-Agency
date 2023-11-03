@@ -57,6 +57,7 @@ function LoginPage() {
               sessionStorage.setItem("currentUser", snapshot.docs[0].id);
             }
             navigate("/");
+            setAuthorized(true)
           } else {
             setErrorMessage("Password is Incorrect");
           }
