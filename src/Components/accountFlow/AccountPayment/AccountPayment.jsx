@@ -1,17 +1,24 @@
 import { Container } from "react-bootstrap";
 import "./accountPayment.css";
 import React from "react";
+import { useContext } from "react";
 import PaymentModal from "./modal";
-const AccountPayment = () => {
-  const [modalShow, setModalShow] = React.useState(false);
+import { Navigate } from "react-router-dom";
+import { searchContext } from "../../../store/searchStore";
 
+const AccountPayment = () => {
+  let { authorized } = useContext(searchContext);
+  const [modalShow, setModalShow] = React.useState(false);
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
   return (
     <div>
       <Container>
         <h2 className="py-3">AccountPayment</h2>
       </Container>
       <Container className="bg-white py-3 rounded-3 d-flex gap-3 visa-flex">
-        <div className="visa p-3 rounded-3 add-visa-width ">
+        <div className="payment__visa p-3 rounded-3 add-visa-width ">
           <div className="d-flex align-items-start justify-content-between visa-content">
             <div>
               <p className="mb-0 lh-sm">**** **** ****</p>

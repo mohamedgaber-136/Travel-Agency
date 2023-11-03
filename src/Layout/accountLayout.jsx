@@ -3,7 +3,7 @@ import { Helmet } from "react-helmet";
 import { accountAvatar, accountBg } from "../assets/images";
 import React, { useContext, useEffect, useState } from "react";
 import { Outlet, useParams } from "react-router";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
 import img2 from "./CoverImgs/pexels-lumn-167699.jpg";
 import img3 from "./CoverImgs/pexels-marta-wave-5876640.jpg";
@@ -16,7 +16,7 @@ import { ProfileImg } from "./ProfileImg";
 import { searchContext } from "../store/searchStore";
 const AccountLayout = () => {
   const { id } = useParams();
-  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
+  const { currentUserObj, setCurrentUserObj, updateCurrentUser, authorized } =
     useContext(searchContext);
   const [Cover, setCover] = useState(null);
   const [modalShow, setModalShow] = useState(false);
@@ -32,7 +32,9 @@ const AccountLayout = () => {
       setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
     }
   }, [Cover]);
-
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
   return (
     <>
       <Helmet>

@@ -1,4 +1,5 @@
-import { useRef, useState } from "react";
+import { useContext, useRef, useState } from "react";
+import { searchContext } from "../../../store/searchStore";
 
 const AccountInfo = ({
   label,
@@ -9,12 +10,17 @@ const AccountInfo = ({
   errorMessage,
   setErrorMessage,
 }) => {
+  const { updateCurrentUser } = useContext(searchContext);
   const [readOnly, setReadOnly] = useState(true);
   const inputRef = useRef();
 
   const handleInputChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
-    if (e.target.value === "") {
+    if (
+      e.target.value === "" &&
+      e.target.name !== "address" &&
+      e.target.name !== "birthdate"
+    ) {
       setErrorMessage({
         ...errorMessage,
         [e.target.name]: "value is required",
@@ -47,15 +53,16 @@ const AccountInfo = ({
         });
       } else {
         setErrorMessage({
-          name: "",
-          email: "",
-          password: "",
-          phone: "",
-          address: "",
-          birthdate: "",
+          ...errorMessage,
+          [e.target.name]: "",
         });
       }
     }
+  };
+
+  const handleSubmit = () => {
+    updateCurrentUser(inputs);
+    setReadOnly(true);
   };
 
   return (
@@ -74,7 +81,8 @@ const AccountInfo = ({
           />
           {!readOnly && (
             <button
-              onClick={() => setReadOnly(true)}
+              disabled={errorMessage[name]}
+              onClick={handleSubmit}
               className="btn btn-outline-primary d-flex py-1 px-3 align-items-center gap-1"
             >
               submit

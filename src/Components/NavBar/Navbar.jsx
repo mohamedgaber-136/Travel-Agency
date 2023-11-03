@@ -11,12 +11,14 @@ import { Button } from "react-bootstrap";
 
 export const NavigationBar = () => {
   let navigatation = useNavigate();
-  const { currentUserObj, setCurrentUserObj } = useContext(searchContext);
+  const { currentUserObj, setCurrentUserObj, setAuthorized } =
+    useContext(searchContext);
 
   const userLogOut = () => {
     localStorage.removeItem("currentUser");
     setCurrentUserObj({ id: "0" });
     navigatation("/");
+    setAuthorized(false);
   };
 
   return (

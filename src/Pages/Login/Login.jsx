@@ -10,7 +10,7 @@ import { getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
 
 function LoginPage() {
-  const { usersReference, setCurrentUserObj } = useContext(searchContext);
+  const { usersReference, setCurrentUserObj,setAuthorized } = useContext(searchContext);
 
   const navigate = useNavigate();
 
@@ -58,6 +58,7 @@ function LoginPage() {
             sessionStorage.setItem("currentUser", snapshot.docs[0].id);
           }
           navigate("/");
+          setAuthorized(true)
         } else {
           setErrorMessage("Password is Incorrect");
         }
