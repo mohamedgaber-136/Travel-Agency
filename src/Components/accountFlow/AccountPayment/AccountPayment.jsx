@@ -5,6 +5,7 @@ import { useContext } from "react";
 import PaymentModal from "./modal";
 import { Navigate } from "react-router-dom";
 import { searchContext } from "../../../store/searchStore";
+import AddCardModal from "../../addCardModal/addCardModal";
 
 const AccountPayment = () => {
   let { currentUserObj, authorized, updateCurrentUser } =
@@ -75,7 +76,7 @@ const AccountPayment = () => {
 
   return (
     <div>
-      <Container className="bg-white py-3 rounded-3 d-flex gap-3 visa-flex">
+      <Container className="bg-white py-3 rounded-3 ">
         <div className="row gy-4">
           {renderedCards}
 
@@ -110,7 +111,10 @@ const AccountPayment = () => {
           </div>
         </div>
 
-        <PaymentModal show={modalShow} onHide={() => setModalShow(false)} />
+        <AddCardModal
+          show={modalShow}
+          handleClose={() => setModalShow(false)}
+        />
       </Container>
     </div>
   );
