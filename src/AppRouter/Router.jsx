@@ -6,26 +6,25 @@ import HotelDetials from "../Pages/HotelDetails/HotelDetials";
 import Account from "../Pages/accountFlow/Account";
 import { Footer } from "../Components/Footer/Footer";
 import AddHotelsProvider from "../store/store";
-import SearchContextProvider from "../store/searchStore";
+import SearchContextProvider, { searchContext } from "../store/searchStore";
 import BookingDetails from "../Pages/BookingDetails/BookingDetails";
 import AccountHistoryLayout from "../Layout/AccountHistoryLayout";
 import AccountFlights from "../Components/accountFlow/AccountHistory/AccountHistory";
 import AccountStays from "../Components/accountFlow/accountStays/AccountStays";
 import { Suspense, lazy } from "react";
+import Login from "../Pages/Login/Login";
+import SignUp from "../Pages/SignUp/SignUp";
+import AllCities from "../Pages/AllCities/AllCities";
+import NotFound from "../Pages/notFound/notFound";
+import AccountLayout from "../Layout/accountLayout";
+import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
 
 const AppRouter = () => {
-  async function delayForDemo(promise) {
-    return new Promise((resolve) => {
-      setTimeout(resolve, 2000);
-    }).then(() => promise);
-  }
-  let LoginLazy = lazy(() => delayForDemo(import("../Pages/Login/Login")));
-  let SignUpLazy = lazy(() => delayForDemo(import("../Pages/SignUp/SignUp")));
-  let AccountLazy = lazy(() => delayForDemo(import("../Layout/accountLayout")));
-  let LandingLazy = lazy(() => delayForDemo(import("../Pages/Landing/LandingPage")));
-  let AllCitiesLazy = lazy(() => delayForDemo(import("../Pages/AllCities/AllCities")));
-  let NotFoundLazy = lazy(() => delayForDemo(import("../Pages/notFound/notFound")));
-  let AccountPaymentLazy = lazy(() => delayForDemo(import( "../Components/accountFlow/AccountPayment/AccountPayment")));
+  let { delayForDemo } = useContext(searchContext);
+
+  let LandingLazy = lazy(() =>
+    delayForDemo(import("../Pages/Landing/LandingPage"))
+  );
 
   return (
     <Suspense
@@ -41,20 +40,19 @@ const AppRouter = () => {
           <AddHotelsProvider>
             <Routes>
               <Route path="/" element={<LandingLazy />} />
-              <Route path="login" element={<LoginLazy />} />
-              <Route path="signUp" element={<SignUpLazy />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signUp" element={<SignUp />} />
               <Route path="bookingDetails" element={<BookingDetails />} />
-              {/* <Route path="account/:id" element={<Account />} /> */}
-              <Route path="account/:id" element={<AccountLazy />}>
+              <Route path="account/:id" element={<Account />} />
                 <Route index={true} element={<Account />} />
                 <Route path="history" element={<AccountHistoryLayout />}>
                   <Route index={true} element={<AccountFlights />} />
                   <Route path="stays" element={<AccountStays />} />
                 </Route>
-                <Route path="payment" element={<AccountPaymentLazy />} />
-              </Route>
-              <Route path="allcities" element={<AllCitiesLazy />} />
-              <Route path="*" element={<NotFoundLazy />} />
+                <Route path="payment" element={<AccountPayment />} />
+              </Routes>
+              <Route path="allcities" element={<AllCities />} />
+              <Route path="*" element={<NotFound />} />
               <Route
                 path="CountryHotels/:countryTitle"
                 element={<AddHotels />}

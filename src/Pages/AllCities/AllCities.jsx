@@ -7,7 +7,7 @@ import Loading from "../../Components/Loading/Loading";
 export default function AllCities() {
   const [cityImg, setCity] = useState([]);
   useEffect(() => {
-    getAllCities()
+    getAllCities();
   }, []);
   const getAllCities = async () => {
     let arr = [];
@@ -22,14 +22,14 @@ export default function AllCities() {
     // };
     // const res = await fetch(url, options);
     // const data = await res.json();
-    const cities = all.map(c => c.name)
-    for (let i = cities.length -1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i+1));
-      let k = cities  [i];
+    const cities = all.map((c) => c.name);
+    for (let i = cities.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let k = cities[i];
       cities[i] = cities[j];
       cities[j] = k;
     }
-    const spliceCities = cities.splice(0,25);
+    const spliceCities = cities.splice(0, 25);
     for (let i = 0; i < spliceCities.length; i++) {
       const res = await axios.get(
         `https://api.pexels.com/v1/search/?page=1&per_page=2&query=${spliceCities[i]}`,
@@ -50,6 +50,7 @@ export default function AllCities() {
     console.log(arr);
     setCity([...arr]);
   };
+ 
   return (
     <div className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center">
       {cityImg.length ? (

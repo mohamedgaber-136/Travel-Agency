@@ -11,12 +11,18 @@ import left from "../../assets/images/accountFlow/left.svg";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
 import { FloatingLabel, InputGroup } from "react-bootstrap";
 import { Helmet } from "react-helmet";
+import { searchContext } from "../../store/searchStore";
+import {Navigate } from "react-router-dom";
+import {useContext} from 'react'
 
 const BookingDetails = () => {
   const [show, setShow] = useState(false);
-
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
+  let {authorized}= useContext(searchContext)
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
   return (
     <>
       {" "}

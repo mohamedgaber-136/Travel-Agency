@@ -31,7 +31,7 @@ const Account = () => {
         <title>Account-Information</title>
       </Helmet>
       <div className="bg pb-3">
-        {/* <AccountLayout /> */}
+        <AccountLayout />
         <Container>
           <h2 className="py-4">Account</h2>
           <div className="account__info rounded-3">
