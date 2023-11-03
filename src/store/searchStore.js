@@ -72,7 +72,11 @@ export default function SearchContextProvider(props) {
       return true;
     }
   }
-
+  async function delayForDemo(promise) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    }).then(() => promise);
+  }
   return (
     <searchContext.Provider
       value={{
@@ -85,6 +89,7 @@ export default function SearchContextProvider(props) {
         updateCurrentUser,
         authorized,
         setAuthorized,
+        delayForDemo
       }}
     >
       {props.children}
