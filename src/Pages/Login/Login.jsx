@@ -10,7 +10,8 @@ import { getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
 
 function LoginPage() {
-  const { usersReference, setCurrentUserObj,setAuthorized } = useContext(searchContext);
+  const { usersReference, setCurrentUserObj, setAuthorized } =
+    useContext(searchContext);
 
   const navigate = useNavigate();
 
@@ -23,51 +24,47 @@ function LoginPage() {
     rememberMe: true,
   });
 
-  // useEffect(() => {
-  //   if (userObject.email === "" || userObject.password === "") {
-  //     setSubmitEnabled(false);
-  //     setErrorMessage("Make Sure To Enter Email and Password");
-  //   } else {
-  //     setSubmitEnabled(true);
-  //     setErrorMessage("");
-  //   }
-  // }, [userObject]);
-
-  function userSignIn(event) {
-    event.preventDefault();
-
-    if (userObject.email === "" || userObject.password === "") {
+  useEffect(() => {
+    if (
+      userObject.email === "" ||
+      userObject.password === "" ||
+      !userObject.email.match(/^[a-zA-Z]+[a-zA-Z0-9-_.]*@[a-z]+\.[a-z]+/) ||
+      userObject.password < 6
+    ) {
       setSubmitEnabled(false);
-      setErrorMessage("Make Sure To Enter Email and Password");
+      // setErrorMessage("Make Sure To Enter Email and Password");
     } else {
       setSubmitEnabled(true);
       setErrorMessage("");
     }
+  }, [userObject]);
 
-    const que = query(usersReference, where("email", "==", userObject.email));
-    getDocs(que).then((snapshot) => {
-      console.log(snapshot, "login");
-      if (snapshot.docs.length > 0) {
-        const currentUser = snapshot.docs[0].data();
-        console.log(currentUser.password, "pass");
-        if (currentUser.password === userObject.password) {
-          setCurrentUserObj({ ...currentUser, id: snapshot.docs[0].id });
-          if (userObject.rememberMe) {
-            localStorage.setItem("currentUser", snapshot.docs[0].id);
+  function userSignIn(event) {
+    event.preventDefault();
+
+    if (submitEnabled) {
+      const que = query(usersReference, where("email", "==", userObject.email));
+      getDocs(que).then((snapshot) => {
+        console.log(snapshot, "login");
+        if (snapshot.docs.length > 0) {
+          const currentUser = snapshot.docs[0].data();
+          console.log(currentUser.password, "pass");
+          if (currentUser.password === userObject.password) {
+            setCurrentUserObj({ ...currentUser, id: snapshot.docs[0].id });
+            if (userObject.rememberMe) {
+              localStorage.setItem("currentUser", snapshot.docs[0].id);
+            } else {
+              sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+            }
+            navigate("/");
           } else {
-            sessionStorage.setItem("currentUser", snapshot.docs[0].id);
+            setErrorMessage("Password is Incorrect");
           }
-          navigate("/");
-          setAuthorized(true)
         } else {
-          setErrorMessage("Password is Incorrect");
+          setErrorMessage("This Email Does Not Have Account");
         }
-      } else {
-        setErrorMessage("This Email Does Not Have Account");
-      }
-    });
-
-    console.log("ajsgs");
+      });
+    }
   }
 
   return (

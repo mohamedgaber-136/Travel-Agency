@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
 import { Container } from "react-bootstrap";
 import "./index.css";
 import AccountInfo from "../../../Components/accountFlow/accountInfo/accountInfo";
 import { Helmet } from "react-helmet";
+import { searchContext } from "../../../store/searchStore";
 
-const initialInputs = {
-  name: "John doe",
-  email: "mahmoud@gmail.com",
-  password: "M123456",
-  phone: "01122334455",
-  address: "Egypt",
-  birthdate: "1/1/1111",  
-};
+// const initialInputs = {
+//   firstName: "John doe",
+//   email: "mahmoud@gmail.com",
+//   password: "M123456",
+//   phone: "01122334455",
+//   address: "Egypt",
+//   birthdate: "1/1/1111",
+// };
 
 const Account = () => {
-  const [inputs, setInputs] = useState(initialInputs);
+  const { currentUserObj } = useContext(searchContext);
+  const [inputs, setInputs] = useState(currentUserObj);
   const [errorMessage, setErrorMessage] = useState({
-    name: "",
+    firstName: "",
     email: "",
     password: "",
     phone: "",
-    address: "" ,
-    birthdate: "",
   });
 
   return (
@@ -37,7 +37,15 @@ const Account = () => {
           <div className="account__info rounded-3">
             <AccountInfo
               label="Name"
-              name="name"
+              name="firstName"
+              inputs={inputs}
+              setInputs={setInputs}
+              errorMessage={errorMessage}
+              setErrorMessage={setErrorMessage}
+            />
+            <AccountInfo
+              label="Last Name"
+              name="lastName"
               inputs={inputs}
               setInputs={setInputs}
               errorMessage={errorMessage}

@@ -20,10 +20,27 @@ import AccountLayout from "../Layout/accountLayout";
 import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
 
 const AppRouter = () => {
-  let { delayForDemo } = useContext(searchContext);
-
+  async function delayForDemo(promise) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    }).then(() => promise);
+  }
+  let LoginLazy = lazy(() => delayForDemo(import("../Pages/Login/Login")));
+  let SignUpLazy = lazy(() => delayForDemo(import("../Pages/SignUp/SignUp")));
+  let AccountLazy = lazy(() => delayForDemo(import("../Layout/accountLayout")));
   let LandingLazy = lazy(() =>
     delayForDemo(import("../Pages/Landing/LandingPage"))
+  );
+  let AllCitiesLazy = lazy(() =>
+    delayForDemo(import("../Pages/AllCities/AllCities"))
+  );
+  let NotFoundLazy = lazy(() =>
+    delayForDemo(import("../Pages/notFound/notFound"))
+  );
+  let AccountPaymentLazy = lazy(() =>
+    delayForDemo(
+      import("../Components/accountFlow/AccountPayment/AccountPayment")
+    )
   );
 
   return (

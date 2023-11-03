@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Button from "react-bootstrap/Button";
-import Form from "react-bootstrap/Form";
+// import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import "./BookingDetails.css";
 import download1 from "../../assets/images/accountFlow/download1.png";
@@ -9,20 +9,58 @@ import building from "../../assets/images/accountFlow/building.svg";
 import right from "../../assets/images/accountFlow/right.svg";
 import left from "../../assets/images/accountFlow/left.svg";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
-import { FloatingLabel, InputGroup } from "react-bootstrap";
+// import { FloatingLabel, InputGroup } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { searchContext } from "../../store/searchStore";
-import {Navigate } from "react-router-dom";
-import {useContext} from 'react'
+import { countries } from "../../data/country";
+import { Visa } from "../../assets/images";
+import { bookingSchema } from "./bookingValidation";
+// import * as yup from "yup";
 
 const BookingDetails = () => {
-  const [show, setShow] = useState(false);
+  // handle close modal
   const handleClose = () => setShow(false);
   const handleShow = () => setShow(true);
-  let {authorized}= useContext(searchContext)
-  if (!authorized) {
-    return <Navigate to="/login" />;
+
+  const [show, setShow] = useState(false);
+  const [val, setVal] = useState("");
+  const [formData, setFormData] = useState({
+    // validation schema
+    creditCard: "",
+    cvc: "",
+    expireDate: "",
+    username: "",
+    country: "",
+    license: "",
+  });
+
+  // handle credi card input
+  function cc_format(value) {
+    const v = value
+      .replace(/\s+/g, "")
+      .replace(/[^0-9]/gi, "")
+      .substr(0, 16);
+    const parts = [];
+
+    for (let i = 0; i < v.length; i += 4) {
+      parts.push(v.substr(i, 4));
+    }
+
+    return parts.length > 1 ? parts.join(" ") : value;
   }
+
+  // form validation
+  const bookingValidation = async (e) => {
+    e.preventDefault();
+    console.log(formData, "rrrrrr");
+
+    const isValid = await bookingSchema.isValid(formData);
+    console.log(isValid);
+
+    if (isValid) {
+      handleClose();
+    }
+  };
+
   return (
     <>
       {" "}
@@ -93,7 +131,7 @@ const BookingDetails = () => {
               </div>
               <Button
                 variant="primary"
-                className="btn btn-primary book-btn mt-4"
+                className="btn btn-primary book-btn mt-4 p-2"
                 onClick={handleShow}
               >
                 Book Now
@@ -154,109 +192,162 @@ const BookingDetails = () => {
           </div>
           {/* end side card  */}
         </div>
+
         {/* Modal  */}
         <Modal show={show} className="fs-4 mt-4" onHide={handleClose}>
           <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
 
           <Modal.Body className="p-4">
-            <form className="d-flex">
+            <form className="d-flex flex-column " onSubmit={bookingValidation}>
               <div className="col">
-                <div className="coolinput ">
-                  <label
-                    for="card-number"
-                    className="text fw-normal labelText "
-                  >
-                    Card Number
-                  </label>
-                  <input
-                    type="number"
-                    className="visa rounded-2 placeStyle"
-                    placeholder="4321 4321 4321 4321"
-                  />
-                  <div className="mb-3 d-flex justify-content-between gap-3">
-                    <div className="">
+                <div className="coolinput w-100">
+                  <div className="inputVisa w-100 coolinput">
+                    {/* credit card input  */}
+                    <label
+                      for="card-number"
+                      className="text fw-normal labelText "
+                    >
+                      Card Number
+                    </label>
+                    <input
+                      type="text"
+                      className="rounded-2 placeStyle  form-control"
+                      placeholder="4321 4321 4321 4321"
+                      // maxLength={14}
+                      value={cc_format(val)}
+                      // defaultValue={cardNum}
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          creditCard: e.target.value,
+                        });
+                        setVal(e.target.value);
+                      }}
+                      required
+                    />
+                    <img src={Visa} alt="" className="visaDetails" />
+                  </div>
+                  {/* expiration date input  */}
+                  <div className="mb-3 d-flex  gap-5 w-100 justify-content-center">
+                    <div className="w-100">
                       <label className=" text fw-normal labelText">
                         Exp. Date
                       </label>
                       <br />
                       <input
-                        className="me-2 w-100 input placeStyle rounded-2"
+                        className="me-2 w-100 placeStyle rounded-2  form-control"
                         placeholder="02/27"
-                        // type="date"
+                        type="date"
+                        onChange={(e) => {
+                          setFormData({
+                            ...formData,
+                            expireDate: e.target.value,
+                          });
+                        }}
                         // aria-label="Exp. Date"
+                        required
                       />
                     </div>
+                    {/* cvc input  */}
                     <div>
                       <label className=" text fw-normal  labelText">CVC</label>
                       <input
                         // aria-label="CVC"
-                        type="text"
-                        className="me-2 w-100 placeStyle  rounded-2"
+                        type="number"
+                        className="me-2 w-100 placeStyle  rounded-2  form-control"
                         placeholder="456"
-                        maxLength={3}
+                        onChange={(e) => {
+                          setFormData({ ...formData, cvc: e.target.value });
+                        }}
+                        maxLength={"3"}
+                        required
                       />
                     </div>
                   </div>
+                  {/* username input  */}
                   <label className="text fw-normal labelText">
                     Name on Card
                   </label>
                   <input
                     type="text"
-                    className="name placeStyle rounded-2"
+                    className="name placeStyle rounded-2 form-control w-100"
                     placeholder="Jon Doe"
+                    onChange={(e) => {
+                      setFormData({ ...formData, username: e.target.value });
+                    }}
+                    required
                   />
+                  {/* selection countries input */}
                   <div class="input-group d-flex">
                     <div className="col">
                       <label className="text fw-normal  labelText">
                         Country Or Region
                       </label>
                       <select
-                        className="form-select rounded-2 "
+                        className="form-select rounded-2  form-control"
                         id="inputGroupSelect04"
+                        onChange={(e) => {
+                          setFormData({ ...formData, country: e.target.value });
+                          // console.log(e.target.value, "eeeee");
+                        }}
                         aria-label="Example select with button addon"
                       >
-                        <option>United States</option>
-                        <option value="1">Turkey</option>
-                        <option value="2">England</option>
-                        <option value="3">Egypt</option>
+                        <option value="Choose a country" selected>
+                          Choose a country
+                        </option>
+                        {countries.map((x) => (
+                          <option value={x.name} key={x.id}>
+                            {x.name}{" "}
+                          </option>
+                        ))}
                       </select>
                     </div>
                   </div>
                 </div>
               </div>
+              {/* check box and button submit  */}
+              <Modal.Footer>
+                <div className="text">
+                  <div class="form-check">
+                    <input
+                      class="form-check-input input"
+                      type="checkbox"
+                      value=""
+                      id="invalidCheck"
+                      onChange={(e) => {
+                        setFormData({
+                          ...formData,
+                          license: e.target.checked,
+                        });
+                      }}
+                      required
+                    />
+                    <label
+                      className="text fs-5 form-check-label  "
+                      htmlFor="invalidCheck"
+                      required
+                    >
+                      Securely save my information for 1-click checkout
+                    </label>
+                  </div>
+
+                  <button
+                    type="submit"
+                    onClick={bookingValidation}
+                    className="w-100 text my-2 book-btn py-2 rounded-3"
+                  >
+                    Add Card
+                  </button>
+                  <p className="text fw-light fs-5 m-auto">
+                    By confirming your subscription, you allow The Outdoor Inn
+                    Crowd Limited to charge your card for this payment and
+                    future payments in accordance with their terms. You can
+                    always cancel your subscription.
+                  </p>
+                </div>
+              </Modal.Footer>
             </form>
           </Modal.Body>
-          <Modal.Footer>
-            <div className="text">
-              <div class="form-check">
-                <input
-                  class="form-check-input input"
-                  type="checkbox"
-                  value=""
-                  id="flexCheckIndeterminate"
-                />
-                <label
-                  className=" text form-check-label "
-                  for="flexCheckIndeterminate"
-                >
-                  Securely save my information for 1-click checkout
-                </label>
-              </div>
-
-              <Button
-                onClick={handleClose}
-                className="w-100 text my-2 book-btn "
-              >
-                Add Card
-              </Button>
-              <p className="text fw-light fs-0 m-auto">
-                By confirming your subscription, you allow The Outdoor Inn Crowd
-                Limited to charge your card for this payment and future payments
-                in accordance with their terms. You can always cancel your
-                subscription.
-              </p>
-            </div>
-          </Modal.Footer>
         </Modal>
       </div>
     </>
