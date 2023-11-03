@@ -31,6 +31,9 @@ const AccountLayout = () => {
       setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
     }
   }, [Cover]);
+  // if (!authorized) {
+  // return <Navigate to="/login" />;
+  // }
 
   return (
     <>
