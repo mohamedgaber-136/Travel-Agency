@@ -40,7 +40,6 @@ export default function AllCities() {
           },
         }
       );
-      console.log(res.data?.photos[0]?.src?.portrait);
       arr.push({
         img: res.data?.photos[0]?.src?.original,
         title: spliceCities[i],

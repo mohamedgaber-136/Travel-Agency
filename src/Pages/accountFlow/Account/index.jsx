@@ -16,6 +16,7 @@ const Account = () => {
     password: "",
     phone: "",
   });
+  console.log(authorized)
   if (!authorized) {
     return <Navigate to="/login" />;
   }

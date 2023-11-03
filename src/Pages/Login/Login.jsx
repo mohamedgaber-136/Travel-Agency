@@ -10,7 +10,7 @@ import { getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
 
 function LoginPage() {
-  const { usersReference, setCurrentUserObj, setAuthorized } =
+  const { usersReference, setCurrentUserObj, setAuthorized,authorized } =
     useContext(searchContext);
 
   const navigate = useNavigate();
@@ -43,6 +43,7 @@ function LoginPage() {
     event.preventDefault();
 
     if (submitEnabled) {
+      setAuthorized(true);
       const que = query(usersReference, where("email", "==", userObject.email));
       getDocs(que).then((snapshot) => {
         console.log(snapshot, "login");
@@ -57,7 +58,6 @@ function LoginPage() {
               sessionStorage.setItem("currentUser", snapshot.docs[0].id);
             }
             navigate("/");
-            setAuthorized(true)
           } else {
             setErrorMessage("Password is Incorrect");
           }

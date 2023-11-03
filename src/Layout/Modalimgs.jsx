@@ -10,7 +10,7 @@ function ModalImgs(props) {
       
     >
       <Modal.Body className="rounded-2">
-        <div className=" d-flex justify-content-center gap-2 align-items-center flex-wrap" onClick={props.onHide}>
+        <div className=" d-flex justify-content-center flex-md-wrap gap-2 align-items-center flex-wrap" onClick={props.onHide}>
           {props.imgsCovres.map((cover) => (
             <div className="coverBoxParent d-flex justify-content-center align-items-center">
               <img

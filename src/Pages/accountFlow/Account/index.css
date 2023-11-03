@@ -37,6 +37,8 @@
   width: 100px;
   height: 100px;
   cursor: pointer;
+  position: relative;
+  z-index: 15;
 }
 
 .account__selection {
@@ -118,4 +120,13 @@
   box-shadow: 0 0 8px 5px lightgray;
   padding: 10px;
   border-radius: 12px;
+}
+[ aria-labelledby="contained-modal-title-vcenter"]{
+  z-index: 20;
+}
+@media (max-width: 767px) {
+  .coverBox{
+    width: 70px !important;
+    height: 70px !important;
+  }
 }
