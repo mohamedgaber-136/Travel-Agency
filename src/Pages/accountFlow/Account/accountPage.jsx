@@ -15,7 +15,7 @@ const initialObj = {
   phone: "",
 };
 const Account = () => {
-  const { currentUserObj, authorized } = useContext(searchContext);
+  const { currentUserObj } = useContext(searchContext);
 
   const [inputs, setInputs] = useState(initialObj);
   const [errorMessage, setErrorMessage] = useState(initialObj);
@@ -27,9 +27,6 @@ const Account = () => {
       setInputs({ ...inputs, ...currentUserObj });
     }
   }, [currentUserObj]);
-  // if (!authorized) {
-  //   return <Navigate to="/login" />;
-  // }
 
   return (
     <Suspense
@@ -49,12 +46,12 @@ const Account = () => {
           <div className="account__info rounded-3">
             <AccountInfo
               label="First Name"
-              name="firstName"
               inputs={inputs}
+              name={"firstName"}
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'text'}
+              type={"text"}
             />
             <AccountInfo
               label="Last Name"
@@ -63,8 +60,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'text'}
-
+              type={"text"}
             />
             <AccountInfo
               label="Email"
@@ -74,8 +70,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'text'}
-
+              type={"text"}
             />
             <AccountInfo
               label="Password"
@@ -85,7 +80,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'password'}
+              type={"password"}
             />
             <AccountInfo
               label="Phone number"
@@ -95,8 +90,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'text'}
-
+              type={"text"}
             />
             <AccountInfo
               label="Address"
@@ -106,8 +100,7 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'text'}
-
+              type={"text"}
             />
             <AccountInfo
               label="Date of birth"
@@ -118,7 +111,6 @@ const Account = () => {
               setInputs={setInputs}
               errorMessage={errorMessage}
               setErrorMessage={setErrorMessage}
-              type={'text'}
             />
           </div>
         </Container>

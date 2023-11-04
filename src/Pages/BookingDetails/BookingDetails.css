@@ -7,7 +7,6 @@
 .card-price {
   font-weight: 700;
   color: #ff8682;
-  font-size: 32px;
 }
 .night {
   font-weight: 700;
@@ -47,8 +46,6 @@ li .active {
 .card-text {
   color: #112211;
   font-weight: 600;
-  /*  */
-  font-size: 24px;
   margin-bottom: 0;
 }
 
