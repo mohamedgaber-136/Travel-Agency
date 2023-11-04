@@ -26,7 +26,6 @@ export default function SearchContextProvider(props) {
   let [authorized, setAuthorized] = useState(false);
   initializeApp(firebaseConfig);
   const database = getFirestore();
-  //   const authbase = getAuth();
 
   const usersReference = collection(database, "users");
 
@@ -51,17 +50,10 @@ export default function SearchContextProvider(props) {
       }
     }
   }, []);
+
   onSnapshot(currentRef, (snapshot) => {
     console.log(snapshot.data(), "snapshot listen");
-
-    // setCurrentUserObj(snapshot.data());
-    // setX("djkhjkh");
   });
-
-  // useEffect(() => {
-  //   if (currentUserObj.id !== "0") {
-  //   }
-  // }, [currentUserObj.id]);
 
   // to update the user data
   const updateCurrentUser = (change) => {
@@ -73,18 +65,12 @@ export default function SearchContextProvider(props) {
     }
   };
 
-  function isLoggedUser() {
-    if (currentUserObj.id === "0") {
-      return false;
-    } else {
-      return true;
-    }
-  }
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
       setTimeout(resolve, 2000);
     }).then(() => promise);
   }
+
   return (
     <searchContext.Provider
       value={{
