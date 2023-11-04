@@ -1,6 +1,5 @@
-import { useContext, useRef, useState } from "react";
+import { useContext, useEffect, useRef, useState } from "react";
 import { searchContext } from "../../../store/searchStore";
-
 const AccountInfo = ({
   label,
   name,
@@ -8,12 +7,13 @@ const AccountInfo = ({
   inputs,
   errorMessage,
   setErrorMessage,
-  type = "text",
+  type,
 }) => {
   const { updateCurrentUser } = useContext(searchContext);
   const [readOnly, setReadOnly] = useState(true);
+  const [newPass, setNewPass] = useState({});
+  const [newError, setNewError] = useState({});
   const inputRef = useRef();
-
   const handleInputChange = (e) => {
     setInputs({ ...inputs, [e.target.name]: e.target.value });
     if (
@@ -57,24 +57,91 @@ const AccountInfo = ({
   };
 
   const handleSubmit = () => {
-    updateCurrentUser(inputs);
-    setReadOnly(true);
+    if (type == "password") {
+      if (
+        newPass.newPassword == newPass.checkNewPassword &&
+        newPass.newPassword != undefined&&
+        newPass.newPassword.length >= 6
+        ) {
+          setReadOnly(true);
+          updateCurrentUser({
+          password: newPass.newPassword,
+          confirmPassword: newPass.newPassword,
+        });
+      } else {
+        console.log(newPass.newPassword.length)
+        setErrorMessage({
+          ...errorMessage,
+          ["password"]: "New Password must Be more than 6 and matched",
+        });
+        setReadOnly(false);
+      }
+    } else {
+      setReadOnly(true);
+      updateCurrentUser(inputs);
+    }
+  };
+  const NewPasssData = (e) => {
+    if (e.target.name) {
+      setNewPass({ ...newPass, newPassword: e.target.value });
+    } else {
+      setNewPass({ ...newPass, checkNewPassword: e.target.value });
+    }
+    setErrorMessage({
+      ...errorMessage,
+      ['password']: "",
+    });
   };
 
   return (
     <div className="d-flex align-items-center flex-wrap gap-2 justify-content-between pb-4">
       <div>
         <span>{label}</span> <br />
-        <div className="d-flex gap-2">
-          <input
-            ref={inputRef}
-            type={type}
-            className="border-0 px-2"
-            value={inputs[name]}
-            readOnly={readOnly}
-            name={name}
-            onChange={handleInputChange}
-          />
+        <div className="d-flex gap-2 align-items-center">
+          <div className="d-flex gap-2 flex-column ">
+            <input
+              ref={inputRef}
+              type={readOnly == false ? "text" : type}
+              className={
+                readOnly == false
+                  ? "border-0 px-2 "
+                  : "border-0 px-2 AccountInPut"
+              }
+              value={inputs[name]}
+              readOnly={type == "password" ? true : readOnly}
+              name={name}
+              onChange={handleInputChange}
+            />
+            {type == "password"
+              ? !readOnly && (
+                  <>
+                    <input
+                      type={"text"}
+                      className={
+                        readOnly == false
+                          ? "border-0 px-2 "
+                          : "border-0 px-2 AccountInPut"
+                      }
+                      placeholder="Enter Your New Password"
+                      readOnly={readOnly}
+                      name="newPass"
+                      onChange={NewPasssData}
+                    />
+                    <input
+                      type={"text"}
+                      placeholder="ReEnter Your New Password"
+                      className={
+                        readOnly == false
+                          ? "border-0 px-2 "
+                          : "border-0 px-2 AccountInPut"
+                      }
+                      readOnly={readOnly}
+                      onChange={NewPasssData}
+                    />
+                  </>
+                )
+              : ""}
+          </div>
           {!readOnly && (
             <button
               disabled={errorMessage[name]}

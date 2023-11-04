@@ -139,3 +139,10 @@
     height: 70px !important;
   }
 }
+.AccountInPut:focus{
+outline: none;
+} 
+
+.AccountInPut{
+  cursor: default;
+}

@@ -127,7 +127,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   <input
                     className="me-2 w-100 placeStyle rounded-2  form-control"
                     placeholder="02/27"
-                    type="date"
+                    type="month"
                     onChange={(e) => {
                       setFormData({
                         ...formData,
@@ -148,9 +148,9 @@ const AddCardModal = ({ show, handleClose }) => {
                     placeholder="456"
                     value={formData.cvc}
                     onChange={(e) => {
-                      //   if (e.target.value.length <= 3) {
                       setFormData({ ...formData, cvc: e.target.value });
-                      //   }
+                      // if (typeof parseFloat(e.target.value) == Number) {
+                      // }
                     }}
                     maxLength={3}
                     required

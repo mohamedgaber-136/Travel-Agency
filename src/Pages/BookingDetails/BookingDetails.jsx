@@ -82,25 +82,26 @@ const BookingDetails = () => {
             </li>
           </ol>
         </nav>
-        <div className="row align-items-start">
-          <div className="col-md-7 d-flex">
-            <div class="card p-4 mb-3">
-              <div class="card-header d-flex justify-content-between align-items-center ">
-                <h2 className="">
+        <div className="d-flex justify-content-center gap-2 flex-column flex-md-row align-items-start">
+          <div className=" d-flex">
+            <div class="card mb-3">
+              <div class="card-header d-flex justify-content-between gap-3 align-items-center ">
+                <h4 className="">
                   Superior room - 1 double bed or <span>2 twin beds </span>
-                </h2>
-                <h5 className="card-price">
+                </h4>
+                <h6 className="card-price">
                   $240<span className="align-content-end night">/night </span>
-                </h5>
+                </h6>
               </div>
               {/* second section  */}
+              <div className="p-2">
               <div className=" d-flex body my-4 p-4">
                 <img src={download1} className="body-img" alt="" srcset="" />
                 <div className=" body-location">
-                  <h5 className="card-text ms-2">
+                  <h6 className="card-text text-center ms-2">
                     CVK Park Bosphorus Hotel Istanbul
-                  </h5>
-                  <div className="d-flex">
+                  </h6>
+                  <div className="d-flex align-items-center">
                     <img
                       src={location}
                       className="body-sub-img mx-2 mb-0"
@@ -113,37 +114,38 @@ const BookingDetails = () => {
                   </div>
                 </div>
               </div>
+              </div>
               {/* third section  */}
+              <div className="p-2 d-flex flex-column align-items-center">
               <div className="container d-flex justify-content-between">
-                {/* <div className="row"> */}
-                <h4 className=" align-items-center">
+                <h6 className=" align-items-center">
                   Thursday, Dec 8 <br /> <span> Check-In</span>
-                </h4>
+                </h6>
                 <div className="direc d-flex align-content-center align-items-center">
                   <img className="line" src={left} alt="" />
                   <img className="home-logo" src={building} alt="" />
                   <img className="line me-1" src={right} alt="" />
                 </div>
-                <h4 className=" mx-auto ">
+                <h6 className=" mx-auto ">
                   Thursday, Dec 9 <br /> <span>Check-Out</span>
-                </h4>
-                {/* </div> */}
+                </h6>
               </div>
               <Button
                 variant="primary"
-                className="btn btn-primary book-btn mt-4 p-2"
+                className="btn btn-primary book-btn mt-4 p-2 w-100"
                 onClick={handleShow}
               >
                 Book Now
               </Button>
+              </div>
             </div>
           </div>
           {/* end of card  */}
 
           {/* side card */}
-          <div className="col-md-5">
+          <div className="">
             <div class="card">
-              <div class="card-header p-4 d-flex justify-content-between">
+              <div class="card-header d-flex justify-content-between">
                 <img src={frame} className="side-header-img me-3" alt="" />
                 <div>
                   <h6 className="img-header">CVK Park Bosphorus...</h6>
@@ -253,13 +255,13 @@ const BookingDetails = () => {
                       <label className=" text fw-normal  labelText">CVC</label>
                       <input
                         // aria-label="CVC"
-                        type="number"
+                        type="text"
                         className="me-2 w-100 placeStyle  rounded-2  form-control"
                         placeholder="456"
                         onChange={(e) => {
                           setFormData({ ...formData, cvc: e.target.value });
                         }}
-                        maxLength={"3"}
+                        maxLength={3}
                         required
                       />
                     </div>
