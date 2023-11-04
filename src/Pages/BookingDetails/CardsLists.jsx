@@ -1,31 +1,47 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import Modal from "react-bootstrap/Modal";
 import { PaymentCard } from "../../Components/accountFlow/AccountPayment/PaymentCard";
 import { searchContext } from "../../store/searchStore";
 import { AddNewCard } from "../../Components/accountFlow/AccountPayment/AddNewCard";
+import AddCardModal from "../../Components/addCardModal/addCardModal";
 export const CardsLists = ({ show, setModalShow }) => {
   const { currentUserObj } = useContext(searchContext);
+  const [showAddCard, setShowAddCard] = useState(false);
+
   return (
-    <Modal
-      show={show}
-      onHide={() => setModalShow(false)}
-      size="lg"
-      aria-labelledby="contained-modal-title-vcenter"
-      centered
-    >
-      <Modal.Header closeButton>
-        <Modal.Title id="contained-modal-title-vcenter">Cards </Modal.Title>
-      </Modal.Header>
-      <div className="row justify-content-center align-items-center  flex-wrap">
-        <Modal.Body>
-          <AddNewCard setModalShow={setModalShow} />
+    <>
+      <Modal
+        show={show}
+        onHide={() => setModalShow(false)}
+        size="lg"
+        aria-labelledby="contained-modal-title-vcenter"
+        centered
+      >
+        <Modal.Header closeButton>
+          <Modal.Title id="contained-modal-title-vcenter">Cards </Modal.Title>
+        </Modal.Header>
+        <Modal.Body className="d-flex flex-column gap-3">
+          <AddNewCard
+            setModalShow={() => {
+              setShowAddCard(true);
+              setModalShow(false);
+            }}
+          />
+
+          <div className="row flex-wrap justify-content-center align-items-center">
+            {currentUserObj.cards.map((item, index) => (
+              <PaymentCard key={index} item={item} index={index} />
+            ))}
+          </div>
         </Modal.Body>
-        {currentUserObj.cards.map((item, index) => (
-          <Modal.Body key={index}>
-            <PaymentCard item={item} index={index} />
-          </Modal.Body>
-        ))}
-      </div>
-    </Modal>
+      </Modal>
+      <AddCardModal
+        show={showAddCard}
+        handleClose={() => {
+          setModalShow(true);
+          setShowAddCard(false);
+        }}
+      />
+    </>
   );
 };

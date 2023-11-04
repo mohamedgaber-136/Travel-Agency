@@ -136,6 +136,7 @@ const AccountInfo = ({
                     <input
                       type={"text"}
                       placeholder="ReEnter Your New Password"
+                      name="newPassConfirm"
                       className={
                         readOnly === false
                           ? "border-0 px-2 "

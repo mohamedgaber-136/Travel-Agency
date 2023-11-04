@@ -149,14 +149,13 @@ li .active {
   padding: 20px !important;
 }
 
-
-.BookinDetailParent{
+.BookinDetailParent {
   margin: 100px 0;
 }
-.ModalParent{
+.ModalParent {
   padding: 0 !important;
 }
-.visaDetails{
+.visaDetails {
   z-index: 200;
   right: -5px;
 }
