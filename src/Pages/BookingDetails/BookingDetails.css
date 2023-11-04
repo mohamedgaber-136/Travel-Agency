@@ -149,15 +149,14 @@ li .active {
   padding: 20px !important;
 }
 
-/* .placeStyle::placeholder {
-    padding-left: 10px !important;
-} */
 
-.placeStyle {
-  /* width: 100% !important; */
-  /* background-color: #FF8682 !important; */
+.BookinDetailParent{
+  margin: 100px 0;
 }
-
-/* .input {
-    font-size: 16px;
-} */
+.ModalParent{
+  padding: 0 !important;
+}
+.visaDetails{
+  z-index: 200;
+  right: -5px;
+}

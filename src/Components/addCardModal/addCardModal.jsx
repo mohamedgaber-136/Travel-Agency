@@ -9,7 +9,6 @@ const AddCardModal = ({ show, handleClose }) => {
   const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
     useContext(searchContext);
   const [isValidData, setIsValidData] = useState(false);
-
   const [formData, setFormData] = useState({
     // validation schema
     creditCard: "",
@@ -22,47 +21,32 @@ const AddCardModal = ({ show, handleClose }) => {
 
   // handle credi card input
   function cc_format(value) {
-    // function cc_format() {
-    // const v = formData.creditCard
     const v = value
       .replace(/\s+/g, "")
       .replace(/[^0-9]/gi, "")
       .slice(0, 16);
-    // .substr(0, 16);
     const parts = [];
-
     for (let i = 0; i < v.length; i += 4) {
-      // if (i !== v.length - 1) {
-      //   console.log(v.substr(i, 4), "subpart");
-      //   console.log(parts, "parts");
-      // parts.push(v.slice(i, 4));
       parts.push(v.substr(i, 4));
-      // }
     }
 
-    // return parts.length > 1 ? parts.join(" ") : formData.creditCard;
     return parts.length > 1 ? parts.join(" ") : value;
-    // return parts.length > 1 ?parts.replace() : value;
   }
 
   // form validation
   const bookingValidation = async (e) => {
     e.preventDefault();
-    // console.log(formData, "rrrrrr");
 
     const isValid = await bookingSchema
       .validate(formData)
       .then((data) => console.log(data))
       .catch((err) => console.log(err.message));
 
-    // const isValid = await bookingSchema.isValid(formData);
     setIsValidData(await bookingSchema.isValid(formData));
-    // console.log(isValidData);
 
     if (isValidData) {
       handleClose();
 
-      //   console.log(currentUserObj, "adduser");
       updateCurrentUser({
         cards: [...currentUserObj.cards, formData],
       });
@@ -75,17 +59,12 @@ const AddCardModal = ({ show, handleClose }) => {
         country: "",
         license: "",
       });
-      // setCurrentUserObj({
-      //   ...currentUserObj,
-      //   cards: formData,
-      // });
     }
   };
-
+// spacesV
   return (
-    <Modal show={show} className="fs-4 mt-4" onHide={handleClose}>
+    <Modal show={show} className="fs-4 mt-4 ModalParent" onHide={handleClose}>
       <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
-
       <Modal.Body className="p-4">
         <form className="d-flex flex-column " onSubmit={bookingValidation}>
           <div className="col">
@@ -100,12 +79,8 @@ const AddCardModal = ({ show, handleClose }) => {
                   className="rounded-2 placeStyle  form-control"
                   placeholder="4321 4321 4321 4321"
                   maxLength={19}
-                  // value={cc_format(val)}
                   value={cc_format(formData.creditCard)}
-                  // defaultValue={cardNum}
-                  // pattern="[0-9 ]+"
                   onChange={(e) => {
-                    // setVal(e.target.value);
                     const str = e.target.value.replace(/\s/g, "");
 
                     if (!isNaN(str)) {
@@ -120,7 +95,7 @@ const AddCardModal = ({ show, handleClose }) => {
                 <img src={Visa} alt="" className="visaDetails" />
               </div>
               {/* expiration date input  */}
-              <div className="mb-3 d-flex  gap-5 w-100 justify-content-center">
+              <div className="mb-3 d-flex w-100 justify-content-center gap-2">
                 <div className="w-100">
                   <label className=" text fw-normal labelText">Exp. Date</label>
                   <br />
@@ -143,7 +118,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   <label className=" text fw-normal  labelText">CVC</label>
                   <input
                     // aria-label="CVC"
-                    type="number"
+                    type="text"
                     className="me-2 w-100 placeStyle  rounded-2  form-control"
                     placeholder="456"
                     value={formData.cvc}
