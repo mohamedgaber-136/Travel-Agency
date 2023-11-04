@@ -26,7 +26,7 @@ const NotFoundPage = () => {
   // });
   return (
     <div className="container min-vh-100 d-flex flex-column justify-content-center align-items-center ">
-      <div className="row w-100 ">
+      <div className="row w-100 notFoundImage">
         <div className="col-sm-12 col-md-12 mt-5 mb-5">
           <svg
             width="100%"

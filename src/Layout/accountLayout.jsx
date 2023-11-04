@@ -29,7 +29,7 @@ const AccountLayout = () => {
     console.log(Cover, "cover");
     if (Cover !== null) {
       updateCurrentUser({ coverImg: Cover });
-      setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
+      // setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
     }
   }, [Cover]);
   // if (!authorized) {

@@ -1,6 +1,7 @@
 import { createContext, useEffect, useState } from "react";
 import { initializeApp } from "@firebase/app";
 import {
+  collection,
   doc,
   getDoc,
   getFirestore,
@@ -32,7 +33,7 @@ export default function SearchContextProvider(props) {
 
   const userID = localStorage.getItem("currentUser");
   const currentRef = doc(database, "users", currentUserObj?.id);
-  // const usersReference = collection(database, "users");
+  const usersReference = collection(database, "users");
 
   //--------------------- useEffect --------------------//
   useEffect(() => {
@@ -86,6 +87,7 @@ export default function SearchContextProvider(props) {
         setCurrentUserObj,
         currentUserObj,
         updateCurrentUser,
+        usersReference,
         authorized,
         setAuthorized,
         delayForDemo,

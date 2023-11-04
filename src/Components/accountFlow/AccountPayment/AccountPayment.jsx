@@ -30,7 +30,7 @@ const AccountPayment = () => {
         <div className="d-flex align-items-start justify-content-between visa-content">
           <div>
             <p className="mb-0 lh-sm">**** **** **** ****</p>
-            <p className="fs-5">{item.creditCard.slice(-4)}</p>
+            <p className="fs-5">{item?.creditCard?.slice(-4)}</p>
           </div>
           <div onClick={() => deleteCard(indx)} className="cursor-pointer">
             <svg
@@ -55,7 +55,7 @@ const AccountPayment = () => {
         <div className="d-flex justify-content-between">
           <div className="">
             <p className="mb-0">Expire Date</p>
-            <p className="mb-0">{item.expireDate}</p>
+            <p className="mb-0">{item?.expireDate}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"
