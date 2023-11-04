@@ -1,8 +1,6 @@
 import { createContext, useContext, useState } from "react";
 import { searchContext } from "./searchStore";
-
 export const addHotelsContext = createContext(0);
-
 export default function AddHotelsProvider(props) {
   const { searchData } = useContext(searchContext);
   const [addHotels, setAddHotels] = useState([]);
@@ -10,11 +8,9 @@ export default function AddHotelsProvider(props) {
   let [isFavorites, setIsFavorites] = useState(false);
   const isFavoritesClick = () => {
     hotelObj.isFav = !hotelObj.isFav;
-    // isFavorites = !isFavorites
     setIsFavorites(hotelObj.isFav);
   };
   const getHotels = async () => {
-    console.log(searchData.destination);
     const options = {
       method: "GET",
       headers: {
@@ -35,8 +31,7 @@ export default function AddHotelsProvider(props) {
     );
     const data = await res?.json();
     setAddHotels([...data?.data?.data]);
-    console.log(data, "aya a7ga");
-    console.log(addHotels);
+ 
   };
   const getHotelsObj = async (id) => {
     const url = `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`;
@@ -51,7 +46,6 @@ export default function AddHotelsProvider(props) {
     const res = await fetch(url, options);
     const data = await res.json();
     setHotelObj({ ...data.data, isFav: false });
-    console.log(data.data);
   };
   return (
     <addHotelsContext.Provider

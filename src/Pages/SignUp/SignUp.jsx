@@ -94,7 +94,6 @@ function SignUpPage() {
           }).then(() => navigate("/"));
           addDoc(usersReference, userObject).then((snapshot) => {
             console.log(snapshot, "djfhsdj");
-            // sessionStorage.setItem("currentUser", snapshot.id);
             localStorage.setItem("currentUser", snapshot.id);
             setCurrentUserObj({ ...userObject, id: snapshot.id });
           });
@@ -238,11 +237,6 @@ function SignUpPage() {
                   </span>
                 </div>
               </div>
-              {/* {errors?.passwordError ? (
-                <span className="fs-6 ps-2 text-danger">
-                  {errors?.passwordError}
-                </span>
-              ) : null} */}
             </div>
 
             <div className="w-100">
@@ -267,18 +261,6 @@ function SignUpPage() {
                     });
                   }}
                 />
-                {/* <div className="input-group-append">
-                  <span
-                    className=" input-group-text  h-100"
-                    onClick={handlePasswordConfirmType}
-                  >
-                    {isHiddenPassword.confirm ? (
-                      <BsEyeSlashFill size={23} />
-                    ) : (
-                      <BsEyeFill size={23} />
-                    )}
-                  </span>
-                </div> */}
               </div>
               {errors?.confirmError ? (
                 <span className="fs-6 ps-2 text-danger">
@@ -322,17 +304,6 @@ function SignUpPage() {
                 Sign In
               </Link>
             </div>
-
-            {/* <div className="d-flex   gap-2">
-              <button className="btn border seeAllBtn">
-                <FcGoogle size={25} />
-                <span className="px-2">Google</span>
-              </button>
-              <button className="btn border seeAllBtn">
-                <FaFacebook size={25} color="blue" />
-                <span className="px-2">Facebook</span>
-              </button>
-            </div> */}
           </form>
         </div>
       </div>
@@ -341,27 +312,3 @@ function SignUpPage() {
 }
 
 export default SignUpPage;
-
-/* <button
-            onClick={() => {
-              // Create a root reference
-              const storage = getStorage();
-
-              // Create a reference to 'mountains.jpg'
-              const mountainsRef = ref(storage, "loginImg.png");
-
-              // Create a reference to 'images/mountains.jpg'
-              // const mountainImagesRef = ref(
-              //   storage,
-              //   "loginImg.png"
-              // );
-
-              // console.log(mountainImagesRef, "data");
-
-              // While the file names are the same, the references point to different files
-              // mountainsRef.name === mountainImagesRef.name;           // true
-              // mountainsRef.fullPath === mountainImagesRef.fullPath;   // false
-            }}
-          >
-            Upload image
-          </button> */

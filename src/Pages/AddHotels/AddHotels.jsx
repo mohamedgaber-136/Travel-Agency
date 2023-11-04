@@ -15,10 +15,7 @@ export default function AddHotels() {
     const goToDetails =(id)=>{
     navigate(`hotelDetials/${id}`)
     }
-    useEffect(()=>{
-      console.log(countryTitle)
-      // getHotels()
-    })
+  
   return (
     <>
       {" "}
