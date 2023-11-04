@@ -1,7 +1,6 @@
-import { createContext, useCallback, useEffect, useState } from "react";
+import { createContext, useEffect, useState } from "react";
 import { initializeApp } from "@firebase/app";
 import {
-  collection,
   doc,
   getDoc,
   getFirestore,
@@ -21,18 +20,34 @@ const firebaseConfig = {
 export const searchContext = createContext(0);
 
 export default function SearchContextProvider(props) {
+  //--------------------- firebase --------------------//
+  initializeApp(firebaseConfig);
+  const database = getFirestore();
+
+  //--------------------- useState --------------------//
+
   let [searchData, setSeachData] = useState({});
   const [currentUserObj, setCurrentUserObj] = useState({ id: "0" });
   let [authorized, setAuthorized] = useState(false);
-  initializeApp(firebaseConfig);
-  const database = getFirestore();
-  //   const authbase = getAuth();
-
-  const usersReference = collection(database, "users");
 
   const userID = localStorage.getItem("currentUser");
+  const currentRef = doc(database, "users", currentUserObj?.id);
+  // const usersReference = collection(database, "users");
 
-  const getUserData = () => {
+  //--------------------- useEffect --------------------//
+  useEffect(() => {
+    if (currentUserObj?.id === "0") {
+      // const userID = sessionStorage.getItem("currentUser");
+      if (userID !== null) {
+        getCurrentUserData();
+      } else {
+        console.log("no snapshot");
+      }
+    }
+  }, []);
+
+  //--------------------- getCurrentUserData --------------------//
+  const getCurrentUserData = () => {
     const currentRef = doc(database, "users", userID);
     getDoc(currentRef).then((snapshot) => {
       console.log(snapshot.data(), "snap");
@@ -40,51 +55,28 @@ export default function SearchContextProvider(props) {
     });
   };
 
-  const currentRef = doc(database, "users", currentUserObj?.id);
-  useEffect(() => {
-    if (currentUserObj?.id === "0") {
-      // const userID = sessionStorage.getItem("currentUser");
-      if (userID !== null) {
-        getUserData();
-      } else {
-        console.log("no snapshot");
-      }
-    }
-  }, []);
+  //--------------------- currentUserSnapshot --------------------//
   onSnapshot(currentRef, (snapshot) => {
     console.log(snapshot.data(), "snapshot listen");
-
-    // setCurrentUserObj(snapshot.data());
-    // setX("djkhjkh");
   });
 
-  // useEffect(() => {
-  //   if (currentUserObj.id !== "0") {
-  //   }
-  // }, [currentUserObj.id]);
-
-  // to update the user data
+  //--------------------- updateCurrentUser --------------------//
   const updateCurrentUser = (change) => {
     if (currentUserObj?.id !== "0") {
       updateDoc(currentRef, { ...change }).then((snapshot) => {
-        getUserData();
+        getCurrentUserData();
         console.log("first");
       });
     }
   };
 
-  function isLoggedUser() {
-    if (currentUserObj.id === "0") {
-      return false;
-    } else {
-      return true;
-    }
-  }
+  //--------------------- lazy loading delay function --------------------//
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
       setTimeout(resolve, 2000);
     }).then(() => promise);
   }
+
   return (
     <searchContext.Provider
       value={{
@@ -92,7 +84,6 @@ export default function SearchContextProvider(props) {
         setSeachData,
         database,
         setCurrentUserObj,
-        usersReference,
         currentUserObj,
         updateCurrentUser,
         authorized,
