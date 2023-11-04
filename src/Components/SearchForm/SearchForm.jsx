@@ -17,14 +17,20 @@ export const SearchForm = () => {
       CheckIn: event.target[1].value,
       CheckOut: event.target[2].value,
       GuestAndRooms: event.target[3].value,
+      nights:
+        (new Date(event.target[2].value).getTime() -
+          new Date(event.target[1].value).getTime()) /
+        (1000 * 3600 * 24),
     };
     setSeachData({ ...data });
     let isValid = await searchSchema.isValid(searchData);
     if (isValid) {
-      navigate(`/CountryHotels/${data.destination}`, { replace: true });
+      // navigate(`/CountryHotels/${data.destination}`, { replace: true });
     }
   };
-  useEffect(()=>{console.log('reRender')})
+  useEffect(() => {
+    console.log(searchData, "searchData");
+  });
   return (
     <form
       onSubmit={getSearchData}
