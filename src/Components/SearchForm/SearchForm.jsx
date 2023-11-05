@@ -1,6 +1,5 @@
 import { useContext, useEffect, useState } from "react";
 import { searchSchema } from "./searchValidation/SearchValidation";
-import * as yup from "yup";
 import { searchContext } from "../../store/searchStore";
 import { useNavigate } from "react-router-dom";
 import { InputGuests } from "./searchValidation/InputGuests";
@@ -41,7 +40,7 @@ export const SearchForm = () => {
     >
       <h3>Where Are You Going?</h3>
       <div
-        className=" row flex-row  align-items-center align-self-center align-self-center
+        className="  row flex-row  align-items-center align-self-center align-self-center
 w-100"
       >
         <div className="coolinput col-6 ">

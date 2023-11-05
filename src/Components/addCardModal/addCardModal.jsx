@@ -116,7 +116,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   />
                   <div class="input-group-append ">
                     <span class="input-group-text h-100 px-4">
-                      <img src={Visa} alt="" />
+                      <img src={Visa} alt="visaImg" />
                     </span>
                   </div>
                 </div>

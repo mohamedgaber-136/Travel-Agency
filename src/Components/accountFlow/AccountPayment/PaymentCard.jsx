@@ -3,7 +3,7 @@ import { searchContext } from "../../../store/searchStore";
 import { useContext } from "react";
 
 export const PaymentCard = ({ item, index }) => {
-  let { currentUserObj, authorized, updateCurrentUser } =
+  let { currentUserObj, updateCurrentUser } =
     useContext(searchContext);
   const deleteCard = (deletedCardIndex) => {
     const cards = currentUserObj.cards?.filter((item, index) => {
@@ -14,7 +14,7 @@ export const PaymentCard = ({ item, index }) => {
     });
   };
   return (
-    <div className="col-md-6 p-2">
+    <div className=" col-12 col-md-4 p-2 CardClicker" >
       <div className="payment__visa w-100 p-3 rounded-3 add-visa-width ">
         <div className="d-flex align-items-start justify-content-between visa-content">
           <div>
@@ -24,7 +24,6 @@ export const PaymentCard = ({ item, index }) => {
               ))}
               {item.creditCard.slice(-4)}
             </p>
-            {/* <p className="fs-5">{item.creditCard.slice(-4)}</p> */}
           </div>
           <div onClick={() => deleteCard(index)} className="cursor-pointer">
             <svg
@@ -65,6 +64,7 @@ export const PaymentCard = ({ item, index }) => {
           </svg>
         </div>
       </div>
+      
     </div>
   );
 };
