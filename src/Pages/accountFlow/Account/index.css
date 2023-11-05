@@ -66,6 +66,7 @@
 .account__info {
   padding: 24px 32px;
   background-color: #fff;
+  box-shadow: 0 0 5px 5px lightgray;
 }
 
 .account__info span {

@@ -36,3 +36,6 @@
 .visa .line-height {
   line-height: 0.3;
 }
+.CardpaymentModel{
+  box-shadow: 0 0 5px 5px lightgray;
+}
