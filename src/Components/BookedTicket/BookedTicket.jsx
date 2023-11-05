@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 
 import "./Booked.css";
 export const BookedTicket = () => {
-  const{searchData}=useContext(searchContext)
+  const{searchData,currentUserObj}=useContext(searchContext)
   return (
     <div className="BookedTicketParent d-flex align-items-center justify-content-center">
       <div className="ticket d-flex justify-content-center align-items-center">
@@ -80,13 +80,10 @@ export const BookedTicket = () => {
         </div>
         <div className="ticketMiddleSide">
           <div className="MiddleTop p-2 d-flex align-items-center justify-content-between">
-            <div className="ticketImg d-flex align-items-center justify-content-start">
+            <div className="ticketImg d-flex gap-2 align-items-center justify-content-start">
               <img
-                src={avatar}
-                width={"40px"}
-                height={"40px"}
+                src={currentUserObj.profileImg}
                 alt="AvataLogo"
-                style={{ objectFit: "cover" }}
               />{" "}
               <p className="m-0">James Doe</p>
             </div>
