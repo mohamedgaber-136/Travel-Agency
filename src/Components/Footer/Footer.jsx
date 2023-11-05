@@ -1,4 +1,5 @@
 import "./footer.css";
+import Logo from '../../assets/images/logo-removebg.png'
 export const Footer = () => {
   return (
     <footer className="footer-section ">
@@ -8,7 +9,7 @@ export const Footer = () => {
             <div className="col-xl-4 col-lg-4 mb-50">
               <div className="footer-widget">
                 <div className="footer-logo">
-                  <h2>Logo</h2>
+                  <img src={Logo} alt="Logo" />
                 </div>
                 <div className="footer-text">
                   <p>

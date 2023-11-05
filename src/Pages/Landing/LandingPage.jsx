@@ -12,7 +12,7 @@ const LandingPage = () => {
     <>
       <Helmet>
         <meta charSet="utf-8" />
-        <title>LogoForTravel</title>
+        <title>TravelTales</title>
       </Helmet>
       <Header />
       <Main />

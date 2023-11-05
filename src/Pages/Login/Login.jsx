@@ -146,7 +146,6 @@ function LoginPage() {
                 <input
                   type="checkbox"
                   defaultValue={userObject.rememberMe}
-                  // checked={userObject.rememberMe}
                   className="form-check-input"
                   onChange={(event) =>
                     setUserObject({
@@ -157,14 +156,12 @@ function LoginPage() {
                 />
                 <label className="px-1">Remember me </label>
               </div>
-              {/* <span className="btn p-0 url-colored">Forgot password?</span> */}
             </div>
 
             <div className="d-flex flex-column w-75 py-2">
               <button
                 className={submitEnabled ? "submitBtn" : "submitBtn-disabled"}
                 onClick={userSignIn}
-                // disabled={submitEnabled}
               >
                 Sign In
               </button>

@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { searchContext } from "./../../store/searchStore";
 import { Button } from "react-bootstrap";
-
+import Logo from '../../assets/images/logo-removebg.png'
 export const NavigationBar = () => {
   let navigatation = useNavigate();
   const { currentUserObj, setCurrentUserObj, setAuthorized } =
@@ -29,7 +29,7 @@ export const NavigationBar = () => {
     >
       <Container>
         <Navbar.Brand className="logoBrand" onClick={() => navigatation("/")}>
-          Logo
+          <img src={Logo} alt="Logo" />{" "}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav " className="p-1 ">
           <i className="fa-solid fa-circle-chevron-down NavbarButton"></i>

@@ -1,78 +1,87 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { searchContext } from "./searchStore";
 import axios from "axios";
 
 export const addHotelsContext = createContext(0);
-
-export default function AddHotelsProvider(props) {
+export default function CountryHotelsProvider(props) {
   const { searchData } = useContext(searchContext);
-  const [addHotels, setAddHotels] = useState([]);
+  const [countryHotels, setCountryHotels] = useState([]);
   const [hotelObj, setHotelObj] = useState({});
-  const [isFavorites, setIsFavorites] = useState(false);
+  // const [isFavorites, setIsFavorites] = useState(false);
 
-  const isFavoritesClick = () => {
-    hotelObj.isFav = !hotelObj.isFav;
-    // isFavorites = !isFavorites
-    setIsFavorites(hotelObj.isFav);
+  // const isFavoritesClick = () => {
+  //   hotelObj.isFav = !hotelObj.isFav;
+  //   setIsFavorites(hotelObj.isFav);
+  // };
+
+  const paramters = {
+    headers: {
+      "X-RapidAPI-Key": "9e85c3b4aamsha66ed4058238f9cp1a0a97jsn1aa95abc07a5",
+      "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
+    },
   };
 
-  const getHotels = async () => {
-    const resID = await axios.get(
-      `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=${searchData.destination}`,
-      {
-        headers: {
-          "X-RapidAPI-Key":
-            "18895e8072msh5d4a99b4d106285p1f6ad8jsndaa66e54983f",
-          "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
-        },
-      }
-    );
-    console.log(searchData.destination);
-    console.log(resID, "resID");
-    // const options = {
-    //   method: "GET",
-    // };
-    // const resId = await fetch(
-    //   `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=${searchData.destination}`,
-    //   options
-    // );
-    // const getResId = await resId?.json();
-    // const cityId = await getResId?.data[0]?.geoId;
-    // console.log(cityId);
-    // const res = await fetch(
-    //   `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels?geoId=${cityId}8&checkIn=2023-11-09&checkOut=2023-11-11&pageNumber=1&currencyCode=USD`,
-    //   options
-    // );
-    // const data = await res?.json();
-    // setAddHotels([...data?.data?.data]);
-    // console.log(data, "aya a7ga");
-    // console.log(addHotels);
-  };
-  const getHotelsObj = async (id) => {
-    const url = `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`;
-    const options = {
-      method: "GET",
-      headers: {
-        "X-RapidAPI-Key": "18895e8072msh5d4a99b4d106285p1f6ad8jsndaa66e54983f",
-        "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
-      },
-    };
-    // 21213729
-    const res = await fetch(url, options);
-    console.log(res, "response");
-    const data = await res.json();
-    setHotelObj({ ...data.data, isFav: false });
-    console.log(data.data, "hotel object");
-  };
+  useEffect(() => {
+    getLocationID();
+    console.log(searchData, "set search data");
+  }, [searchData]);
+
+  async function getLocationID() {
+    await axios
+      .get(
+        `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=${searchData.destination}`,
+        paramters
+      )
+      .then(async (response) => {
+        console.log(response.data.data[0]);
+        await getHotelsData(response.data.data[0]);
+      })
+      .catch((error) => console.log(error, "error"));
+
+    console.log(searchData.destination, "destination");
+  }
+
+  async function getHotelsData(location) {
+    console.log(location.geoId, "id location");
+    await axios
+      .get(
+        `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchHotels?geoId=${location.geoId}&checkIn=2023-11-09&checkOut=2023-11-11&pageNumber=1&currencyCode=USD`,
+        paramters
+      )
+      .then((response) => {
+        console.log(response.data, "hotels details");
+        console.log(response.data.data.data, "hotels data details");
+        setCountryHotels(response.data.data.data);
+      })
+      .catch((error) => console.log(error, "error"));
+  }
+
+  async function getHotelsObj(id) {
+    await axios
+      .get(
+        `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`,
+        paramters
+      )
+      .then((response) => {
+        console.log(response.data.data);
+        setHotelObj({ ...response.data.data, isFav: false });
+      })
+      .catch((error) => console.log(error, "error"));
+
+    //   // 21213729
+
+    //   setHotelObj({ ...data.data, isFav: false });
+    //   console.log(data.data);
+  }
   return (
     <addHotelsContext.Provider
       value={{
-        addHotels,
-        getHotels,
+        countryHotels,
         getHotelsObj,
         hotelObj,
-        isFavoritesClick,
-        isFavorites,
+        // isFavoritesClick,
+        // isFavorites,
+        getLocationID,
       }}
     >
       {props.children}
