@@ -17,6 +17,10 @@ export const SearchForm = () => {
       CheckIn: event.target[1].value,
       CheckOut: event.target[2].value,
       GuestAndRooms: event.target[3].value,
+      nights:
+        (new Date(event.target[2].value).getTime() -
+          new Date(event.target[1].value).getTime()) /
+        (1000 * 3600 * 24),
     };
     setSeachData({ ...data });
     setValidatation(await searchSchema.isValid(searchData));
