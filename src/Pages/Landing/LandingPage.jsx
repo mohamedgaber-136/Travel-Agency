@@ -6,8 +6,8 @@ import { BookedTicket } from "../../Components/BookedTicket/BookedTicket";
 import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
 const LandingPage = () => {
-  let{ authorized  } = useContext(searchContext)
-  console.log(authorized,'autho')
+  let { authorized } = useContext(searchContext);
+  console.log(authorized, "autho");
   return (
     <>
       <Helmet>
@@ -16,7 +16,6 @@ const LandingPage = () => {
       </Helmet>
       <Header />
       <Main />
-      <BookedTicket />
       <MainBookFlight />
     </>
   );

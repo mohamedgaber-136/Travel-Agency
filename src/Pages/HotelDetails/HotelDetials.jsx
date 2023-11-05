@@ -11,13 +11,20 @@ import share from "./assets/Share.png";
 import imgHotel from "./assets/Rectangle 3.png";
 import "bootstrap/js/dist/carousel";
 import Loading from "../../Components/Loading/Loading";
+import { addDoc, collection } from "firebase/firestore";
+import { searchContext } from "../../store/searchStore";
 export default function HotelDetials() {
   const { id } = useParams();
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
+  const { database } = useContext(searchContext);
   useEffect(() => {
     console.log(id, "id");
-    // getHotelsObj(id);
+    getHotelsObj(id);
+    const colRef = collection(database, "hotels");
+    addDoc(colRef, { id: id, details: hotelObj }).then((data) =>
+      console.log(data, "hotel details ")
+    );
   }, []);
 
   return hotelObj.length !== 0 ? (

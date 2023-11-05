@@ -9,6 +9,10 @@ import {
   updateDoc,
 } from "firebase/firestore";
 
+import { getAuth } from "firebase/auth";
+
+// import firebase from "firebase";
+
 const firebaseConfig = {
   apiKey: "AIzaSyCb-UkvpCD0WgqHJMgLK6UBnXKBJWRSZzE",
   authDomain: "iti-final-project-ammmoz06.firebaseapp.com",
@@ -24,6 +28,8 @@ export default function SearchContextProvider(props) {
   //--------------------- firebase --------------------//
   initializeApp(firebaseConfig);
   const database = getFirestore();
+  const auth = getAuth();
+  // const auth=  firebase.auth();
 
   //--------------------- useState --------------------//
 
@@ -39,7 +45,8 @@ export default function SearchContextProvider(props) {
   useEffect(() => {
     if (currentUserObj?.id === "0") {
       // const userID = sessionStorage.getItem("currentUser");
-      if (userID !== null) {
+      console.log(userID, "user id");
+      if (userID !== null && userID !== undefined && userID !== "undefined") {
         getCurrentUserData();
       } else {
         console.log("no snapshot");
@@ -91,6 +98,7 @@ export default function SearchContextProvider(props) {
         authorized,
         setAuthorized,
         delayForDemo,
+        auth,
       }}
     >
       {props.children}

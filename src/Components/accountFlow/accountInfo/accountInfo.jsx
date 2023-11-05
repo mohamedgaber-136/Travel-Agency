@@ -110,7 +110,7 @@ const AccountInfo = ({
               }
               className={
                 readOnly === false
-                  ? "border-0 px-2 "
+                  ? "border-0 px-2 form-control"
                   : "border-0 px-2 AccountInPut"
               }
               value={inputs[name]}
@@ -125,7 +125,7 @@ const AccountInfo = ({
                       type={"text"}
                       className={
                         readOnly === false
-                          ? "border-0 px-2 "
+                          ? "border-0 px-2 form-control"
                           : "border-0 px-2 AccountInPut"
                       }
                       placeholder="Enter Your New Password"
@@ -139,7 +139,7 @@ const AccountInfo = ({
                       name="newPassConfirm"
                       className={
                         readOnly === false
-                          ? "border-0 px-2 "
+                          ? "border-0 px-2 form-control"
                           : "border-0 px-2 AccountInPut"
                       }
                       readOnly={readOnly}
@@ -162,7 +162,9 @@ const AccountInfo = ({
         <p className="text-danger">{errorMessage[name]}</p>
       </div>
       <div className="d-flex justify-content-between flex-wrap gap-3">
-        {name === "birthDate" && inputs["birthDate"] !== undefined ? (
+        {name === "birthDate" &&
+        inputs["birthDate"] !== undefined &&
+        inputs["birthDate"] !== "" ? (
           ""
         ) : (
           <button

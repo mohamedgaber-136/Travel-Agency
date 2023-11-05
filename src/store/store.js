@@ -1,10 +1,18 @@
 import { createContext, useContext, useEffect, useState } from "react";
 import { searchContext } from "./searchStore";
 import axios from "axios";
+import {
+  addDoc,
+  collection,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
-  const { searchData } = useContext(searchContext);
+  const { searchData, database } = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
   const [hotelObj, setHotelObj] = useState({});
   // const [isFavorites, setIsFavorites] = useState(false);
@@ -22,9 +30,47 @@ export default function CountryHotelsProvider(props) {
   };
 
   useEffect(() => {
-    getLocationID();
+    if (searchData.destination !== "" && searchData.destination !== undefined) {
+      // getLocationID();
+      // console.log("getLocationID");
+      console.log("getHotelsFromFirebase");
+      getHotelsFromFirebase();
+    }
     console.log(searchData, "set search data");
   }, [searchData]);
+
+  function getHotelsFromFirebase() {
+    const locatiosRef = collection(database, "locations");
+
+    const que = query(
+      locatiosRef,
+      where("location", "==", searchData.destination)
+    );
+    getDocs(que).then((snapshot) => {
+      console.log(snapshot.docs[0].data().hotels, "datadatadat");
+      // snapshot.docs.forEach((item) => console.log(item.data()));
+      if (snapshot.docs.length > 0) {
+        setCountryHotels(snapshot.docs[0].data().hotels);
+      } else {
+        getDocs(query(locatiosRef, where("location", "==", "cairo"))).then(
+          (snapshot) => {
+            setCountryHotels(snapshot.docs[0].data().hotels);
+
+            console.log(snapshot.docs[0].data().hotels, "datadatadat");
+            // snapshot.docs.forEach((item) => console.log(item.data()));
+          }
+        );
+      }
+      // else {
+      //   const queCairo = query(locatiosRef, where("location", "==", "cairo"));
+      //   getDocs(queCairo).then((snapshot) => {
+      //     console.log(snapshot.docs, "hotels ");
+
+      //     setCountryHotels(snapshot.docs[0]);
+      //   });
+      // }
+    });
+  }
 
   async function getLocationID() {
     await axios
@@ -52,27 +98,40 @@ export default function CountryHotelsProvider(props) {
         console.log(response.data, "hotels details");
         console.log(response.data.data.data, "hotels data details");
         setCountryHotels(response.data.data.data);
+
+        const locatiosRef = collection(database, "locations");
+        addDoc(locatiosRef, {
+          location: searchData.destination,
+          hotels: response.data.data.data,
+        }).then((snapshot) => {
+          console.log(snapshot, "djfhsdj");
+        });
       })
       .catch((error) => console.log(error, "error"));
   }
 
   async function getHotelsObj(id) {
-    await axios
-      .get(
-        `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`,
-        paramters
-      )
-      .then((response) => {
-        console.log(response.data.data);
-        setHotelObj({ ...response.data.data, isFav: false });
-      })
-      .catch((error) => console.log(error, "error"));
+    // await axios
+    //   .get(
+    //     `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`,
+    //     paramters
+    //   )
+    //   .then((response) => {
+    //     console.log(response.data.data);
+    //     setHotelObj({ ...response.data.data, isFav: false });
+    //   })
+    //   .catch((error) => console.log(error, "error"));
+    // 21213729
+    // setHotelObj({ ...data.data, isFav: false });
+    // console.log(data.data);
 
-    //   // 21213729
-
-    //   setHotelObj({ ...data.data, isFav: false });
-    //   console.log(data.data);
+    const hotelRef = collection(database, "hotels");
+    getDocs(hotelRef).then((snapshot) => {
+      console.log(snapshot.docs[0].data());
+      setHotelObj(snapshot.docs[0].data().details);
+    });
   }
+
   return (
     <addHotelsContext.Provider
       value={{

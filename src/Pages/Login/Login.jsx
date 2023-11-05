@@ -6,11 +6,14 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
-import { getDocs, query, where } from "firebase/firestore";
+import { addDoc, getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
+import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import swal from "sweetalert";
+import { ProfileImg } from "./../../Layout/ProfileImg";
 
 function LoginPage() {
-  const { usersReference, setCurrentUserObj, setAuthorized,authorized } =
+  const { usersReference, setCurrentUserObj, setAuthorized, authorized, auth } =
     useContext(searchContext);
 
   const navigate = useNavigate();
@@ -66,6 +69,51 @@ function LoginPage() {
         }
       });
     }
+  }
+
+  function logInWithGoogle() {
+    // var provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new GoogleAuthProvider();
+
+    signInWithPopup(auth, provider)
+      .then((result) => {
+        console.log(result.user, "firebase result");
+
+        const que = query(
+          usersReference,
+          where("email", "==", result.user.email)
+        );
+        getDocs(que).then((snapshot) => {
+          if (snapshot.docs.length > 0) {
+            // localStorage.setItem("currentUser", snapshot.id);
+            // setCurrentUserObj({ ...snapshot.docs[0], id: snapshot.id });
+            console.log("login aith same email");
+          } else {
+            setAuthorized(true);
+            swal({
+              icon: "success",
+              button: false,
+              closeOnClickOutside: false,
+              timer: 2000,
+            }).then(() => navigate("/"));
+
+            const userObj = {
+              firstName: result.user.displayName,
+              email: result.user.email,
+              profileImg: result.user.photoURL,
+            };
+
+            addDoc(usersReference, userObj).then((snapshot) => {
+              console.log(snapshot, "djfhsdj");
+              localStorage.setItem("currentUser", snapshot.id);
+              setCurrentUserObj({ ...userObj, id: snapshot.id });
+            });
+          }
+        });
+      })
+      .catch((error) => {
+        console.log(error.message, "error");
+      });
   }
 
   return (
@@ -178,7 +226,10 @@ function LoginPage() {
             <span>Or login With</span>
 
             <div className="d-flex   gap-2">
-              <button className="btn border seeAllBtn">
+              <button
+                className="btn border seeAllBtn"
+                onClick={logInWithGoogle}
+              >
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </button>
