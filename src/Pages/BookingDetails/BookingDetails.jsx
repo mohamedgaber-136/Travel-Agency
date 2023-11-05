@@ -9,12 +9,12 @@ import { searchContext } from "../../store/searchStore";
 import { BookingBreacrumb } from "./BookingBreacrumb";
 import AddCardModal from "../../Components/addCardModal/addCardModal";
 import { CardsLists } from "./CardsLists";
+import {  Navigate } from "react-router-dom";
+
 const BookingDetails = () => {
-  const { currentUserObj } = useContext(searchContext);
+  const { currentUserObj,authorized } = useContext(searchContext);
   const [cardsLists, setCardsLists] = useState(false);
   const [modalShow, setModalShow] = useState(false);
-  // handle close modal
-  // const handleClose = () => setModalShow(false);
   const handleShow = () => {
     if (currentUserObj.cards?.length !== 0) {
       setCardsLists(true);
@@ -24,6 +24,10 @@ const BookingDetails = () => {
       setModalShow(true);
     }
   };
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
+
   return (
     <>
       <Helmet>

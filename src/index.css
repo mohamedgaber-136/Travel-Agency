@@ -130,3 +130,19 @@ input[type="checkbox"]:checked:after {
   height: 100vh;
   width: 100vw;
 }
+.sweet-warning{
+  background-color:var(--mint-green) ;
+  color: black;
+}
+.sweet-warning:hover{
+  background-color:var(--mint-green) !important;
+  color: black !important;
+}
+.swal-button--cancel{
+  background-color: rgba(199, 26, 26, 0.797) !important;
+  color: white !important;
+}
+
+.inputClass{
+  width: fit-content;
+}

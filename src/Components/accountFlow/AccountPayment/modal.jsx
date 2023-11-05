@@ -7,6 +7,7 @@ export default function PaymentModal(props) {
       size="md"
       aria-labelledby="contained-modal-title-vcenter"
       centered
+      className="d-flex justify-content-center align-items-center"
     >
       <Modal.Title className="p-4 fs-2 pb-2">Add a new Card</Modal.Title>
 
