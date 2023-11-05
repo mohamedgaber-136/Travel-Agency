@@ -21,9 +21,9 @@ export default function CountryHotelsPage() {
 
   useEffect(() => {
     console.log(countryHotels, "hoootels");
-    if (countryTitle !== undefined) {
-      setSeachData({ ...searchData, destination: countryTitle });
-    }
+    // if (countryTitle !== undefined) {
+    //   setSeachData({ ...searchData, destination: countryTitle });
+    // }
   }, [countryTitle]);
 
   return (

@@ -94,25 +94,32 @@ const AddCardModal = ({ show, handleClose }) => {
                 <label for="card-number" className="text fw-normal labelText ">
                   Card Number
                 </label>
-                <input
-                  type="text"
-                  className="rounded-2 placeStyle  form-control"
-                  placeholder="4321 4321 4321 4321"
-                  maxLength={19}
-                  value={cc_format(formData.creditCard)}
-                  onChange={(e) => {
-                    const str = e.target.value.replace(/\s/g, "");
 
-                    if (!isNaN(str)) {
-                      setFormData({
-                        ...formData,
-                        creditCard: str,
-                      });
-                    }
-                  }}
-                  required
-                />
-                <img src={Visa} alt="" className="visaDetails" />
+                <div class="input-group " style={{ zIndex: "10" }}>
+                  <input
+                    type="text"
+                    className="rounded-2 placeStyle  form-control"
+                    placeholder="4321 4321 4321 4321"
+                    maxLength={19}
+                    value={cc_format(formData.creditCard)}
+                    onChange={(e) => {
+                      const str = e.target.value.replace(/\s/g, "");
+
+                      if (!isNaN(str)) {
+                        setFormData({
+                          ...formData,
+                          creditCard: str,
+                        });
+                      }
+                    }}
+                    required
+                  />
+                  <div class="input-group-append ">
+                    <span class="input-group-text h-100 px-4">
+                      <img src={Visa} alt="" />
+                    </span>
+                  </div>
+                </div>
               </div>
               {/* expiration date input  */}
               <div className="mb-3 d-flex w-100 justify-content-center gap-2">
@@ -121,12 +128,12 @@ const AddCardModal = ({ show, handleClose }) => {
                   <br />
 
                   <div
-                    className="form-control bg-danger d-flex gap-2 p-0"
+                    className="form-control d-flex gap-3 p-0 border-0"
                     style={{ height: "3rem" }}
                   >
                     <select
-                    style={{height:'1.8rem'}}
-                      className=" text-center border-0"
+                      length={6}
+                      className="form-select form-select-lg text-center w-50"
                       onChange={(event) => {
                         if (event.target.value !== "MM") {
                           if (event.target.value.length < 2) {
@@ -160,8 +167,9 @@ const AddCardModal = ({ show, handleClose }) => {
                         </option>
                       ))}
                     </select>
+
                     <select
-                      className=" text-center border-0"
+                      className="form-select form-select-lg text-center w-50"
                       onChange={(event) => {
                         if (event.target.value !== "YY") {
                           setExpirationDate({
