@@ -30,8 +30,6 @@
 .coolinput {
     display: flex;
     flex-direction: column;
-    width: fit-content;
-    position: static;
 }
 
 .coolinput label.text {

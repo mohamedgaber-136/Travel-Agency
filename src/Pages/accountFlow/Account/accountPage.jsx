@@ -6,6 +6,7 @@ import { Helmet } from "react-helmet";
 import { searchContext } from "../../../store/searchStore";
 import { Navigate } from "react-router-dom";
 import { Suspense } from "react";
+import { SearchForm } from "../../../Components/SearchForm/SearchForm";
 
 const initialObj = {
   firstName: "",

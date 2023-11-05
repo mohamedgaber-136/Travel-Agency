@@ -39,7 +39,7 @@ export default function CountryHotelsPage() {
             marginTop: "150px",
           }}
         >
-          {/* <SearchForm /> */}
+          <SearchForm />
         </div>
 
         {countryHotels?.length !== 0 ? (

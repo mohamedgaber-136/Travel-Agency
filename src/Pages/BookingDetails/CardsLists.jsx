@@ -4,6 +4,7 @@ import { PaymentCard } from "../../Components/accountFlow/AccountPayment/Payment
 import { searchContext } from "../../store/searchStore";
 import { AddNewCard } from "../../Components/accountFlow/AccountPayment/AddNewCard";
 import AddCardModal from "../../Components/addCardModal/addCardModal";
+import SubmitCard from "./SubmitCard";
 export const CardsLists = ({ show, setModalShow }) => {
   const { currentUserObj } = useContext(searchContext);
   const [showAddCard, setShowAddCard] = useState(false);
