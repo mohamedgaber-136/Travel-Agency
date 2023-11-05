@@ -1,4 +1,4 @@
-import { useContext, useState } from "react";
+import { useContext, useEffect, useState } from "react";
 import { Modal } from "react-bootstrap";
 import { searchContext } from "../../store/searchStore";
 import { bookingSchema } from "../../Pages/BookingDetails/bookingValidation";
@@ -9,6 +9,7 @@ const AddCardModal = ({ show, handleClose }) => {
   const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
     useContext(searchContext);
   const [isValidData, setIsValidData] = useState(false);
+  const [expirationDate, setExpirationDate] = useState({ month: "", year: "" });
   const [formData, setFormData] = useState({
     // validation schema
     creditCard: "",
@@ -18,6 +19,23 @@ const AddCardModal = ({ show, handleClose }) => {
     country: "",
     license: "",
   });
+
+  const month = () => {
+    const x = [];
+    for (let i = 0; i < 12; i++) {
+      x.push(i + 1);
+    }
+    return [...x];
+  };
+  const year = () => {
+    const x = [];
+    const dateNow = new Date();
+    const date = parseInt(dateNow.getFullYear().toLocaleString().slice(-2));
+    for (let i = date; i < date + 50; i++) {
+      x.push(i);
+    }
+    return [...x];
+  };
 
   // handle credi card input
   function cc_format(value) {
@@ -32,6 +50,8 @@ const AddCardModal = ({ show, handleClose }) => {
 
     return parts.length > 1 ? parts.join(" ") : value;
   }
+
+  console.log(expirationDate.month, "ajkgsg");
 
   // form validation
   const bookingValidation = async (e) => {
@@ -61,7 +81,7 @@ const AddCardModal = ({ show, handleClose }) => {
       });
     }
   };
-// spacesV
+  // spacesV
   return (
     <Modal show={show} className="fs-4 mt-4 ModalParent" onHide={handleClose}>
       <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
@@ -99,19 +119,110 @@ const AddCardModal = ({ show, handleClose }) => {
                 <div className="w-100">
                   <label className=" text fw-normal labelText">Exp. Date</label>
                   <br />
-                  <input
+
+                  <div
+                    className="form-control bg-danger d-flex gap-2 p-0"
+                    style={{ height: "3rem" }}
+                  >
+                    <select
+                    style={{height:'1.8rem'}}
+                      className=" text-center border-0"
+                      onChange={(event) => {
+                        if (event.target.value !== "MM") {
+                          if (event.target.value.length < 2) {
+                            setExpirationDate({
+                              ...expirationDate,
+                              month: `0${event.target.value}`,
+                            });
+                          } else {
+                            setExpirationDate({
+                              ...expirationDate,
+                              month: event.target.value,
+                            });
+                          }
+                          setFormData({
+                            ...formData,
+                            expireDate: [
+                              expirationDate.month,
+                              expirationDate.year,
+                            ].join("/"),
+                          });
+                        }
+                        console.log(expirationDate.month);
+                      }}
+                    >
+                      <option name={"mm"} disabled selected>
+                        MM
+                      </option>
+                      {month().map((item, index) => (
+                        <option name={item} key={index}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                    <select
+                      className=" text-center border-0"
+                      onChange={(event) => {
+                        if (event.target.value !== "YY") {
+                          setExpirationDate({
+                            ...expirationDate,
+                            year: event.target.value,
+                          });
+                          setFormData({
+                            ...formData,
+                            expireDate: [
+                              expirationDate.month,
+                              expirationDate.year,
+                            ].join("/"),
+                          });
+                        }
+                      }}
+                    >
+                      <option name={"yy"} disabled selected>
+                        YY
+                      </option>
+
+                      {year().map((item, index) => (
+                        <option name={item} key={index}>
+                          {item}
+                        </option>
+                      ))}
+                    </select>
+                  </div>
+
+                  {/* <input
                     className="me-2 w-100 placeStyle rounded-2  form-control"
                     placeholder="02/27"
                     type="month"
+                    value={formData.expireDate}
+                    pattern="[0-9]{2}-[0-9]{2}"
+                    // pattern="yy-MM"
+                    // pattern="[0-9]{2}/[0-9]{2}"
                     onChange={(e) => {
+
+                      // id="bday-month"
+                      // type="month"
+                      // name="bday-month"
+                      // min="1900-01"
+                      // max="2013-12" />
+
+                      const date = new Date(e.target.value);
+
+                      const dateFormat = [
+                        String(date.getMonth() + 1).padStart(2, "0"),
+                        String(date.getFullYear()).slice(-2),
+                      ].join("-");
+
+                      console.log(dateFormat, "formate date ");
+
                       setFormData({
                         ...formData,
-                        expireDate: e.target.value,
+                        expireDate: dateFormat,
                       });
                     }}
                     // aria-label="Exp. Date"
                     required
-                  />
+                  /> */}
                 </div>
                 {/* cvc input  */}
                 <div>

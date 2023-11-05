@@ -21,12 +21,12 @@ const AccountPayment = () => {
     <div>
       <Container className="bg-white py-3 rounded-3 CardpaymentModel ">
         <div className="row gy-4">
-          {currentUserObj.cards.map((item, index) => (
+          {currentUserObj?.cards?.map((item, index) => (
             <PaymentCard item={item} key={index} index={index} />
           ))}
 
           <div className="col-md-6 col-lg-4">
-            <AddNewCard setModalShow={setModalShow} />
+            <AddNewCard setModalShow={() => setModalShow(true)} />
           </div>
         </div>
 

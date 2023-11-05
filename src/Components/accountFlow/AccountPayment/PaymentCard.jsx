@@ -14,12 +14,17 @@ export const PaymentCard = ({ item, index }) => {
     });
   };
   return (
-    <div className="col-10 col-md-5">
+    <div className="col-md-6 p-2">
       <div className="payment__visa w-100 p-3 rounded-3 add-visa-width ">
         <div className="d-flex align-items-start justify-content-between visa-content">
           <div>
-            <p className="mb-0 lh-sm">**** **** **** ****</p>
-            <p className="fs-5">{item.creditCard.slice(-4)}</p>
+            <p className="mb-0 lh-sm">
+              {[1, 2, 3].map(() => (
+                <span>&#9913;&#9913;&#9913;&#9913;&nbsp;&nbsp;</span>
+              ))}
+              {item.creditCard.slice(-4)}
+            </p>
+            {/* <p className="fs-5">{item.creditCard.slice(-4)}</p> */}
           </div>
           <div onClick={() => deleteCard(index)} className="cursor-pointer">
             <svg

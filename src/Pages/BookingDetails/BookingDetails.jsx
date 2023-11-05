@@ -14,9 +14,9 @@ const BookingDetails = () => {
   const [cardsLists, setCardsLists] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   // handle close modal
-  const handleClose = () => setModalShow(false);
+  // const handleClose = () => setModalShow(false);
   const handleShow = () => {
-    if (currentUserObj.cards?.length != 0) {
+    if (currentUserObj.cards?.length !== 0) {
       setCardsLists(true);
       setModalShow(true);
     } else {

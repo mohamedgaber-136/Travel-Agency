@@ -7,7 +7,7 @@ import { InputGuests } from "./searchValidation/InputGuests";
 export const SearchForm = () => {
   const navigate = useNavigate();
 
-  const [isValid, setValidatation] = useState(true);
+  const [isValid, setValidatation] = useState(false);
   const { searchData, setSeachData } = useContext(searchContext);
 
   const getSearchData = async (event) => {
@@ -23,14 +23,16 @@ export const SearchForm = () => {
         (1000 * 3600 * 24),
     };
     setSeachData({ ...data });
-    let isValid = await searchSchema.isValid(searchData);
-    if (isValid) {
-      // navigate(`/CountryHotels/${data.destination}`, { replace: true });
-    }
+    setValidatation(await searchSchema.isValid(searchData));
+    // let isValid = await searchSchema.isValid(searchData);
   };
   useEffect(() => {
-    console.log(searchData, "searchData");
-  });
+    console.log("reRender");
+    if (isValid) {
+      navigate(`/CountryHotels/${searchData.destination}`, { replace: true });
+    }
+  }, [isValid]);
+
   return (
     <form
       onSubmit={getSearchData}
@@ -39,7 +41,7 @@ export const SearchForm = () => {
       <h3>Where Are You Going?</h3>
       <div
         className=" row flex-row  align-items-center align-self-center align-self-center
- w-100"
+w-100"
       >
         <div className="coolinput col-6 ">
           <label htmlFor="location" className="text">

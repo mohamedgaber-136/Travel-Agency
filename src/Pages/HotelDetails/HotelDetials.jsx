@@ -16,7 +16,8 @@ export default function HotelDetials() {
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
   useEffect(() => {
-    getHotelsObj(id);
+    console.log(id, "id");
+    // getHotelsObj(id);
   }, []);
 
   return hotelObj.length !== 0 ? (

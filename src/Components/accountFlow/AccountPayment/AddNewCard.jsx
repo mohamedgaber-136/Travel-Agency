@@ -4,7 +4,7 @@ export const AddNewCard = ({setModalShow}) => {
   return (
     <div
       className="add-visa py-3 rounded-3 add-visa-width w-100"
-      onClick={()=> setModalShow(true)}
+      onClick={setModalShow}
     >
       <svg
         xmlns="http://www.w3.org/2000/svg"
