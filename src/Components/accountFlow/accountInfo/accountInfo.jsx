@@ -18,7 +18,7 @@ const AccountInfo = ({
     if (
       e.target.value === "" &&
       e.target.name !== "address" &&
-      e.target.name !== "birthdate"
+      e.target.name !== "birthDate"
     ) {
       setErrorMessage({
         ...errorMessage,
@@ -80,7 +80,7 @@ const AccountInfo = ({
     }
   };
   const NewPasssData = (e) => {
-    if (e.target.name) {
+    if (e.target.name === "newPass") {
       setNewPass({ ...newPass, newPassword: e.target.value });
     } else {
       setNewPass({ ...newPass, checkNewPassword: e.target.value });
@@ -162,7 +162,7 @@ const AccountInfo = ({
         <p className="text-danger">{errorMessage[name]}</p>
       </div>
       <div className="d-flex justify-content-between flex-wrap gap-3">
-        {name === "birthdate" && inputs["birthdate"] !== undefined ? (
+        {name === "birthDate" && inputs["birthDate"] !== undefined ? (
           ""
         ) : (
           <button

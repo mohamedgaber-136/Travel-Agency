@@ -1,13 +1,13 @@
-import AccountFlight from "../accountFlight/accountFlight";
+// import AccountFlight from "../accountFlight/accountFlight";
 
-const AccountFlights = () => {
-  return (
-    <>
-      <AccountFlight />
-      <AccountFlight />
-      <AccountFlight />
-    </>
-  );
-};
+// const AccountFlights = () => {
+//   return (
+//     <>
+//       {/* <AccountFlight /> */}
+//       {/* <AccountFlight /> */}
+//       <AccountFlight />
+//     </>
+//   );
+// };
 
-export default AccountFlights;
+// export default AccountFlights;

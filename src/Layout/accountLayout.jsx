@@ -86,7 +86,7 @@ const AccountLayout = () => {
         </Container>
         <Container>
           <ProfileImg />
-          <div className="account__selection px-4 account__main-links mb-3">
+          <div className="account__selection px-4 account__main-links mb-3 ">
             <NavLink
               to={"/account/" + id}
               end

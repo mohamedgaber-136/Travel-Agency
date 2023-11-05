@@ -55,7 +55,7 @@ const AppRouter = () => {
                 <Route index={true} element={<Account />} />
 
                 <Route path="history" element={<AccountHistoryLayout />}>
-                  <Route index={true} element={<AccountFlights />} />
+                  {/* <Route index={true} element={<AccountFlights />} /> */}
                   <Route path="stays" element={<AccountStays />} />
                 </Route>
                 <Route path="payment" element={<AccountPayment />} />

@@ -1,11 +1,19 @@
-import AccountFlight from "../accountFlight/accountFlight";
+import { useContext } from "react";
+import { searchContext } from "../../../store/searchStore";
+import AccountTicketCard from "../../AccountTicketCard/AccountTicketCard";
 
 const AccountStays = () => {
+  const { currentUserObj } = useContext(searchContext);
+
   return (
     <>
-      <AccountFlight />
+      {currentUserObj.bookings?.map((item) => (
+        <AccountTicketCard />
+      ))}
+
       {/* <AccountFlight /> */}
-      <AccountFlight />
+      {/* <AccountFlight /> */}
+      {/* <AccountFlight /> */}
     </>
   );
 };

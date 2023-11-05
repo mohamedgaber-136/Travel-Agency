@@ -104,7 +104,7 @@ const Account = () => {
             <AccountInfo
               label="Date of birth"
               content="01-01-1992"
-              name="birthdate"
+              name="birthDate"
               type="date"
               inputs={inputs}
               setInputs={setInputs}
