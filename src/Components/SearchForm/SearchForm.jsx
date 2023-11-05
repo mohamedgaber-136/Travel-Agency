@@ -24,6 +24,7 @@ export const SearchForm = () => {
     };
     setSeachData({ ...data });
     setValidatation(await searchSchema.isValid(searchData));
+    console.log(isValid, "is valid search data");
     // let isValid = await searchSchema.isValid(searchData);
   };
   useEffect(() => {
