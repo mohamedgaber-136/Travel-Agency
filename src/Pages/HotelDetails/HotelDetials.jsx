@@ -17,10 +17,10 @@ export default function HotelDetials() {
   let navigate = useNavigate();
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
-  const {  addUserFavouriteHotel } = useContext(searchContext);
+  const { addUserFavouriteHotel } = useContext(searchContext);
   useEffect(() => {
     console.log(id, "id");
-    console.log();
+    console.log(hotelObj);
     // if (hotelObj.id === undefined) {
     //   getHotelsObj(id);
     // }
@@ -28,7 +28,7 @@ export default function HotelDetials() {
     // addDoc(colRef, { id: id, details: hotelObj }).then((data) =>
     //   console.log(data, "hotel details ")
     // );
-    
+
     console.log(hotelObj, "hotelObj");
   }, []);
 
@@ -127,7 +127,7 @@ export default function HotelDetials() {
               aria-label="Slide 4"
             ></button>
           </div>
-          <div className="carousel-inner" >
+          <div className="carousel-inner">
             {hotelObj.photos ? (
               <>
                 <div className="carousel-item active w-100">
@@ -220,9 +220,7 @@ export default function HotelDetials() {
         <div className="d-flex flex-wrap gap-3 my-5 ">
           <div className="features pt-3 d-flex flex-column justify-content-between align-items-center  ">
             <h3
-              style={{
-                color: "white",
-              }}
+             className="text-light"
             >
               {hotelObj?.rating}
             </h3>
