@@ -134,66 +134,60 @@ function LoginPage() {
       });
   }
 
-  function logInWithFacebook() {
+  function logInWithGoogleOrFacebook(type) {
     // var provider = new firebase.auth.GoogleAuthProvider();
-    const provider = new FacebookAuthProvider();
+    const provider =
+      type === "google" ? new GoogleAuthProvider() : new FacebookAuthProvider();
     provider.setCustomParameters({
       display: "popup",
     });
-    // signInWithRedirect(auth, provider).then((data) =>
-    //   console.log(data, "facebook")
-    // );
 
     signInWithPopup(auth, provider)
-      .then((result) => console.log(result, "facebook"))
-      .catch((error) => console.log(error.message, "error"));
+      .then((result) => {
+        console.log(result.user, "firebase result");
 
-    // signInWithPopup(auth, provider)
-    //   .then((result) => {
-    //     console.log(result.user, "firebase result");
+        const que = query(
+          usersReference,
+          where("email", "==", result.user.email)
+        );
+        setAuthorized(true);
 
-    //     const que = query(
-    //       usersReference,
-    //       where("email", "==", result.user.email)
-    //     );
-    //     setAuthorized(true);
+        getDocs(que).then((snapshot) => {
+          if (snapshot.docs.length > 0) {
+            console.log(snapshot.docs[0].data(), "data");
+            console.log(snapshot.docs[0].id, "id");
+            localStorage.setItem("currentUser", snapshot.docs[0].id);
+            setCurrentUserObj({
+              ...snapshot.docs[0].data(),
+              id: snapshot.docs[0].id,
+            });
+            console.log("login with same email");
+          } else {
+            const user = {
+              firstName: result.user.displayName.split(" ")[0],
+              lastName:
+                result.user.displayName?.split(" ")[1] === undefined
+                  ? ""
+                  : result.user.displayName?.split(" ")[1],
+              email: result.user.email,
+              password: result.user.uid,
+              profileImg: result.user.photoURL,
+            };
 
-    //     getDocs(que).then((snapshot) => {
-    //       if (snapshot.docs.length > 0) {
-    //         console.log(snapshot.docs[0].data(), "data");
-    //         console.log(snapshot.docs[0].id, "id");
-    //         localStorage.setItem("currentUser", snapshot.docs[0].id);
-    //         setCurrentUserObj({
-    //           ...snapshot.docs[0].data(),
-    //           id: snapshot.docs[0].id,
-    //         });
-    //         console.log("login with same email");
-    //       } else {
-    //         const user = {
-    //           firstName: result.user.displayName.split(" ")[0],
-    //           lastName:
-    //             result.user.displayName?.split(" ")[1] === undefined
-    //               ? ""
-    //               : result.user.displayName?.split(" ")[1],
-    //           email: result.user.email,
-    //           password: result.user.uid,
-    //           profileImg: result.user.photoURL,
-    //         };
-
-    //         createNewUserObj({ ...user });
-    //         console.log(user, "logged user");
-    //       }
-    //       swal({
-    //         icon: "success",
-    //         button: false,
-    //         closeOnClickOutside: false,
-    //         timer: 2000,
-    //       }).then(() => navigate("/"));
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message, "error");
-    //   });
+            createNewUserObj({ ...user });
+            console.log(user, "logged user");
+          }
+          swal({
+            icon: "success",
+            button: false,
+            closeOnClickOutside: false,
+            timer: 2000,
+          }).then(() => navigate("/"));
+        });
+      })
+      .catch((error) => {
+        console.log(error.message, "error");
+      });
   }
 
   return (
@@ -308,14 +302,14 @@ function LoginPage() {
             <div className="d-flex   gap-2">
               <span
                 className="py-2 btn border d-flex justify-content-center align-items-center"
-                onClick={logInWithGoogle}
+                onClick={logInWithGoogleOrFacebook}
               >
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </span>
               <span
                 className="py-2 btn border d-flex justify-content-center align-items-center"
-                onClick={logInWithFacebook}
+                onClick={logInWithGoogleOrFacebook}
               >
                 <FaFacebook size={25} color="blue" />
                 <span className="px-2">Facebook</span>

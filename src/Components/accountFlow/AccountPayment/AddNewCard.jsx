@@ -3,7 +3,7 @@ import React from "react";
 export const AddNewCard = ({ setModalShow }) => {
 
   return (
-    <>
+  
       <div
         className="add-visa py-3 rounded-3 add-visa-width w-100"
         onClick={setModalShow}
@@ -32,6 +32,5 @@ export const AddNewCard = ({ setModalShow }) => {
         <p>Add a new card</p>
       </div>
     
-    </>
   );
 };
