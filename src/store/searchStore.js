@@ -38,7 +38,6 @@ export default function SearchContextProvider(props) {
   //--------------------- useEffect --------------------//
   useEffect(() => {
     if (currentUserObj?.id === "0") {
-      // const userID = sessionStorage.getItem("currentUser");
       if (userID !== null) {
         getCurrentUserData();
       } else {
