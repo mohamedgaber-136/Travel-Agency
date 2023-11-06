@@ -127,10 +127,16 @@ export default function CountryHotelsProvider(props) {
 
     const hotelRef = collection(database, "hotels");
     getDocs(hotelRef).then((snapshot) => {
-      console.log(snapshot.docs[0].data());
-      setHotelObj(snapshot.docs[0].data().details);
+      console.log(snapshot?.docs[0].data().details, "details");
+      setHotelObj(snapshot?.docs[0].data().details);
     });
   }
+  useEffect(() => {
+    if (hotelObj.title == undefined) {
+      getHotelsObj();
+    }
+  }, []);
+  console.log(hotelObj, "obj");
 
   return (
     <addHotelsContext.Provider

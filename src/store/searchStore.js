@@ -68,11 +68,14 @@ export default function SearchContextProvider(props) {
     if (currentUserObj?.id === "0") {
       // const userID = sessionStorage.getItem("currentUser");
       console.log(userID, "user id");
+
       if (userID !== null && userID !== undefined && userID !== "undefined") {
         getCurrentUserData();
       } else {
         console.log("no snapshot");
       }
+    } else {
+      setAuthorized(true);
     }
   }, []);
 
@@ -118,7 +121,7 @@ export default function SearchContextProvider(props) {
 
   //--------------------- currentUserSnapshot --------------------//
   onSnapshot(currentRef, (snapshot) => {
-    console.log(snapshot.data(), "snapshot listen");
+    console.log(snapshot?.data(), "snapshot listen");
   });
 
   //--------------------- updateCurrentUser --------------------//

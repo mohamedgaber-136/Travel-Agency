@@ -14,7 +14,7 @@ export const PaymentCard = ({ item, index }) => {
     });
   };
   return (
-    <div className=" col-12 col-md-4 p-2 CardClicker" >
+    <div className=" col-12 col-md-12 p-2 CardClicker" >
       <div className="payment__visa w-100 p-3 rounded-3 add-visa-width ">
         <div className="d-flex align-items-start justify-content-between visa-content">
           <div>

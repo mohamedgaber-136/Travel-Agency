@@ -65,9 +65,8 @@ export const NavigationBar = () => {
                     className="rounded-circle"
                   />
                   <span className="text-dark">
-                    {currentUserObj?.firstName
-                      .split("")[0]
-                      .concat(`. ${currentUserObj?.lastName}`)
+                    {currentUserObj.firstName?.split("")[0]
+                      .concat(`. ${currentUserObj?.lastName}`) 
                       .toUpperCase()}
                   </span>
                 </Link>

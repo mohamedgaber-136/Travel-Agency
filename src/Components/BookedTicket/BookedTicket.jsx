@@ -13,10 +13,11 @@ export const BookedTicket = () => {
     const capture = document.querySelector('.BookedTicketParent')
     html2canvas(capture).then((canvas)=>{
       const imgData = canvas.toDataURL('img/png')
-      const doc = new jsPDF('p','mm','a4');
+      const doc = new jsPDF();
+      // const viewport = page.getViewport({scale: canvas.width / page.getViewport({scale: 1}).width})
       const compWidth = doc.internal.pageSize.getWidth()
-      // const compHeight= doc.internal.pageSize.getHeight()
-      doc.addImage(imgData,'PNG',0,0,compWidth,300)
+      const compHeight= doc.internal.pageSize.getHeight()
+      doc.addImage(imgData,'PNG',0,0,0,0)
       doc.save('ticket.pdf')
     })
   }

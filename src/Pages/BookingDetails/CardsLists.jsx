@@ -26,7 +26,7 @@ export const CardsLists = ({ show, setModalShow }) => {
           icon: "success",
           button: false,
           timer: 1500,
-        }).then(navigations("/"));
+        }).then().then(navigations("/"));
       }
     });
   };
@@ -56,7 +56,7 @@ export const CardsLists = ({ show, setModalShow }) => {
               <div
                 index={index}
                 onClick={() => submitSure(item)}
-                className="row m-0 p-0 col-12 col-md-4"
+                className="row m-0 p-0 col-12 col-md-6 "
               >
                 <PaymentCard key={index} item={item} />
               </div>

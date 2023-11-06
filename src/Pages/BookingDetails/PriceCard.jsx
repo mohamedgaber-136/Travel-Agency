@@ -1,14 +1,14 @@
 import React from "react";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
 
-export const PriceCard = () => {
+export const PriceCard = ({img,title}) => {
   return (
     <div className="">
       <div class="card">
         <div class="card-header d-flex justify-content-between">
-          <img src={frame} className="side-header-img me-3" alt="" />
+          <img src={img} className="side-header-img me-3" alt="" />
           <div>
-            <h6 className="img-header">CVK Park Bosphorus...</h6>
+            <h6 className="img-header">{title}</h6>
             <p className="side-head mb-0 fw-bold">
               Superior room - 1 double bed or 2 twin beds
             </p>

@@ -1,4 +1,4 @@
-import React, { useContext, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 // import Form from "react-bootstrap/Form";
 import Modal from "react-bootstrap/Modal";
 import "./BookingDetails.css";
@@ -9,12 +9,16 @@ import { searchContext } from "../../store/searchStore";
 import { BookingBreacrumb } from "./BookingBreacrumb";
 import AddCardModal from "../../Components/addCardModal/addCardModal";
 import { CardsLists } from "./CardsLists";
-import {  Navigate } from "react-router-dom";
+import { Navigate, useParams } from "react-router-dom";
+import { addHotelsContext } from "../../store/store";
 
 const BookingDetails = () => {
-  const { currentUserObj,authorized } = useContext(searchContext);
+  const { currentUserObj, authorized } = useContext(searchContext);
+  const { hotelObj, getHotelsObj } = useContext(addHotelsContext);
   const [cardsLists, setCardsLists] = useState(false);
   const [modalShow, setModalShow] = useState(false);
+  const { hotelId } = useParams();
+  console.log(hotelId, "hotelId");
   const handleShow = () => {
     if (currentUserObj.cards?.length !== 0) {
       setCardsLists(true);
@@ -24,9 +28,14 @@ const BookingDetails = () => {
       setModalShow(true);
     }
   };
-  if (!authorized) {
-    return <Navigate to="/login" />;
-  }
+  // if (!authorized) {
+  //   return <Navigate to="/login" />;
+  // }
+  useEffect(() => {
+    if (hotelObj.title) {
+      getHotelsObj(hotelId);
+    }
+  }, [hotelObj.title]);
 
   return (
     <>
@@ -38,20 +47,36 @@ const BookingDetails = () => {
         <BookingBreacrumb />
         <div className="d-flex justify-content-center w-100">
           <div className="d-flex  justify-content-center gap-2 flex-column flex-md-row align-items-start">
-            <HotelCard handleShow={handleShow} />
-            <PriceCard />
+            {
+              <HotelCard
+                handleShow={handleShow}
+                img={
+                  hotelObj.id != undefined
+                    ? "hello"
+                    : hotelObj?.photos[0]?.urlTemplate
+                        .replace("{width}", "500")
+                        .replace("{height}", "500")
+                }
+                title={hotelObj?.title}
+              />
+            }
+
+            <PriceCard
+              img={
+                hotelObj.id != undefined
+                  ? "hello"
+                  : hotelObj?.photos[1]?.urlTemplate
+                      ?.replace("{width}", "500")
+                      .replace("{height}", "500")
+              }
+              title={hotelObj?.title}
+            />
           </div>
         </div>
-        {cardsLists? (
-          <CardsLists
-            show={modalShow}
-            setModalShow={setModalShow}
-          />
+        {cardsLists ? (
+          <CardsLists show={modalShow} setModalShow={setModalShow} />
         ) : (
-          <AddCardModal
-            show={modalShow}
-            handleClose={setModalShow}
-          />
+          <AddCardModal show={modalShow} handleClose={setModalShow} />
         )}
       </div>
     </>

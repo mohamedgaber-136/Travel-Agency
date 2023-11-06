@@ -56,13 +56,12 @@ const AddCardModal = ({ show, handleClose }) => {
   // form validation
   const bookingValidation = async (e) => {
     e.preventDefault();
-
     const isValid = await bookingSchema
-      .validate(formData)
-      .then((data) => console.log(data))
+      .isValid(formData)
+      .then((data) =>  setIsValidData(data))
       .catch((err) => console.log(err.message));
 
-    setIsValidData(await bookingSchema.isValid(formData));
+   
 
     if (isValidData) {
       handleClose();
@@ -203,39 +202,6 @@ const AddCardModal = ({ show, handleClose }) => {
                     </select>
                   </div>
 
-                  {/* <input
-                    className="me-2 w-100 placeStyle rounded-2  form-control"
-                    placeholder="02/27"
-                    type="month"
-                    value={formData.expireDate}
-                    pattern="[0-9]{2}-[0-9]{2}"
-                    // pattern="yy-MM"
-                    // pattern="[0-9]{2}/[0-9]{2}"
-                    onChange={(e) => {
-
-                      // id="bday-month"
-                      // type="month"
-                      // name="bday-month"
-                      // min="1900-01"
-                      // max="2013-12" />
-
-                      const date = new Date(e.target.value);
-
-                      const dateFormat = [
-                        String(date.getMonth() + 1).padStart(2, "0"),
-                        String(date.getFullYear()).slice(-2),
-                      ].join("-");
-
-                      console.log(dateFormat, "formate date ");
-
-                      setFormData({
-                        ...formData,
-                        expireDate: dateFormat,
-                      });
-                    }}
-                    // aria-label="Exp. Date"
-                    required
-                  /> */}
                 </div>
                 {/* cvc input  */}
                 <div>

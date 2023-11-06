@@ -6,7 +6,7 @@ import right from "../../assets/images/accountFlow/right.svg";
 import left from "../../assets/images/accountFlow/left.svg";
 import Button from "react-bootstrap/Button";
 
-export const HotelCard = ({handleShow}) => {
+export const HotelCard = ({handleShow,img,title}) => {
     
   return (
     <div className=" d-flex">
@@ -22,10 +22,10 @@ export const HotelCard = ({handleShow}) => {
         {/* second section  */}
         <div className="p-2">
           <div className=" d-flex body my-4 p-4">
-            <img src={download1} className="body-img" alt="" srcset="" />
+            <img src={img} className="body-img" alt="" srcset="" />
             <div className=" body-location">
               <h6 className="card-text text-center ms-2">
-                CVK Park Bosphorus Hotel Istanbul
+              {title}
               </h6>
               <div className="d-flex align-items-center">
                 <img

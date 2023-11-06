@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 import "./hotelDetials.css";
 import stars from "./assets/Frame 52.png";
@@ -11,23 +11,25 @@ import share from "./assets/Share.png";
 import imgHotel from "./assets/Rectangle 3.png";
 import "bootstrap/js/dist/carousel";
 import Loading from "../../Components/Loading/Loading";
-import { addDoc, collection } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
 export default function HotelDetials() {
   const { id } = useParams();
+  let navigate = useNavigate();
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
-  const { database, addUserFavouriteHotel } = useContext(searchContext);
+  const {  addUserFavouriteHotel } = useContext(searchContext);
   useEffect(() => {
     console.log(id, "id");
-    console.log(hotelObj, "hotelObj");
-    if (hotelObj.id === undefined) {
-      // getHotelsObj(id);
-    }
+    console.log();
+    // if (hotelObj.id === undefined) {
+    //   getHotelsObj(id);
+    // }
     // const colRef = collection(database, "hotels");
     // addDoc(colRef, { id: id, details: hotelObj }).then((data) =>
     //   console.log(data, "hotel details ")
     // );
+    
+    console.log(hotelObj, "hotelObj");
   }, []);
 
   return hotelObj.length !== 0 ? (
@@ -63,7 +65,9 @@ export default function HotelDetials() {
           <div>
             <p className="text-muted box-rate">{hotelObj?.rating}</p>
           </div>
-          <p className="m-text">{hotelObj?.rankingDetails}</p>
+          <p className="m-text">
+            {hotelObj?.rankingDetails?.replace(/[<a></a>]/g, "")}
+          </p>
           <p className="m-text text-muted">{hotelObj?.numberReviews} Reviews</p>
         </div>
         <div className="d-flex gap-3">
@@ -80,7 +84,12 @@ export default function HotelDetials() {
           <div className="col-3 col-md-1 favIcon">
             <img src={share} alt="" />
           </div>
-          <button className="button-style">Book Now</button>
+          <button
+            className="button-style"
+            onClick={() => navigate(`/bookingDetails/${id}`)}
+          >
+            Book Now
+          </button>
         </div>
       </div>
       {/* carsoul */}
@@ -118,7 +127,7 @@ export default function HotelDetials() {
               aria-label="Slide 4"
             ></button>
           </div>
-          <div className="carousel-inner" style={{}}>
+          <div className="carousel-inner" >
             {hotelObj.photos ? (
               <>
                 <div className="carousel-item active w-100">
