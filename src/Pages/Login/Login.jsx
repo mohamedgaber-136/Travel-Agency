@@ -302,14 +302,14 @@ function LoginPage() {
             <div className="d-flex   gap-2">
               <span
                 className="py-2 btn border d-flex justify-content-center align-items-center"
-                onClick={logInWithGoogleOrFacebook}
+                onClick={() => logInWithGoogleOrFacebook("google")}
               >
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
               </span>
               <span
                 className="py-2 btn border d-flex justify-content-center align-items-center"
-                onClick={logInWithGoogleOrFacebook}
+                onClick={() => logInWithGoogleOrFacebook("facebook")}
               >
                 <FaFacebook size={25} color="blue" />
                 <span className="px-2">Facebook</span>
