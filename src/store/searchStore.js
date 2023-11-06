@@ -1,15 +1,21 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { initializeApp } from "@firebase/app";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
   onSnapshot,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
 
 import { getAuth } from "firebase/auth";
+import { addHotelsContext } from "./store";
+import { accountAvatar, accountBg } from "../assets/images";
 
 // import firebase from "firebase";
 
@@ -25,6 +31,7 @@ const firebaseConfig = {
 export const searchContext = createContext(0);
 
 export default function SearchContextProvider(props) {
+  const { hotelObj } = useContext(addHotelsContext);
   //--------------------- firebase --------------------//
   initializeApp(firebaseConfig);
   const database = getFirestore();
@@ -32,10 +39,25 @@ export default function SearchContextProvider(props) {
   // const auth=  firebase.auth();
 
   //--------------------- useState --------------------//
-
   let [searchData, setSeachData] = useState({});
-  const [currentUserObj, setCurrentUserObj] = useState({ id: "0" });
   let [authorized, setAuthorized] = useState(false);
+  const [currentUserObj, setCurrentUserObj] = useState({
+    id: "0",
+
+    //   firstName: "",
+    //   lastName: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   phone: "",
+    //   address: "",
+    //   profileImg: accountAvatar,
+    //   coverImg: accountBg,
+    //   birthDate: "",
+    //   bookinds: [],
+    //   favourites: [],
+    //   cards: [],
+  });
 
   const userID = localStorage.getItem("currentUser");
   const currentRef = doc(database, "users", currentUserObj?.id);
@@ -54,11 +76,42 @@ export default function SearchContextProvider(props) {
     }
   }, []);
 
+  //--------------------- createNewUserObj --------------------//
+  function createNewUserObj({
+    firstName,
+    lastName,
+    email,
+    password,
+    phone,
+    profileImg,
+  }) {
+    const user = {
+      firstName: firstName !== undefined ? firstName : "",
+      lastName: lastName !== undefined ? lastName : "",
+      email: email !== undefined ? email : "",
+      password: password !== undefined ? password : "",
+      phone: phone !== undefined ? phone : "",
+      address: "",
+      profileImg: profileImg !== undefined ? profileImg : accountAvatar,
+      coverImg: accountBg,
+      birthDate: "",
+      bookinds: [],
+      favourites: [],
+      cards: [],
+    };
+    console.log(user, "user object creat");
+    addDoc(usersReference, user).then((snapshot) => {
+      // console.log(snapshot, "add user");
+      localStorage.setItem("currentUser", snapshot.id);
+      setCurrentUserObj({ ...user, id: snapshot.id });
+    });
+  }
+
   //--------------------- getCurrentUserData --------------------//
   const getCurrentUserData = () => {
     const currentRef = doc(database, "users", userID);
     getDoc(currentRef).then((snapshot) => {
-      console.log(snapshot.data(), "snap");
+      console.log(snapshot.data(), "current user");
       setCurrentUserObj({ ...snapshot.data(), id: userID });
     });
   };
@@ -73,10 +126,23 @@ export default function SearchContextProvider(props) {
     if (currentUserObj?.id !== "0") {
       updateDoc(currentRef, { ...change }).then((snapshot) => {
         getCurrentUserData();
-        console.log("first");
       });
     }
   };
+
+  //--------------------- addUserFavouriteHotel --------------------//
+  function addUserFavouriteHotel(hotelID) {
+    const found = currentUserObj.favourites.find(({ id }) => id === hotelID);
+    console.log(found, "found");
+    if (found === undefined) {
+      console.log(currentUserObj.favourites, "found");
+      console.log(hotelObj, "hotel");
+
+      // updateCurrentUser({
+      //   favourites: [...currentUserObj.favourites, hotelObj],
+      // });
+    }
+  }
 
   //--------------------- lazy loading delay function --------------------//
   async function delayForDemo(promise) {
@@ -99,6 +165,8 @@ export default function SearchContextProvider(props) {
         setAuthorized,
         delayForDemo,
         auth,
+        addUserFavouriteHotel,
+        createNewUserObj,
       }}
     >
       {props.children}

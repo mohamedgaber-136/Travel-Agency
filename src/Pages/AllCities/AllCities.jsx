@@ -6,9 +6,7 @@ import "./allCities.css";
 import Loading from "../../Components/Loading/Loading";
 export default function AllCities() {
   const [cityImg, setCity] = useState([]);
-  useEffect(() => {
-    getAllCities();
-  }, []);
+
   const getAllCities = async () => {
     let arr = [];
     // const url =
@@ -49,7 +47,11 @@ export default function AllCities() {
     console.log(arr);
     setCity([...arr]);
   };
- 
+
+  useEffect(() => {
+    getAllCities();
+  }, []);
+
   return (
     <div className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center">
       {cityImg.length ? (

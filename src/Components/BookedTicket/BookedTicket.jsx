@@ -6,7 +6,7 @@ import { useContext, useState } from "react";
 
 import "./Booked.css";
 export const BookedTicket = () => {
-  const{searchData,currentUserObj}=useContext(searchContext)
+  const { searchData, currentUserObj } = useContext(searchContext);
   return (
     <div className="BookedTicketParent d-flex align-items-center justify-content-center">
       <div className="ticket d-flex justify-content-center align-items-center">
@@ -81,11 +81,8 @@ export const BookedTicket = () => {
         <div className="ticketMiddleSide">
           <div className="MiddleTop p-2 d-flex align-items-center justify-content-between">
             <div className="ticketImg d-flex gap-2 align-items-center justify-content-start">
-              <img
-                src={currentUserObj.profileImg}
-                alt="AvataLogo"
-              />{" "}
-              <p className="m-0">James Doe</p>
+              <img src={currentUserObj.profileImg} alt="AvataLogo" />{" "}
+              <p className="m-0">{`${currentUserObj?.firstName} ${currentUserObj?.lastName}`}</p>
             </div>
             <div className="ticketRoomsBooked  d-flex align-items-center justify-content-center">
               <p className="m-0">Superior room - {searchData.GuestAndRooms}</p>

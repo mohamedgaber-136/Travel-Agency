@@ -8,13 +8,24 @@ import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
 import { addDoc, getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
-import { GoogleAuthProvider, signInWithPopup } from "firebase/auth";
+import {
+  FacebookAuthProvider,
+  GoogleAuthProvider,
+  signInWithPopup,
+  signInWithRedirect,
+} from "firebase/auth";
 import swal from "sweetalert";
 import { ProfileImg } from "./../../Layout/ProfileImg";
 
 function LoginPage() {
-  const { usersReference, setCurrentUserObj, setAuthorized, authorized, auth } =
-    useContext(searchContext);
+  const {
+    usersReference,
+    setCurrentUserObj,
+    setAuthorized,
+    authorized,
+    auth,
+    createNewUserObj,
+  } = useContext(searchContext);
 
   const navigate = useNavigate();
 
@@ -83,37 +94,106 @@ function LoginPage() {
           usersReference,
           where("email", "==", result.user.email)
         );
+        setAuthorized(true);
+
         getDocs(que).then((snapshot) => {
           if (snapshot.docs.length > 0) {
-            // localStorage.setItem("currentUser", snapshot.id);
-            // setCurrentUserObj({ ...snapshot.docs[0], id: snapshot.id });
-            console.log("login aith same email");
+            console.log(snapshot.docs[0].data(), "data");
+            console.log(snapshot.docs[0].id, "id");
+            localStorage.setItem("currentUser", snapshot.docs[0].id);
+            setCurrentUserObj({
+              ...snapshot.docs[0].data(),
+              id: snapshot.docs[0].id,
+            });
+            console.log("login with same email");
           } else {
-            setAuthorized(true);
-            swal({
-              icon: "success",
-              button: false,
-              closeOnClickOutside: false,
-              timer: 2000,
-            }).then(() => navigate("/"));
-
-            const userObj = {
-              firstName: result.user.displayName,
+            const user = {
+              firstName: result.user.displayName.split(" ")[0],
+              lastName:
+                result.user.displayName?.split(" ")[1] === undefined
+                  ? ""
+                  : result.user.displayName?.split(" ")[1],
               email: result.user.email,
+              password: result.user.uid,
               profileImg: result.user.photoURL,
             };
 
-            addDoc(usersReference, userObj).then((snapshot) => {
-              console.log(snapshot, "djfhsdj");
-              localStorage.setItem("currentUser", snapshot.id);
-              setCurrentUserObj({ ...userObj, id: snapshot.id });
-            });
+            createNewUserObj({ ...user });
+            console.log(user, "logged user");
           }
+          swal({
+            icon: "success",
+            button: false,
+            closeOnClickOutside: false,
+            timer: 2000,
+          }).then(() => navigate("/"));
         });
       })
       .catch((error) => {
         console.log(error.message, "error");
       });
+  }
+
+  function logInWithFacebook() {
+    // var provider = new firebase.auth.GoogleAuthProvider();
+    const provider = new FacebookAuthProvider();
+    provider.setCustomParameters({
+      display: "popup",
+    });
+    // signInWithRedirect(auth, provider).then((data) =>
+    //   console.log(data, "facebook")
+    // );
+
+    signInWithPopup(auth, provider)
+      .then((result) => console.log(result, "facebook"))
+      .catch((error) => console.log(error.message, "error"));
+
+    // signInWithPopup(auth, provider)
+    //   .then((result) => {
+    //     console.log(result.user, "firebase result");
+
+    //     const que = query(
+    //       usersReference,
+    //       where("email", "==", result.user.email)
+    //     );
+    //     setAuthorized(true);
+
+    //     getDocs(que).then((snapshot) => {
+    //       if (snapshot.docs.length > 0) {
+    //         console.log(snapshot.docs[0].data(), "data");
+    //         console.log(snapshot.docs[0].id, "id");
+    //         localStorage.setItem("currentUser", snapshot.docs[0].id);
+    //         setCurrentUserObj({
+    //           ...snapshot.docs[0].data(),
+    //           id: snapshot.docs[0].id,
+    //         });
+    //         console.log("login with same email");
+    //       } else {
+    //         const user = {
+    //           firstName: result.user.displayName.split(" ")[0],
+    //           lastName:
+    //             result.user.displayName?.split(" ")[1] === undefined
+    //               ? ""
+    //               : result.user.displayName?.split(" ")[1],
+    //           email: result.user.email,
+    //           password: result.user.uid,
+    //           profileImg: result.user.photoURL,
+    //         };
+
+    //         createNewUserObj({ ...user });
+    //         console.log(user, "logged user");
+    //       }
+    //       swal({
+    //         icon: "success",
+    //         button: false,
+    //         closeOnClickOutside: false,
+    //         timer: 2000,
+    //       }).then(() => navigate("/"));
+    //     });
+    //   })
+    //   .catch((error) => {
+    //     console.log(error.message, "error");
+    //   });
   }
 
   return (
@@ -226,17 +306,20 @@ function LoginPage() {
             <span>Or login With</span>
 
             <div className="d-flex   gap-2">
-              <button
-                className="btn border seeAllBtn"
+              <span
+                className="py-2 btn border d-flex justify-content-center align-items-center"
                 onClick={logInWithGoogle}
               >
                 <FcGoogle size={25} />
                 <span className="px-2">Google</span>
-              </button>
-              <button className="btn border d-flex flex-md-column justify-content-center align-items-center">
+              </span>
+              <span
+                className="py-2 btn border d-flex justify-content-center align-items-center"
+                onClick={logInWithFacebook}
+              >
                 <FaFacebook size={25} color="blue" />
                 <span className="px-2">Facebook</span>
-              </button>
+              </span>
             </div>
           </form>
         </div>

@@ -13,7 +13,7 @@ import { accountAvatar, accountBg } from "../../assets/images";
 function SignUpPage() {
   const navigate = useNavigate();
 
-  const { setCurrentUserObj, usersReference, setAuthorized } =
+  const { setCurrentUserObj, usersReference, setAuthorized, createNewUserObj } =
     useContext(searchContext);
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(false);
@@ -28,19 +28,11 @@ function SignUpPage() {
     confirmPassword: "",
     phone: "",
     address: "",
-    profileImg: accountAvatar,
-    coverImg: accountBg,
-    birthDate: "",
-    bookinds: [],
-    favourites: [],
-    cards: [],
   });
 
   let interv;
 
   useEffect(() => {
-    console.log(submitEnabled, "submit");
-
     if (
       userObject.firstName === "" ||
       userObject.lastName === "" ||
@@ -74,8 +66,6 @@ function SignUpPage() {
     event.preventDefault();
 
     if (submitEnabled) {
-      console.log("submit");
-
       const que = query(
         usersReference,
         where("email", "==", userObject.email) ||
@@ -91,12 +81,9 @@ function SignUpPage() {
             button: false,
             closeOnClickOutside: false,
             timer: 2000,
-          }).then(() => navigate("/"));
-          addDoc(usersReference, userObject).then((snapshot) => {
-            console.log(snapshot, "djfhsdj");
-            localStorage.setItem("currentUser", snapshot.id);
-            setCurrentUserObj({ ...userObject, id: snapshot.id });
-          });
+          })
+            .then(() => createNewUserObj({ ...userObject }))
+            .then(() => navigate("/"));
         }
       });
     }
@@ -190,7 +177,7 @@ function SignUpPage() {
             </div>
 
             <input
-              type="text"
+              type="number"
               className="form-control "
               placeholder="Enter your Phone"
               title="Phone Can Not Be Less Than 9"

@@ -155,7 +155,9 @@ const AddCardModal = ({ show, handleClose }) => {
                             ].join("/"),
                           });
                         }
-                        console.log(expirationDate.month);
+                        console.log(expirationDate.month, "month");
+                        console.log(expirationDate.year, "year");
+                        console.log(formData.expireDate, "date");
                       }}
                     >
                       <option name={"mm"} disabled selected>
@@ -184,6 +186,9 @@ const AddCardModal = ({ show, handleClose }) => {
                             ].join("/"),
                           });
                         }
+                        console.log(expirationDate.month, "month");
+                        console.log(expirationDate.year, "year");
+                        console.log(formData.expireDate, "date");
                       }}
                     >
                       <option name={"yy"} disabled selected>

@@ -17,14 +17,17 @@ export default function HotelDetials() {
   const { id } = useParams();
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
-  const { database } = useContext(searchContext);
+  const { database, addUserFavouriteHotel } = useContext(searchContext);
   useEffect(() => {
     console.log(id, "id");
-    getHotelsObj(id);
-    const colRef = collection(database, "hotels");
-    addDoc(colRef, { id: id, details: hotelObj }).then((data) =>
-      console.log(data, "hotel details ")
-    );
+    console.log(hotelObj, "hotelObj");
+    if (hotelObj.id === undefined) {
+      // getHotelsObj(id);
+    }
+    // const colRef = collection(database, "hotels");
+    // addDoc(colRef, { id: id, details: hotelObj }).then((data) =>
+    //   console.log(data, "hotel details ")
+    // );
   }, []);
 
   return hotelObj.length !== 0 ? (
@@ -64,7 +67,10 @@ export default function HotelDetials() {
           <p className="m-text text-muted">{hotelObj?.numberReviews} Reviews</p>
         </div>
         <div className="d-flex gap-3">
-          <div onClick={isFavoritesClick} className="col-3 col-md-1 favIcon">
+          <div
+            onClick={addUserFavouriteHotel}
+            className="col-3 col-md-1 favIcon"
+          >
             {hotelObj.isFav ? (
               <img src={FillFav} alt="" />
             ) : (

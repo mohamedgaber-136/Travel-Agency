@@ -21,17 +21,25 @@ export const SearchForm = () => {
           new Date(event.target[1].value).getTime()) /
         (1000 * 3600 * 24),
     };
-    setSeachData({ ...data });
-    setValidatation(await searchSchema.isValid(searchData));
-    console.log(isValid, "is valid search data");
+
+    await searchSchema.isValid({ ...data }).then((validate) => {
+      console.log(validate, "validate");
+      setSeachData({ ...data });
+      setValidatation(validate);
+      navigate(`/CountryHotels/${searchData.destination}`, { replace: true });
+    });
+
+    // console.log(isValid, "is valid search data");
+    // console.log(validate, "is valid search data");
     // let isValid = await searchSchema.isValid(searchData);
   };
-  useEffect(() => {
-    console.log("reRender");
-    if (isValid) {
-      navigate(`/CountryHotels/${searchData.destination}`, { replace: true });
-    }
-  }, [isValid]);
+
+  // useEffect(() => {
+  // console.log("reRender");
+  // if (isValid) {
+  //   navigate(`/CountryHotels/${searchData.destination}`, { replace: true });
+  // }
+  // }, [isValid]);
 
   return (
     <form
