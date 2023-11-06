@@ -8,18 +8,39 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 export const BookedTicket = () => {
   const { searchData, currentUserObj } = useContext(searchContext);
-  const pdfRef = useRef(null);
-  console.log(pdfRef);
-  const handleDownload = () => {
-    html2canvas(pdfRef.current).then((canvas) => {
-      const imgData = canvas.toDataURL("image/png");
-      const doc = new jsPDF("p", "px", "a4");
+  const downloadPdf = () => {
+    const capture = document.querySelector(".BookedTicketParent");
+    html2canvas(capture, {
+      // x: 0,
+      // y: 0,
+      // width: document.innerWidth,
+      // height: document.innerHeight,
+    }).then((canvas) => {
+      console.log(window.width, "capture image width");
+      console.log(capture.clientWidth, "capture image width");
+      // console.log(capture.clientHeight, "capture image height");
+      const imgData = canvas.toDataURL("img/png");
+      const doc = new jsPDF();
+      // const viewport = page.getViewport({
+      //   scale: canvas.width / page.getViewport({ scale: 1 }).width,
+      // });
       const compWidth = doc.internal.pageSize.getWidth();
       const compHeight = doc.internal.pageSize.getHeight();
-      doc.addImage(imgData, "PNG")
+      // console.log(compWidth, "width ticjet image ");
+      // console.log(compHeight, "height ticjet image ");
+      const widthToHeight = capture.clientWidth / capture.clientHeight;
+      doc.addImage(
+        imgData,
+        "PNG",
+        0,
+
+        compWidth / 2 - 25,
+        compWidth,
+        compWidth / widthToHeight + 5
+      );
+      doc.save("ticket.pdf");
     });
   };
-
   return (
     <div className="BookedTicketParent d-flex align-items-center justify-content-center" ref={pdfRef}>
       <div className="ticket d-flex justify-content-center align-items-center">
@@ -226,9 +247,7 @@ export const BookedTicket = () => {
           </div>
         </div>
       </div>
-      <button className="DownloadBtn" onClick={handleDownload}>
-        <i class="fa-solid fa-download"></i>
-      </button>
+      <button className="DownloadBtn" onClick={downloadPdf}><i class="fa-solid fa-download"></i></button>
     </div>
   );
 };

@@ -18,7 +18,7 @@ const BookingDetails = () => {
   const [cardsLists, setCardsLists] = useState(false);
   const [modalShow, setModalShow] = useState(false);
   const { hotelId } = useParams();
-  console.log(hotelId, "hotelId");
+
   const handleShow = () => {
     if (currentUserObj.cards?.length !== 0) {
       setCardsLists(true);
@@ -28,14 +28,19 @@ const BookingDetails = () => {
       setModalShow(true);
     }
   };
+
   // if (!authorized) {
   //   return <Navigate to="/login" />;
   // }
+
   useEffect(() => {
-    if (hotelObj.title) {
+    if (hotelObj.title === undefined) {
       getHotelsObj(hotelId);
     }
-  }, [hotelObj.title]);
+  }, []);
+
+  console.log(hotelObj, "hotelId");
+  console.log(hotelObj?.photos[0], "image");
 
   return (
     <>
@@ -50,25 +55,17 @@ const BookingDetails = () => {
             {
               <HotelCard
                 handleShow={handleShow}
-                img={
-                  hotelObj.id != undefined
-                    ? "hello"
-                    : hotelObj?.photos[0]?.urlTemplate
-                        .replace("{width}", "500")
-                        .replace("{height}", "500")
-                }
+                img={hotelObj?.photos[0]?.urlTemplate
+                  .replace("{width}", "500")
+                  .replace("{height}", "500")}
                 title={hotelObj?.title}
               />
             }
 
             <PriceCard
-              img={
-                hotelObj.id != undefined
-                  ? "hello"
-                  : hotelObj?.photos[1]?.urlTemplate
-                      ?.replace("{width}", "500")
-                      .replace("{height}", "500")
-              }
+              img={hotelObj?.photos[1]?.urlTemplate
+                ?.replace("{width}", "500")
+                ?.replace("{height}", "500")}
               title={hotelObj?.title}
             />
           </div>

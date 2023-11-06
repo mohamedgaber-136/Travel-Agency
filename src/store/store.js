@@ -14,7 +14,10 @@ export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
   const { searchData, database } = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
-  const [hotelObj, setHotelObj] = useState({});
+  const [hotelObj, setHotelObj] = useState({
+    photos: [],
+    isFav: false,
+  });
   // const [isFavorites, setIsFavorites] = useState(false);
 
   // const isFavoritesClick = () => {

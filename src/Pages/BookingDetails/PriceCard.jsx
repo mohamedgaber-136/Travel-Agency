@@ -1,12 +1,19 @@
 import React from "react";
 import frame from "../../assets/images/accountFlow/Frame 186.png";
 
-export const PriceCard = ({img,title}) => {
+export const PriceCard = ({ img, title }) => {
   return (
     <div className="">
       <div class="card">
         <div class="card-header d-flex justify-content-between">
-          <img src={img} className="side-header-img me-3" alt="" />
+          <img
+            src={img}
+            className="side-header-img me-3"
+            alt=""
+            onError={(error) => {
+              console.log(error, "erroronimage");
+            }}
+          />
           <div>
             <h6 className="img-header">{title}</h6>
             <p className="side-head mb-0 fw-bold">

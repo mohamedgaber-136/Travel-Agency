@@ -71,6 +71,7 @@ export default function SearchContextProvider(props) {
 
       if (userID !== null && userID !== undefined && userID !== "undefined") {
         getCurrentUserData();
+        setAuthorized(true);
       } else {
         console.log("no snapshot");
       }
