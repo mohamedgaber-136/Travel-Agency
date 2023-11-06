@@ -146,3 +146,6 @@ input[type="checkbox"]:checked:after {
 .inputClass{
   width: fit-content;
 }
+.coolinput label.text{
+  z-index: 500;
+}

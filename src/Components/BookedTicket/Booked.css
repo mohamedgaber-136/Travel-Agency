@@ -1,13 +1,13 @@
 .BookedTicketParent {
     height: 300px;
-    
+    position: relative;
 }
 
 .ticket {
     border: 1px solid lightgrey;
     width: 80%;
     height: 80%;
-    border-radius: 20px ;
+    border-radius: 20px;
     overflow: hidden;
     box-shadow: 0 0 10px 2px lightgray;
 }
@@ -31,7 +31,6 @@
 
 .LeftTop,
 .LeftBottom {
-    height: 30%;
     width: 100%;
 }
 
@@ -108,22 +107,40 @@
 .ticketImgContainer {
     overflow: hidden;
 }
-@media(max-width:768px){
-.ticket{
-    width: 95%;
-}
-.ticket p {
-    font-size: 1.5vw;
-}
-.ticket h4 ,.ticket h6 {
-    margin: 0 !important;
-    font-size: 12px;
-}
+
+@media(max-width:768px) {
+    .ticket {
+        width: 95%;
+    }
+
+    .ticket p {
+        font-size: 1.5vw;
+    }
+
+    .ticket h4,
+    .ticket h6 {
+        margin: 0 !important;
+        font-size: 12px;
+    }
 
 }
+
 .ticketImg img {
     width: 30px;
-    height: 30px ;
+    height: 30px;
     object-fit: cover;
     border-radius: 50%;
+}
+
+.DownloadBtn {
+    position: absolute;
+   width: 40px;
+   height: 40px;
+    border-radius: 50%;
+    background-color: #8DD3BB;
+    bottom: 75%;
+    border: none;
+    left: 88%;
+    font-size: 14px;
+    transform: translateX(-50%);
 }

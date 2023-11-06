@@ -82,57 +82,7 @@ function LoginPage() {
     }
   }
 
-  function logInWithGoogle() {
-    // var provider = new firebase.auth.GoogleAuthProvider();
-    const provider = new GoogleAuthProvider();
-
-    signInWithPopup(auth, provider)
-      .then((result) => {
-        console.log(result.user, "firebase result");
-
-        const que = query(
-          usersReference,
-          where("email", "==", result.user.email)
-        );
-        setAuthorized(true);
-
-        getDocs(que).then((snapshot) => {
-          if (snapshot.docs.length > 0) {
-            console.log(snapshot.docs[0].data(), "data");
-            console.log(snapshot.docs[0].id, "id");
-            localStorage.setItem("currentUser", snapshot.docs[0].id);
-            setCurrentUserObj({
-              ...snapshot.docs[0].data(),
-              id: snapshot.docs[0].id,
-            });
-            console.log("login with same email");
-          } else {
-            const user = {
-              firstName: result.user.displayName.split(" ")[0],
-              lastName:
-                result.user.displayName?.split(" ")[1] === undefined
-                  ? ""
-                  : result.user.displayName?.split(" ")[1],
-              email: result.user.email,
-              password: result.user.uid,
-              profileImg: result.user.photoURL,
-            };
-
-            createNewUserObj({ ...user });
-            console.log(user, "logged user");
-          }
-          swal({
-            icon: "success",
-            button: false,
-            closeOnClickOutside: false,
-            timer: 2000,
-          }).then(() => navigate("/"));
-        });
-      })
-      .catch((error) => {
-        console.log(error.message, "error");
-      });
-  }
+ 
 
   function logInWithGoogleOrFacebook(type) {
     // var provider = new firebase.auth.GoogleAuthProvider();

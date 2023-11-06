@@ -38,7 +38,7 @@ export const NavigationBar = () => {
           id="responsive-navbar-nav"
           className=" flex-md-row flex-column align-items-center justify-content-center"
         >
-          <Nav className="m-auto d-flex align-items-center ">
+          <Nav className="m-auto d-flex gap-1 align-items-center ">
             <Nav.Link className="text-dark">
               <i className="fa-solid fa-plane px-1"></i>Find Flights
             </Nav.Link>
@@ -46,7 +46,7 @@ export const NavigationBar = () => {
               <i className="fa-solid fa-couch px-1"></i>Find Stays
             </Nav.Link>
           </Nav>
-          <Nav className="d-flex  align-items-center">
+          <Nav className="d-flex gap-1 align-items-center">
             <Nav.Link className="text-dark ">
               <i className="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>

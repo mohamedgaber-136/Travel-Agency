@@ -5,8 +5,21 @@ import { searchContext } from "../../store/searchStore";
 import { useContext, useState } from "react";
 
 import "./Booked.css";
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
 export const BookedTicket = () => {
   const { searchData, currentUserObj } = useContext(searchContext);
+  const downloadPdf = ()=>{
+    const capture = document.querySelector('.BookedTicketParent')
+    html2canvas(capture).then((canvas)=>{
+      const imgData = canvas.toDataURL('img/png')
+      const doc = new jsPDF('p','mm','a4');
+      const compWidth = doc.internal.pageSize.getWidth()
+      // const compHeight= doc.internal.pageSize.getHeight()
+      doc.addImage(imgData,'PNG',0,0,compWidth,300)
+      doc.save('ticket.pdf')
+    })
+  }
   return (
     <div className="BookedTicketParent d-flex align-items-center justify-content-center">
       <div className="ticket d-flex justify-content-center align-items-center">
@@ -14,7 +27,7 @@ export const BookedTicket = () => {
           <div className="LeftTop ">
             <div className="checkInTitle  d-flex align-items-start p-2 justify-content-center flex-column">
               <h4>{searchData.CheckIn}</h4>
-              <h5>Check-In</h5>
+              <h5 className="m-0">Check-In</h5>
             </div>
           </div>
           <div className="svgContainer p-2 d-flex align-items-start justify-content-center flex-column ">
@@ -107,7 +120,7 @@ export const BookedTicket = () => {
                 </div>
 
                 <div className="timing  d-flex flex-column justify-content-center align-items-center">
-                  <p className="m-0">Check-In time</p>
+                  <p className="m-0 p-0">Check-In time</p>
                   <p className="m-0">12:00pm</p>
                 </div>
               </div>
@@ -213,6 +226,7 @@ export const BookedTicket = () => {
           </div>
         </div>
       </div>
+      <button className="DownloadBtn" onClick={downloadPdf}><i class="fa-solid fa-download"></i></button>
     </div>
   );
 };

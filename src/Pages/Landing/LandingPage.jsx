@@ -17,6 +17,7 @@ const LandingPage = () => {
       <Header />
       <Main />
       <MainBookFlight />
+      <BookedTicket/>
     </>
   );
 };
