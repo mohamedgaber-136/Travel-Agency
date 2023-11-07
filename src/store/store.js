@@ -12,18 +12,19 @@ import {
 
 export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
-  const { searchData, database } = useContext(searchContext);
+  const { searchData, database ,currentUserObj} = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
   const [hotelObj, setHotelObj] = useState({
     photos: [],
     isFav: false,
   });
-  // const [isFavorites, setIsFavorites] = useState(false);
-
-  // const isFavoritesClick = () => {
-  //   hotelObj.isFav = !hotelObj.isFav;
-  //   setIsFavorites(hotelObj.isFav);
-  // };
+  const [isFavorites, setIsFavorites] = useState(false);
+  const isFavoritesClick = (favHotel) => {
+    hotelObj.isFav = !hotelObj.isFav;
+    setIsFavorites(hotelObj.isFav);
+    let favFoun=currentUserObj.favourites.find(({id})=>favHotel.id==id)
+    console.log(favFoun,"FOund")
+  }
 
   const paramters = {
     headers: {
@@ -34,24 +35,19 @@ export default function CountryHotelsProvider(props) {
 
   useEffect(() => {
     if (searchData.destination !== "" && searchData.destination !== undefined) {
-      // getLocationID();
-      // console.log("getLocationID");
       console.log("getHotelsFromFirebase");
       getHotelsFromFirebase();
     }
-    console.log(searchData, "set search data");
   }, [searchData]);
 
   function getHotelsFromFirebase() {
     const locatiosRef = collection(database, "locations");
-
     const que = query(
       locatiosRef,
       where("location", "==", searchData.destination)
     );
     getDocs(que).then((snapshot) => {
       console.log(snapshot.docs[0].data().hotels, "datadatadat");
-      // snapshot.docs.forEach((item) => console.log(item.data()));
       if (snapshot.docs.length > 0) {
         setCountryHotels(snapshot.docs[0].data().hotels);
       } else {
@@ -60,7 +56,6 @@ export default function CountryHotelsProvider(props) {
             setCountryHotels(snapshot.docs[0].data().hotels);
 
             console.log(snapshot.docs[0].data().hotels, "datadatadat");
-            // snapshot.docs.forEach((item) => console.log(item.data()));
           }
         );
       }
@@ -86,7 +81,6 @@ export default function CountryHotelsProvider(props) {
         await getHotelsData(response.data.data[0]);
       })
       .catch((error) => console.log(error, "error"));
-
     console.log(searchData.destination, "destination");
   }
 
@@ -101,7 +95,6 @@ export default function CountryHotelsProvider(props) {
         console.log(response.data, "hotels details");
         console.log(response.data.data.data, "hotels data details");
         setCountryHotels(response.data.data.data);
-
         const locatiosRef = collection(database, "locations");
         addDoc(locatiosRef, {
           location: searchData.destination,
@@ -147,8 +140,8 @@ export default function CountryHotelsProvider(props) {
         countryHotels,
         getHotelsObj,
         hotelObj,
-        // isFavoritesClick,
-        // isFavorites,
+        isFavoritesClick,
+        isFavorites,
         getLocationID,
       }}
     >

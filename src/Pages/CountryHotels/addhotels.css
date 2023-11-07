@@ -16,3 +16,9 @@
     align-items: center;
     cursor: pointer;
   }
+  .card{
+    overflow: hidden !important;
+  }
+  .card .singleCardParent img{
+    object-fit: cover;
+  }

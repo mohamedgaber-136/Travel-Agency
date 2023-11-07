@@ -13,7 +13,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 
 const BookingDetails = () => {
-  const { currentUserObj, authorized } = useContext(searchContext);
+  const { currentUserObj, authorized,searchData } = useContext(searchContext);
   const { hotelObj, getHotelsObj } = useContext(addHotelsContext);
   const [cardsLists, setCardsLists] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -59,6 +59,7 @@ const BookingDetails = () => {
                   .replace("{width}", "500")
                   .replace("{height}", "500")}
                 title={hotelObj?.title}
+                data={searchData}
               />
             }
 
@@ -67,7 +68,7 @@ const BookingDetails = () => {
                 ?.replace("{width}", "500")
                 ?.replace("{height}", "500")}
               title={hotelObj?.title}
-            />
+              />
           </div>
         </div>
         {cardsLists ? (

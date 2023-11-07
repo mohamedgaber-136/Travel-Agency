@@ -6,34 +6,21 @@ import { useContext, useState } from "react";
 import "./Booked.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-export const BookedTicket = () => {
+export const BookedTicket = ({item}) => {
   const { searchData, currentUserObj } = useContext(searchContext);
+  console.log(item)
+  const capture = useRef(null);
   const downloadPdf = () => {
-    const capture = document.querySelector(".BookedTicketParent");
-    html2canvas(capture, {
-      // x: 0,
-      // y: 0,
-      // width: document.innerWidth,
-      // height: document.innerHeight,
-    }).then((canvas) => {
-      console.log(window.width, "capture image width");
-      console.log(capture.clientWidth, "capture image width");
-      // console.log(capture.clientHeight, "capture image height");
+    html2canvas(capture.current).then((canvas) => {
       const imgData = canvas.toDataURL("img/png");
       const doc = new jsPDF();
-      // const viewport = page.getViewport({
-      //   scale: canvas.width / page.getViewport({ scale: 1 }).width,
-      // });
       const compWidth = doc.internal.pageSize.getWidth();
       const compHeight = doc.internal.pageSize.getHeight();
-      // console.log(compWidth, "width ticjet image ");
-      // console.log(compHeight, "height ticjet image ");
-      const widthToHeight = capture.clientWidth / capture.clientHeight;
+      const widthToHeight = capture.current.clientWidth / capture.current.clientHeight;
       doc.addImage(
         imgData,
-        "PNG",
+        "SVG",
         0,
-
         compWidth / 2 - 25,
         compWidth,
         compWidth / widthToHeight + 5
@@ -41,8 +28,12 @@ export const BookedTicket = () => {
       doc.save("ticket.pdf");
     });
   };
+
   return (
-    <div className="BookedTicketParent d-flex align-items-center justify-content-center" ref={pdfRef}>
+    <div
+      className="BookedTicketParent d-flex align-items-center justify-content-center"
+      ref={capture}
+    >
       <div className="ticket d-flex justify-content-center align-items-center">
         <div className="ticketLeftSide p-2 d-flex align-items-start justify-content-center flex-column">
           <div className="LeftTop ">
@@ -243,11 +234,15 @@ export const BookedTicket = () => {
         </div>
         <div className="ticketRightSide d-flex justify-content-center align-items-center">
           <div className="ticketImgContainer d-flex justify-content-center align-items-center w-75 h-50">
-            <img src={ticketImg} alt="ticketImg" />
+            <img src={item?.booked?.photos[0]?.urlTemplate
+                      ?.replace("{width}", "500")
+                      .replace("{height}", "500")} alt="ticketImg" className="rounded-2 rounded"/>
           </div>
         </div>
       </div>
-      <button className="DownloadBtn" onClick={downloadPdf}><i class="fa-solid fa-download"></i></button>
+      <button className="DownloadBtn" onClick={downloadPdf}>
+        <i class="fa-solid fa-download"></i>
+      </button>
     </div>
   );
 };

@@ -6,9 +6,11 @@ import { AddNewCard } from "../../Components/accountFlow/AccountPayment/AddNewCa
 import AddCardModal from "../../Components/addCardModal/addCardModal";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
+import { addHotelsContext } from "../../store/store";
 export const CardsLists = ({ show, setModalShow }) => {
-  const { currentUserObj } = useContext(searchContext);
+  const { currentUserObj, updateCurrentUser } = useContext(searchContext);
   const [showAddCard, setShowAddCard] = useState(false);
+  const { hotelObj } = useContext(addHotelsContext);
   let navigations = useNavigate();
   const submitSure = (item) => {
     swal({
@@ -26,7 +28,19 @@ export const CardsLists = ({ show, setModalShow }) => {
           icon: "success",
           button: false,
           timer: 1500,
-        }).then().then(navigations("/"));
+        })
+          .then(() =>
+            updateCurrentUser({
+              bookingsStays: [
+                ...currentUserObj.bookingsStays,
+                {
+                  card: item,
+                  booked: hotelObj,
+                },
+              ],
+            })
+          )
+          .then(navigations("/"));
       }
     });
   };

@@ -17,7 +17,7 @@ export const PriceCard = ({ img, title }) => {
           <div>
             <h6 className="img-header">{title}</h6>
             <p className="side-head mb-0 fw-bold">
-              Superior room - 1 double bed or 2 twin beds
+             Superior room - 1 double bed or 2 twin beds
             </p>
             <div className="d-flex align-items-center">
               <div className="btn-cardds me-2">

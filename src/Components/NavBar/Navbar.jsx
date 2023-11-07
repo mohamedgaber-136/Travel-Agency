@@ -47,7 +47,7 @@ export const NavigationBar = () => {
             </Nav.Link>
           </Nav>
           <Nav className="d-flex gap-1 align-items-center">
-            <Nav.Link className="text-dark ">
+            <Nav.Link className="text-dark " onClick={()=>navigatation('Favourites')}>
               <i className="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
             {currentUserObj?.id !== "0" ? (

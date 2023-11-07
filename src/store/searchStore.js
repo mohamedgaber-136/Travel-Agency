@@ -99,7 +99,8 @@ export default function SearchContextProvider(props) {
       profileImg: profileImg !== undefined ? profileImg : accountAvatar,
       coverImg: accountBg,
       birthDate: "",
-      bookinds: [],
+      bookingsFlights: [],
+      bookingsStays: [],
       favourites: [],
       cards: [],
     };

@@ -149,3 +149,6 @@ input[type="checkbox"]:checked:after {
 .coolinput label.text{
   z-index: 500;
 }
+.favParent{
+  margin: 100px 0;
+}

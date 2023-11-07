@@ -5,15 +5,16 @@ import building from "../../assets/images/accountFlow/building.svg";
 import right from "../../assets/images/accountFlow/right.svg";
 import left from "../../assets/images/accountFlow/left.svg";
 import Button from "react-bootstrap/Button";
+import { InputGuests } from "../../Components/SearchForm/searchValidation/InputGuests";
 
-export const HotelCard = ({handleShow,img,title}) => {
-    
+export const HotelCard = ({handleShow,img,title,data}) => {
+  console.log(data)
   return (
-    <div className=" d-flex">
+    <div className=" d-flex ">
       <div class="card mb-3">
         <div class="card-header d-flex justify-content-between gap-3 align-items-center ">
           <h4 className="">
-            Superior room - 1 double bed or <span>2 twin beds </span>
+          {data.GuestAndRooms} Superior room - 1 double bed or <span>2 twin beds </span>
           </h4>
           <h6 className="card-price">
             $240<span className="align-content-end night">/night </span>

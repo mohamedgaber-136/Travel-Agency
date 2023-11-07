@@ -20,7 +20,7 @@ const AccountPayment = () => {
   return (
     <div>
       <Container className="bg-white py-3 rounded-3 CardpaymentModel d-flex justify-content-center align-items-center ">
-        <div className="row gy-4 align-items-center w-100">
+        <div className="row gy-4 justify-content-center align-items-center w-100">
           {currentUserObj?.cards?.map((item, index) => (
             <PaymentCard item={item} key={index} index={index} />
           ))}

@@ -17,7 +17,6 @@ export default function HotelDetials() {
   let navigate = useNavigate();
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
-  const { addUserFavouriteHotel } = useContext(searchContext);
   useEffect(() => {
     console.log(id, "id");
     console.log(hotelObj);
@@ -72,10 +71,10 @@ export default function HotelDetials() {
         </div>
         <div className="d-flex gap-3">
           <div
-            onClick={addUserFavouriteHotel}
+            onClick={isFavoritesClick}
             className="col-3 col-md-1 favIcon"
           >
-            {hotelObj.isFav ? (
+            {isFavorites ? (
               <img src={FillFav} alt="" />
             ) : (
               <img src={unFillFav} alt="" />
