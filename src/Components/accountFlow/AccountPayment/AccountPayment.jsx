@@ -2,7 +2,6 @@ import { Container } from "react-bootstrap";
 import "./accountPayment.css";
 import React, { useState } from "react";
 import PaymentModal from "./modal";
-import { Navigate } from "react-router-dom";
 import AddCardModal from "../../addCardModal/addCardModal";
 import { PaymentCard } from "./PaymentCard";
 import { searchContext } from "../../../store/searchStore";
@@ -13,9 +12,6 @@ const AccountPayment = () => {
   const [modalShow, setModalShow] = useState(false);
   let { currentUserObj, authorized } = useContext(searchContext);
 
-  // if (!authorized) {
-  //   return <Navigate to="/login" />;
-  // }
 
   return (
     <div>

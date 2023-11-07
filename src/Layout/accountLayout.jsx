@@ -31,9 +31,9 @@ const AccountLayout = () => {
     }
   }, [Cover]);
 
-  // if (!authorized) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
