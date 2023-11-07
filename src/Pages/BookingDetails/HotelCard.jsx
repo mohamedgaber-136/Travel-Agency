@@ -5,8 +5,6 @@ import building from "../../assets/images/accountFlow/building.svg";
 import right from "../../assets/images/accountFlow/right.svg";
 import left from "../../assets/images/accountFlow/left.svg";
 import Button from "react-bootstrap/Button";
-import { InputGuests } from "../../Components/SearchForm/searchValidation/InputGuests";
-
 export const HotelCard = ({handleShow,img,title,data}) => {
   console.log(data)
   return (

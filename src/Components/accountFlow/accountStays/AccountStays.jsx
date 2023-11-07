@@ -10,7 +10,7 @@ const AccountStays = () => {
 
   return (
     <>
-      {currentUserObj.bookingsStays.map((item,ind) => (
+      {currentUserObj?.bookingsStays?.map((item,ind) => (
         <BookedTicket item={item} key={ind} />
       ))}
     </>

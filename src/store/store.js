@@ -12,8 +12,9 @@ import {
 
 export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
-  const { searchData, database ,currentUserObj} = useContext(searchContext);
+  const { searchData, database, currentUserObj } = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
+  let [destination, setDestnation] = useState("");
   const [hotelObj, setHotelObj] = useState({
     photos: [],
     isFav: false,
@@ -22,9 +23,9 @@ export default function CountryHotelsProvider(props) {
   const isFavoritesClick = (favHotel) => {
     hotelObj.isFav = !hotelObj.isFav;
     setIsFavorites(hotelObj.isFav);
-    let favFoun=currentUserObj.favourites.find(({id})=>favHotel.id==id)
-    console.log(favFoun,"FOund")
-  }
+    let favFoun = currentUserObj.favourites.find(({ id }) => favHotel.id == id);
+    console.log(favFoun, "FOund");
+  };
 
   const paramters = {
     headers: {
@@ -34,17 +35,19 @@ export default function CountryHotelsProvider(props) {
   };
 
   useEffect(() => {
-    if (searchData.destination !== "" && searchData.destination !== undefined) {
+    if (destination !== "" && destination !== undefined) {
       console.log("getHotelsFromFirebase");
       getHotelsFromFirebase();
+      getLocationID();
     }
-  }, [searchData]);
+    console.log('hi Destnation')
+  },[destination]);
 
   function getHotelsFromFirebase() {
     const locatiosRef = collection(database, "locations");
     const que = query(
       locatiosRef,
-      where("location", "==", searchData.destination)
+      where("location", "==", destination.toLowerCase())
     );
     getDocs(que).then((snapshot) => {
       console.log(snapshot.docs[0].data().hotels, "datadatadat");
@@ -73,12 +76,12 @@ export default function CountryHotelsProvider(props) {
   async function getLocationID() {
     await axios
       .get(
-        `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=${searchData.destination}`,
+        `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/searchLocation?query=${destination}`,
         paramters
       )
-      .then(async (response) => {
+      .then((response) => {
         console.log(response.data.data[0]);
-        await getHotelsData(response.data.data[0]);
+        getHotelsData(response.data.data[0]);
       })
       .catch((error) => console.log(error, "error"));
     console.log(searchData.destination, "destination");
@@ -97,7 +100,7 @@ export default function CountryHotelsProvider(props) {
         setCountryHotels(response.data.data.data);
         const locatiosRef = collection(database, "locations");
         addDoc(locatiosRef, {
-          location: searchData.destination,
+          location: destination,
           hotels: response.data.data.data,
         }).then((snapshot) => {
           console.log(snapshot, "djfhsdj");
@@ -143,6 +146,8 @@ export default function CountryHotelsProvider(props) {
         isFavoritesClick,
         isFavorites,
         getLocationID,
+        setDestnation,
+        destination
       }}
     >
       {props.children}

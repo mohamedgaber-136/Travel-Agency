@@ -1,14 +1,14 @@
-import { useContext, useEffect, useState } from "react";
+import { memo, useContext, useState } from "react";
 import { searchSchema } from "./searchValidation/SearchValidation";
 import { searchContext } from "../../store/searchStore";
 import { useNavigate } from "react-router-dom";
 import { InputGuests } from "./searchValidation/InputGuests";
-export const SearchForm = () => {
+import { addHotelsContext } from "../../store/store";
+const SearchForm = () => {
   const navigate = useNavigate();
-
-  const [isValid, setValidatation] = useState(false);
+  const [isValid, setValidatation] = useState(true);
   const { searchData, setSeachData } = useContext(searchContext);
-
+  const { setDestnation } = useContext(addHotelsContext);
   const getSearchData = async (event) => {
     event.preventDefault();
     let data = {
@@ -21,25 +21,15 @@ export const SearchForm = () => {
           new Date(event.target[1].value).getTime()) /
         (1000 * 3600 * 24),
     };
-
     await searchSchema.isValid({ ...data }).then((validate) => {
-      console.log(validate, "validate");
-      setSeachData({ ...data });
       setValidatation(validate);
-      navigate(`/CountryHotels/${searchData.destination}`, { replace: true });
+      if (validate) {
+        setSeachData({ ...data });
+        setDestnation(data.destination)
+        navigate(`/CountryHotels/${searchData.destination}`);
+      }
     });
-
-    // console.log(isValid, "is valid search data");
-    // console.log(validate, "is valid search data");
-    // let isValid = await searchSchema.isValid(searchData);
   };
-
-  // useEffect(() => {
-  // console.log("reRender");
-  // if (isValid) {
-  //   navigate(`/CountryHotels/${searchData.destination}`, { replace: true });
-  // }
-  // }, [isValid]);
 
   return (
     <form
@@ -87,3 +77,4 @@ w-100"
     </form>
   );
 };
+export default memo(SearchForm);

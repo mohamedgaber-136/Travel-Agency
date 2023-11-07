@@ -66,7 +66,7 @@ export const CardsLists = ({ show, setModalShow }) => {
           />
 
           <div className="row flex-wrap justify-content-center align-items-center">
-            {currentUserObj.cards.map((item, index) => (
+            {currentUserObj?.cards?.map((item, index) => (
               <div
                 index={index}
                 onClick={() => submitSure(item)}

@@ -5,8 +5,10 @@ import FillFav from "../HotelDetails/assets/heart.png";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { searchContext } from "../../store/searchStore";
+import { addHotelsContext } from "../../store/store";
 export const SingleHotel = ({ hotel }) => {
   let { currentUserObj, updateCurrentUser } = useContext(searchContext);
+  let {destination}=useContext(addHotelsContext)
   let [clicked, setClicked] = useState(false);
   function clickedHeart() {
     setClicked(true);
@@ -20,7 +22,7 @@ export const SingleHotel = ({ hotel }) => {
     }
   }
   const checkfav = (hotel) => {
-    let FoundId = currentUserObj.favourites.find(({ id }) => id == hotel?.id);
+    let FoundId = currentUserObj?.favourites?.find(({ id }) => id == hotel?.id);
     if (FoundId == undefined) {
       setClicked(false);
     } else {
@@ -29,7 +31,7 @@ export const SingleHotel = ({ hotel }) => {
   };
   const navigate = useNavigate();
   const goToDetails = (id) => {
-    navigate(`hotelDetials/${id}`);
+    navigate(`/CountryHotels/${destination}/hotelDetials/${id}`);
   };
   useEffect(() => {
     checkfav();

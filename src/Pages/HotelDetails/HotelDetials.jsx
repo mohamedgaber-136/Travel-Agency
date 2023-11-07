@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from "react";
-import { useNavigate, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 import "./hotelDetials.css";
 import stars from "./assets/Frame 52.png";
@@ -14,7 +14,12 @@ import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
 export default function HotelDetials() {
   const { id } = useParams();
+
   let navigate = useNavigate();
+  let locate= useParams();
+  function getLocate(){
+    console.log(locate)
+  }
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
   useEffect(() => {
@@ -80,7 +85,7 @@ export default function HotelDetials() {
               <img src={unFillFav} alt="" />
             )}
           </div>
-          <div className="col-3 col-md-1 favIcon">
+          <div className="col-3 col-md-1 favIcon" onClick={getLocate}>
             <img src={share} alt="" />
           </div>
           <button

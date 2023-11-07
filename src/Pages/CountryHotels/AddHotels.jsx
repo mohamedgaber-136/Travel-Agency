@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import "./addhotels.css";
-import { SearchForm } from "../../Components/SearchForm/SearchForm";
+import SearchForm from "../../Components/SearchForm/SearchForm";
 import { useNavigate, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 import { Helmet } from "react-helmet";
@@ -9,17 +9,15 @@ import { searchContext } from "../../store/searchStore";
 import { SingleHotel } from "./singleHotel";
 export default function CountryHotelsPage() {
   const { countryTitle } = useParams();
- 
   const { countryHotels, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
   const { searchData, setSeachData } = useContext(searchContext);
-
-
+  const { setDestnation } = useContext(addHotelsContext);
   useEffect(() => {
     console.log(countryHotels, "hoootels");
-    // if (countryTitle !== undefined) {
-    //   setSeachData({ ...searchData, destination: countryTitle });
-    // }
+    if (countryTitle !== undefined) {
+      setDestnation(countryTitle);
+    }
   }, [countryTitle]);
 
   return (
@@ -39,8 +37,8 @@ export default function CountryHotelsPage() {
         </div>
 
         {countryHotels?.length !== 0 ? (
-          countryHotels?.map((hotel,ind) => (
-            <SingleHotel hotel={hotel} key={ind} />
+          countryHotels?.map((hotel, ind) => (
+            <SingleHotel hotel={hotel} key={ind} countryTitle={countryTitle} />
           ))
         ) : (
           <Loading />

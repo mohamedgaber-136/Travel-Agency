@@ -78,9 +78,9 @@ const AppRouter = () => {
               />
               <Route path="Favourites" element={<Favourites />} />
             </Routes>
+        <Footer />
           </CountryHotelsProvider>
         </SearchContextProvider>
-        <Footer />
       </BrowserRouter>
     </Suspense>
   );

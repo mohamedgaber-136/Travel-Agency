@@ -25,7 +25,7 @@ const AccountPayment = () => {
             <PaymentCard item={item} key={index} index={index} />
           ))}
 
-          <div className="col-lg-6 col-12 ">
+          <div className="col-lg-5 col-12 ">
             <AddNewCard setModalShow={() => setModalShow(true)} />
           </div>
         </div>

@@ -46,13 +46,15 @@ export const InputGuests = () => {
         <div className="d-flex justify-content-between">
           <span>adults</span>
           <div className="addArea d-flex justify-content-between">
-            <button onClick={() => addGuest(setGuest, guest)}>
+            <button onClick={() => addGuest(setGuest, guest)} type="button">
               <i className="fa-solid fa-plus text-primary"></i>
             </button>
             <span>{guest}</span>
             <button
               onClick={() => removeGuestOrRoom(setGuest, guest)}
               disabled={guest == 1 ? true : false}
+              type="button"
+
             >
               <i className="fa-solid fa-minus text-primary"></i>
             </button>
@@ -61,7 +63,7 @@ export const InputGuests = () => {
         <div className="d-flex justify-content-between">
           <span>Rooms</span>
           <div className="addArea d-flex justify-content-between">
-            <button type="button" onClick={() => addGuest(setRoom, room)}>
+            <button type="button" onClick={() => addGuest(setRoom, room)} >
               <i className="fa-solid fa-plus text-primary"></i>
             </button>
             <span>{room}</span>
