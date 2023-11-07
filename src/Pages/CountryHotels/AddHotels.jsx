@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import "./addhotels.css";
 import SearchForm from "../../Components/SearchForm/SearchForm";
 import { useNavigate, useParams } from "react-router-dom";
@@ -11,9 +11,13 @@ export default function CountryHotelsPage() {
   const { countryTitle } = useParams();
   const { countryHotels, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
-  const { searchData, setSeachData } = useContext(searchContext);
+  const { searchData, setSeachData, scrollToTopPage } =
+    useContext(searchContext);
   const { setDestnation } = useContext(addHotelsContext);
+  const topRef = useRef();
+
   useEffect(() => {
+    scrollToTopPage(topRef);
     console.log(countryHotels, "hoootels");
     if (countryTitle !== undefined) {
       setDestnation(countryTitle);
@@ -26,7 +30,7 @@ export default function CountryHotelsPage() {
         <meta charSet="utf-8" />
         <title>{`${countryTitle}-Hotels`}</title>
       </Helmet>
-      <div>
+      <div ref={topRef}>
         <div
           style={{
             width: "100%",

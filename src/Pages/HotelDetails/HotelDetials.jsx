@@ -1,4 +1,4 @@
-import React, { useContext, useEffect } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 import "./hotelDetials.css";
@@ -13,16 +13,23 @@ import "bootstrap/js/dist/carousel";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
 export default function HotelDetials() {
-  const { id } = useParams();
-
-  let navigate = useNavigate();
-  let locate= useParams();
-  function getLocate(){
-    console.log(locate)
-  }
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
+  const { scrollToTopPage, updateCurrentUser, currentUserObj } =
+    useContext(searchContext);
+  const { id } = useParams();
+  const topRef = useRef();
+  let navigate = useNavigate();
+
+  const [isFav, setIsFav] = useState(false);
+
+  let locate = useParams();
+  function getLocate() {
+    console.log(locate);
+  }
+
   useEffect(() => {
+    scrollToTopPage(topRef);
     console.log(id, "id");
     console.log(hotelObj);
     // if (hotelObj.id === undefined) {
@@ -36,8 +43,33 @@ export default function HotelDetials() {
     console.log(hotelObj, "hotelObj");
   }, []);
 
+  function clickedFav() {
+    setIsFav(true);
+    updateCurrentUser({ favourites: [...currentUserObj.favourites, hotelObj] });
+    if (isFav) {
+      setIsFav(false);
+      let deletedFav = currentUserObj.favourites.filter(
+        (hotel) => hotel.id !== id
+      );
+      updateCurrentUser({ favourites: [...deletedFav] });
+    }
+  }
+
+  const checkfav = (hotel) => {
+    let FoundId = currentUserObj?.favourites?.find(({ id }) => id == hotel?.id);
+    if (FoundId === undefined) {
+      setIsFav(false);
+    } else {
+      setIsFav(true);
+    }
+  };
+
+  useEffect(() => {
+    checkfav();
+  }, []);
+
   return hotelObj.length !== 0 ? (
-    <div className="container details">
+    <div ref={topRef} className="container details">
       {/* title and price  */}
       <div className="d-flex flex-md-row flex-column">
         <div className="col-md-11 col-12">
@@ -75,11 +107,8 @@ export default function HotelDetials() {
           <p className="m-text text-muted">{hotelObj?.numberReviews} Reviews</p>
         </div>
         <div className="d-flex gap-3">
-          <div
-            onClick={isFavoritesClick}
-            className="col-3 col-md-1 favIcon"
-          >
-            {isFavorites ? (
+          <div onClick={clickedFav} className="col-3 col-md-1 favIcon">
+            {isFav ? (
               <img src={FillFav} alt="" />
             ) : (
               <img src={unFillFav} alt="" />
@@ -223,11 +252,7 @@ export default function HotelDetials() {
         </p>
         <div className="d-flex flex-wrap gap-3 my-5 ">
           <div className="features pt-3 d-flex flex-column justify-content-between align-items-center  ">
-            <h3
-             className="text-light"
-            >
-              {hotelObj?.rating}
-            </h3>
+            <h3 className="text-light">{hotelObj?.rating}</h3>
             <h6>Very Good</h6>
             <p
               style={{

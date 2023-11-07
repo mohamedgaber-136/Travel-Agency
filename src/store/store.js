@@ -40,24 +40,24 @@ export default function CountryHotelsProvider(props) {
       getHotelsFromFirebase();
       getLocationID();
     }
-    console.log('hi Destnation')
-  },[destination]);
+    console.log("hi Destnation");
+  }, [destination]);
 
   function getHotelsFromFirebase() {
     const locatiosRef = collection(database, "locations");
+    console.log(destination.toLowerCase(), "firebase detentaion");
     const que = query(
       locatiosRef,
       where("location", "==", destination.toLowerCase())
     );
+    console.log(que, "query");
     getDocs(que).then((snapshot) => {
-      console.log(snapshot.docs[0].data().hotels, "datadatadat");
       if (snapshot.docs.length > 0) {
         setCountryHotels(snapshot.docs[0].data().hotels);
       } else {
         getDocs(query(locatiosRef, where("location", "==", "cairo"))).then(
           (snapshot) => {
             setCountryHotels(snapshot.docs[0].data().hotels);
-
             console.log(snapshot.docs[0].data().hotels, "datadatadat");
           }
         );
@@ -147,7 +147,7 @@ export default function CountryHotelsProvider(props) {
         isFavorites,
         getLocationID,
         setDestnation,
-        destination
+        destination,
       }}
     >
       {props.children}

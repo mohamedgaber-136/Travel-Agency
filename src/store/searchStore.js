@@ -149,6 +149,14 @@ export default function SearchContextProvider(props) {
     }
   }
 
+  function scrollToTopPage(ref) {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  }
+
   //--------------------- lazy loading delay function --------------------//
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
@@ -172,6 +180,7 @@ export default function SearchContextProvider(props) {
         auth,
         addUserFavouriteHotel,
         createNewUserObj,
+        scrollToTopPage,
       }}
     >
       {props.children}

@@ -25,8 +25,8 @@ const SearchForm = () => {
       setValidatation(validate);
       if (validate) {
         setSeachData({ ...data });
-        setDestnation(data.destination)
-        navigate(`/CountryHotels/${searchData.destination}`);
+        setDestnation(data.destination);
+        navigate(`/CountryHotels/${data.destination}`);
       }
     });
   };

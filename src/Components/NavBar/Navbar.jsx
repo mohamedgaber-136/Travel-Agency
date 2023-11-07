@@ -8,7 +8,7 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { searchContext } from "./../../store/searchStore";
 import { Button } from "react-bootstrap";
-import Logo from '../../assets/images/logo-removebg.png'
+import Logo from "../../assets/images/logo-removebg.png";
 export const NavigationBar = () => {
   let navigatation = useNavigate();
   const { currentUserObj, setCurrentUserObj, setAuthorized } =
@@ -42,12 +42,18 @@ export const NavigationBar = () => {
             <Nav.Link className="text-dark">
               <i className="fa-solid fa-plane px-1"></i>Find Flights
             </Nav.Link>
-            <Nav.Link className="text-dark">
+            <Nav.Link
+              className="text-dark"
+              onClick={() => navigatation("allcities")}
+            >
               <i className="fa-solid fa-couch px-1"></i>Find Stays
             </Nav.Link>
           </Nav>
           <Nav className="d-flex gap-1 align-items-center">
-            <Nav.Link className="text-dark " onClick={()=>navigatation('Favourites')}>
+            <Nav.Link
+              className="text-dark "
+              onClick={() => navigatation("Favourites")}
+            >
               <i className="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
             {currentUserObj?.id !== "0" ? (
@@ -65,8 +71,9 @@ export const NavigationBar = () => {
                     className="rounded-circle"
                   />
                   <span className="text-dark">
-                    {currentUserObj.firstName?.split("")[0]
-                      .concat(`. ${currentUserObj?.lastName}`) 
+                    {currentUserObj.firstName
+                      ?.split("")[0]
+                      .concat(`. ${currentUserObj?.lastName}`)
                       .toUpperCase()}
                   </span>
                 </Link>

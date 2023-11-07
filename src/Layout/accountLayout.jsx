@@ -1,6 +1,6 @@
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router";
 import { NavLink, Navigate } from "react-router-dom";
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
@@ -15,25 +15,32 @@ import { ProfileImg } from "./ProfileImg";
 import { searchContext } from "../store/searchStore";
 const AccountLayout = () => {
   const { id } = useParams();
-  const { currentUserObj, setCurrentUserObj, updateCurrentUser, authorized } =
-    useContext(searchContext);
+  const {
+    currentUserObj,
+    setCurrentUserObj,
+    updateCurrentUser,
+    authorized,
+    scrollToTopPage,
+  } = useContext(searchContext);
   const [Cover, setCover] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const imgsCovres = [img1, img2, img3, img4, img6, img7, img8];
+  const topRef = useRef();
   function addCover(x) {
     setCover(x);
   }
- 
+
   useEffect(() => {
+    scrollToTopPage(topRef);
     console.log(Cover, "cover");
     if (Cover !== null) {
       updateCurrentUser({ coverImg: Cover });
     }
   }, [Cover]);
 
-  // if (!authorized) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
@@ -41,7 +48,7 @@ const AccountLayout = () => {
         <meta charSet="utf-8" />
         <title>Account-Information</title>
       </Helmet>
-      <div className="bg pb-3">
+      <div ref={topRef} className="bg pb-3">
         <Container>
           <div className="pt-4 ">
             <div

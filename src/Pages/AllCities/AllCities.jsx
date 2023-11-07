@@ -1,11 +1,14 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import all from "../../data/city.json";
 import axios from "axios";
 import { Card } from "../../Components/Card/Card";
 import "./allCities.css";
 import Loading from "../../Components/Loading/Loading";
+import { searchContext } from "../../store/searchStore";
 export default function AllCities() {
+  const { scrollToTopPage } = useContext(searchContext);
   const [cityImg, setCity] = useState([]);
+  const topRef = useRef();
 
   const getAllCities = async () => {
     let arr = [];
@@ -50,10 +53,14 @@ export default function AllCities() {
 
   useEffect(() => {
     getAllCities();
+    scrollToTopPage(topRef);
   }, []);
 
   return (
-    <div className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center">
+    <div
+      ref={topRef}
+      className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center"
+    >
       {cityImg.length ? (
         cityImg.map((city) => (
           <Card img={city.img} title={city.title} key={city.id} />

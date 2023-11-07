@@ -16,14 +16,14 @@ export const SingleHotel = ({ hotel }) => {
     if (clicked) {
       setClicked(false);
       let deletedFav = currentUserObj.favourites.filter(
-        ({ id }) => id != hotel.id
+        ({ id }) => id !== hotel.id
       );
       updateCurrentUser({ favourites: [...deletedFav] });
     }
   }
   const checkfav = (hotel) => {
     let FoundId = currentUserObj?.favourites?.find(({ id }) => id == hotel?.id);
-    if (FoundId == undefined) {
+    if (FoundId === undefined) {
       setClicked(false);
     } else {
       setClicked(true);
@@ -41,7 +41,7 @@ export const SingleHotel = ({ hotel }) => {
       <div className="card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start">
         <div className="singleCardParent">
           <img
-            src={`${hotel.cardPhotos[0]?.sizes.urlTemplate
+            src={`${hotel?.cardPhotos[0]?.sizes.urlTemplate
               .replace("{width}", "300")
               .replace("{height}", "300")}`}
             alt=""
