@@ -33,14 +33,14 @@ const AccountLayout = () => {
   useEffect(() => {
     scrollToTopPage(topRef);
     console.log(Cover, "cover");
-    // if (Cover !== null) {
-    //   updateCurrentUser({ coverImg: Cover });
-    // }
+    if (Cover !== null) {
+      updateCurrentUser({ coverImg: Cover });
+    }
   }, [Cover]);
 
-  // if (!authorized) {
-  //   return <Navigate to="/login" />;
-  // }
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
