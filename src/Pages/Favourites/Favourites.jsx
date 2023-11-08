@@ -20,7 +20,9 @@ export const Favourites = () => {
       {favItems?.length === 0 ? (
         <NoFavourite />
       ) : (
-        favItems?.map((hotel, ind) => <SingleHotel hotel={hotel} key={ind} />)
+        favItems?.map((hotel, ind) => (
+          <SingleHotel hotel={hotel} key={ind} isFavPage={"favPage"} />
+        ))
       )}
     </div>
   );

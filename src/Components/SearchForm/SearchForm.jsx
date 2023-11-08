@@ -4,6 +4,7 @@ import { searchContext } from "../../store/searchStore";
 import { useNavigate } from "react-router-dom";
 import { InputGuests } from "./searchValidation/InputGuests";
 import { addHotelsContext } from "../../store/store";
+import "./SearchForm.css";
 const SearchForm = () => {
   const navigate = useNavigate();
   const [isValid, setValidatation] = useState(true);

@@ -58,7 +58,9 @@ export const Footer = () => {
                 </div>
                 <ul>
                   {Countrys.map((element) => (
-                    <li onClick={() => CountryBtn(element)}>{element}</li>
+                    <li key={element} onClick={() => CountryBtn(element)}>
+                      {element}
+                    </li>
                   ))}
                 </ul>
               </div>

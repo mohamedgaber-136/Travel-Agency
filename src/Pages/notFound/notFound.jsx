@@ -4,28 +4,9 @@ import { useNavigate } from "react-router-dom";
 
 const NotFoundPage = () => {
   const navigate = useNavigate();
-  // useEffect(() => {
-  //   document.querySelector(".row svg").animate({
-  //     // targets: ".row svg",
-  //     translateY: 10,
-  //     autoplay: true,
-  //     loop: true,
-  //     // easing: "easeInOutSine",
-  //     direction: "alternate",
-  //   });
-  //   document.querySelector("#zero").animate({
-  //     // targets: "#zero",
-  //     translateX: 10,
-  //     autoplay: true,
-  //     loop: true,
-  //     // easing: "easeInOutSine",
-  //     direction: "alternate",
-  //     scale: [{ value: 1 }, { value: 1.4 }, { value: 1, delay: 250 }],
-  //     rotateY: { value: "+=180", delay: 200 },
-  //   });
-  // });
+
   return (
-    <div className="container min-vh-100 d-flex flex-column justify-content-center align-items-center ">
+    <div className="container noFavParent min-vh-100 d-flex flex-column justify-content-center align-items-center ">
       <div className="row w-100 notFoundImage">
         <div className="col-sm-12 col-md-12 mt-5 mb-5">
           <svg

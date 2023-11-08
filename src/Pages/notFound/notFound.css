@@ -78,14 +78,14 @@ select:-webkit-autofill {
 
 @keyframes zeroAnimate {
   0% {
-    transform: translateX(0) scale(0.9);
+    transform: translateX(0) translateY(0) scale(1);
   }
   50% {
-    transform: translateX(-12px) scale(1.1);
+    transform: translateX(-25px) translateY(-25px) scale(1.1);
     /* rotate3d(0, 1, 0, 50%); */
   }
   100% {
-    transform: translateX(0) scale(0.9);
+    transform: translateX(0) translateY(0) scale(1);
     /* rotate3d(0, 1, 0, 0); */
   }
   /* scale: [{value: 1}, {value: 1.4}, {value: 1, delay: 250}], */

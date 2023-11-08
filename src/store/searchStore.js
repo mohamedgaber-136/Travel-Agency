@@ -122,9 +122,9 @@ export default function SearchContextProvider(props) {
   };
 
   //--------------------- currentUserSnapshot --------------------//
-  // onSnapshot(currentRef, (snapshot) => {
-  //   console.log(snapshot?.data(), "snapshot listen");
-  // });
+  onSnapshot(currentRef, (snapshot) => {
+    console.log(snapshot?.data(), "snapshot listen");
+  });
 
   //--------------------- updateCurrentUser --------------------//
   const updateCurrentUser = (change) => {

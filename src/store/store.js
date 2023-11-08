@@ -14,7 +14,7 @@ export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
   const { searchData, database, currentUserObj } = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
-  let [destination, setDestnation] = useState("");
+  let [destination, setDestnation] = useState("London");
   const [hotelObj, setHotelObj] = useState({
     photos: [],
     isFav: false,
@@ -37,10 +37,10 @@ export default function CountryHotelsProvider(props) {
   useEffect(() => {
     if (destination !== "" && destination !== undefined) {
       console.log("getHotelsFromFirebase");
-      // getHotelsFromFirebase();
-      getLocationID();
+      getHotelsFromFirebase();
+      // getLocationID();
     }
-    console.log("hi Destnation");
+    console.log("hi Destnation rerender");
   }, [destination]);
 
   function getHotelsFromFirebase() {
@@ -62,14 +62,6 @@ export default function CountryHotelsProvider(props) {
           }
         );
       }
-      // else {
-      //   const queCairo = query(locatiosRef, where("location", "==", "cairo"));
-      //   getDocs(queCairo).then((snapshot) => {
-      //     console.log(snapshot.docs, "hotels ");
-
-      //     setCountryHotels(snapshot.docs[0]);
-      //   });
-      // }
     });
   }
 
@@ -98,13 +90,23 @@ export default function CountryHotelsProvider(props) {
         console.log(response.data, "hotels details");
         console.log(response.data.data.data, "hotels data details");
         setCountryHotels(response.data.data.data);
-        // const locatiosRef = collection(database, "locations");
-        // addDoc(locatiosRef, {
-        //   location: destination,
-        //   hotels: response.data.data.data,
-        // }).then((snapshot) => {
-        //   console.log(snapshot, "djfhsdj");
-        // });
+
+        //getHotelsFromFirebase
+        const locatiosRef = collection(database, "locations");
+        const que = query(
+          locatiosRef,
+          where("location", "==", destination.toLowerCase())
+        );
+        getDocs(que).then((snapshot) => {
+          if (snapshot.docs.length === 0) {
+            addDoc(locatiosRef, {
+              location: destination,
+              hotels: response.data.data.data,
+            }).then((snapshot) => {
+              console.log(snapshot, "djfhsdj");
+            });
+          }
+        });
       })
       .catch((error) => console.log(error, "error"));
   }
@@ -121,14 +123,13 @@ export default function CountryHotelsProvider(props) {
       })
       .catch((error) => console.log(error, "error"));
     // 21213729
-    // setHotelObj({ ...data.data, isFav: false });
-    // console.log(data.data);
 
-    // const hotelRef = collection(database, "hotels");
-    // getDocs(hotelRef).then((snapshot) => {
-    //   console.log(snapshot?.docs[0].data().details, "details");
-    //   setHotelObj(snapshot?.docs[0].data().details);
-    // });
+    //getHotelsFromFirebase
+    const hotelRef = collection(database, "hotels");
+    getDocs(hotelRef).then((snapshot) => {
+      console.log(snapshot?.docs[0].data().details, "details");
+      setHotelObj(snapshot?.docs[0].data().details);
+    });
   }
 
   useEffect(() => {

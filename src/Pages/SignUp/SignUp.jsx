@@ -12,9 +12,13 @@ import { accountAvatar, accountBg } from "../../assets/images";
 
 function SignUpPage() {
   const navigate = useNavigate();
+  let interv;
 
+  // ------------------------- use context ------------------------- //
   const { setCurrentUserObj, usersReference, setAuthorized, createNewUserObj } =
     useContext(searchContext);
+
+  // ------------------------- use state ------------------------- //
   const [isHiddenPassword, setIsHiddenPassword] = useState(true);
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -30,8 +34,7 @@ function SignUpPage() {
     address: "",
   });
 
-  let interv;
-
+  // ------------------------- use effect ------------------------- //
   useEffect(() => {
     if (
       userObject.firstName === "" ||
@@ -62,6 +65,13 @@ function SignUpPage() {
     }
   }, [userObject, checkLicenes, submitEnabled]);
 
+  useEffect(() => {
+    return () => {
+      clearTimeout(interv);
+    };
+  }, []);
+
+  // ------------------------- user sign up ------------------------- //
   function userSignUp(event) {
     event.preventDefault();
 
@@ -89,22 +99,18 @@ function SignUpPage() {
     }
   }
 
-  useEffect(() => {
-    return () => {
-      clearTimeout(interv);
-    };
-  }, []);
-
   return (
     <>
+      {/* ------------------------- helmet title ------------------------- */}
       <Helmet>
         <meta charSet="utf-8" />
         <title>SignUp</title>
       </Helmet>
       <div className="container loginParent d-flex justify-content-center align-items-center ">
         <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100 ">
+          {/* ------------------------- view image ------------------------- */}
           <div
-            className="imgContainer shadow"
+            className="imgContainerSign shadow"
             style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
@@ -112,16 +118,20 @@ function SignUpPage() {
             }}
           />
 
+          {/* ------------------------- sign up form ------------------------- */}
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 h-100 bg-light"
             onSubmit={userSignUp}
           >
+            {/* ------------------------- sign uo title ------------------------- */}
             <div className="align-self-start d-flex flex-column p-2 ">
               <h2 className="m-0">Signup</h2>
               <span>Signup now and get full access to our app.</span>
             </div>
 
+            {/* ------------------------- name input ------------------------- */}
             <div className="d-flex w-100 gap-2">
+              {/* ------------------------- first name input ------------------------- */}
               <input
                 required
                 placeholder="Firstname"
@@ -136,6 +146,7 @@ function SignUpPage() {
                 }
               />
 
+              {/* ------------------------- last name input ------------------------- */}
               <input
                 required
                 placeholder="Lastname"
@@ -151,6 +162,7 @@ function SignUpPage() {
               />
             </div>
 
+            {/* ------------------------- email input ------------------------- */}
             <div className="w-100">
               <input
                 type="email"
@@ -176,6 +188,7 @@ function SignUpPage() {
               ) : null}
             </div>
 
+            {/* ------------------------- number input ------------------------- */}
             <input
               type="number"
               className="form-control "
@@ -187,8 +200,10 @@ function SignUpPage() {
               }
             />
 
+            {/* ------------------------- password ------------------------- */}
             <div className="w-100">
               <div className="input-group ">
+                {/* ------------------------- password input ------------------------- */}
                 <input
                   type={isHiddenPassword ? "password" : "text"}
                   className="form-control"
@@ -211,6 +226,8 @@ function SignUpPage() {
                     });
                   }}
                 />
+
+                {/* ------------------------- hiiden icon password ------------------------- */}
                 <div className="input-group-append">
                   <span
                     className=" input-group-text  h-100"
@@ -226,29 +243,29 @@ function SignUpPage() {
               </div>
             </div>
 
+            {/* ------------------------- confirm password input ------------------------- */}
             <div className="w-100">
-              <div className="input-group ">
-                <input
-                  type={isHiddenPassword ? "password" : "text"}
-                  className="form-control"
-                  placeholder="Confirm your Password"
-                  required
-                  onChange={(event) => {
-                    setUserObject({
-                      ...userObject,
-                      confirmPassword: event.target.value,
-                    });
+              <input
+                type={isHiddenPassword ? "password" : "text"}
+                className="form-control"
+                placeholder="Confirm your Password"
+                required
+                onChange={(event) => {
+                  setUserObject({
+                    ...userObject,
+                    confirmPassword: event.target.value,
+                  });
 
-                    setErrors({
-                      ...errors,
-                      confirmError:
-                        userObject.password !== event.target.value
-                          ? "Passwords Does Not Match"
-                          : "",
-                    });
-                  }}
-                />
-              </div>
+                  setErrors({
+                    ...errors,
+                    confirmError:
+                      userObject.password !== event.target.value
+                        ? "Passwords Does Not Match"
+                        : "",
+                  });
+                }}
+              />
+
               {errors?.confirmError ? (
                 <span className="fs-6 ps-2 text-danger">
                   {errors?.confirmError}
@@ -256,6 +273,7 @@ function SignUpPage() {
               ) : null}
             </div>
 
+            {/* ------------------------- remember checkbox ------------------------- */}
             <div className="align-self-start">
               <input
                 type="checkbox"
@@ -275,6 +293,7 @@ function SignUpPage() {
               </label>
             </div>
 
+            {/* ------------------------- sign up button ------------------------- */}
             <div className="d-flex flex-column w-75">
               <button
                 className={submitEnabled ? "submitBtn" : "submitBtn-disabled"}
@@ -285,6 +304,7 @@ function SignUpPage() {
               <span className="fs-6 ps-2 text-danger">{errorMessage}</span>
             </div>
 
+            {/* ------------------------- log in button ------------------------- */}
             <div className="   d-flex align-items-center justify-content-center">
               <span> Already have an acount?</span>
               <Link to={"/login"} replace className=" url-colored btn p-1">

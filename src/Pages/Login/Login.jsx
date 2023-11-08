@@ -6,29 +6,27 @@ import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Helmet } from "react-helmet";
 import { Link, useNavigate } from "react-router-dom";
-import { addDoc, getDocs, query, where } from "firebase/firestore";
+import { getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
 import {
   FacebookAuthProvider,
   GoogleAuthProvider,
   signInWithPopup,
-  signInWithRedirect,
 } from "firebase/auth";
 import swal from "sweetalert";
-import { ProfileImg } from "./../../Layout/ProfileImg";
 
 function LoginPage() {
+  const navigate = useNavigate();
+  // ------------------------- use context ------------------------- //
   const {
     usersReference,
     setCurrentUserObj,
     setAuthorized,
-    authorized,
     auth,
     createNewUserObj,
   } = useContext(searchContext);
 
-  const navigate = useNavigate();
-
+  // ------------------------- use state ------------------------- //
   const [isHiddenPassword, setIsHiddenPassword] = useState("password");
   const [submitEnabled, setSubmitEnabled] = useState(false);
   const [errorMessage, setErrorMessage] = useState("");
@@ -38,6 +36,7 @@ function LoginPage() {
     rememberMe: true,
   });
 
+  // ------------------------- use effect ------------------------- //
   useEffect(() => {
     if (
       userObject.email === "" ||
@@ -46,13 +45,13 @@ function LoginPage() {
       userObject.password < 6
     ) {
       setSubmitEnabled(false);
-      // setErrorMessage("Make Sure To Enter Email and Password");
     } else {
       setSubmitEnabled(true);
       setErrorMessage("");
     }
   }, [userObject]);
 
+  // ------------------------- user log in ------------------------- //
   function userSignIn(event) {
     event.preventDefault();
 
@@ -82,10 +81,8 @@ function LoginPage() {
     }
   }
 
- 
-
+  // ------------------------- user log in with google or facebook ------------------------- //
   function logInWithGoogleOrFacebook(type) {
-    // var provider = new firebase.auth.GoogleAuthProvider();
     const provider =
       type === "google" ? new GoogleAuthProvider() : new FacebookAuthProvider();
     provider.setCustomParameters({
@@ -104,14 +101,11 @@ function LoginPage() {
 
         getDocs(que).then((snapshot) => {
           if (snapshot.docs.length > 0) {
-            console.log(snapshot.docs[0].data(), "data");
-            console.log(snapshot.docs[0].id, "id");
             localStorage.setItem("currentUser", snapshot.docs[0].id);
             setCurrentUserObj({
               ...snapshot.docs[0].data(),
               id: snapshot.docs[0].id,
             });
-            console.log("login with same email");
           } else {
             const user = {
               firstName: result.user.displayName.split(" ")[0],
@@ -125,7 +119,6 @@ function LoginPage() {
             };
 
             createNewUserObj({ ...user });
-            console.log(user, "logged user");
           }
           swal({
             icon: "success",
@@ -142,14 +135,17 @@ function LoginPage() {
 
   return (
     <>
+      {/* ------------------------- helmet title ------------------------- */}
       <Helmet>
         <meta charSet="utf-8" />
         <title>Login</title>
       </Helmet>
+
       <div className="container loginParent d-flex justify-content-center align-items-center ">
         <div className=" justify-content-center flex-column flex-md-row d-flex align-items-center gap-3 w-100">
+          {/* ------------------------- view image ------------------------- */}
           <div
-            className="imgContainer shadow "
+            className="imgContainerLog shadow "
             style={{
               backgroundImage: `url(${img})`,
               backgroundPosition: "center",
@@ -157,15 +153,18 @@ function LoginPage() {
             }}
           />
 
+          {/* ------------------------- log in form ------------------------- */}
           <form
             className="logForm border shadow rounded-4 d-flex flex-column justify-content-center align-items-center gap-2 bg-light"
             onSubmit={userSignIn}
           >
+            {/* ------------------------- log in title ------------------------- */}
             <div className=" align-self-start d-flex flex-column p-2 ">
               <h2 className="m-0">Login</h2>
               <span>Login to access your Golobe account</span>
             </div>
 
+            {/* ------------------------- email input ------------------------- */}
             <input
               type="email"
               className="form-control "
@@ -181,6 +180,7 @@ function LoginPage() {
               }}
             />
 
+            {/* ------------------------- password input ------------------------- */}
             <div className="input-group ">
               <input
                 type={isHiddenPassword ? "password" : "text"}
@@ -213,6 +213,7 @@ function LoginPage() {
               </div>
             </div>
 
+            {/* ------------------------- terms checkbox ------------------------- */}
             <div className="d-flex justify-content-between align-items-center w-100 ">
               <div>
                 <input
@@ -230,6 +231,7 @@ function LoginPage() {
               </div>
             </div>
 
+            {/* ------------------------- sign in button ------------------------- */}
             <div className="d-flex flex-column w-75 py-2">
               <button
                 className={submitEnabled ? "submitBtn" : "submitBtn-disabled"}
@@ -240,6 +242,7 @@ function LoginPage() {
               <span className="fs-6 ps-2 text-danger">{errorMessage}</span>
             </div>
 
+            {/* ------------------------- sign up button ------------------------- */}
             <div className="   d-flex align-items-center justify-content-center">
               <span> Don't have an account?</span>
               <Link to={"/signUp"} replace className=" url-colored btn p-1">
@@ -249,7 +252,8 @@ function LoginPage() {
 
             <span>Or login With</span>
 
-            <div className="d-flex   gap-2">
+            {/* ------------------------- google facebook buttons ------------------------- */}
+            <div className="d-flex gap-2">
               <span
                 className="py-2 btn border d-flex justify-content-center align-items-center"
                 onClick={() => logInWithGoogleOrFacebook("google")}

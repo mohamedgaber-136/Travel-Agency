@@ -1,6 +1,5 @@
 .signupParent {
   min-height: 800px;
-  background-color: yellow;
 }
 
 /* .signUpParent {
@@ -8,10 +7,10 @@
   gap: 5px;
 } */
 
-.imgContainer {
+.imgContainerSign {
   border-radius: 20px;
   width: 40% !important;
-  height: 500px !important;
+  min-height: 560px !important;
 }
 .logForm {
   width: 45% !important;

@@ -40,7 +40,7 @@ export const CardsLists = ({ show, setModalShow }) => {
               ],
             })
           )
-          .then(navigations("/"));
+          .then(navigations("finalDetails"));
       }
     });
   };
@@ -68,6 +68,7 @@ export const CardsLists = ({ show, setModalShow }) => {
           <div className="row flex-wrap justify-content-center align-items-center">
             {currentUserObj?.cards?.map((item, index) => (
               <div
+                key={index}
                 index={index}
                 onClick={() => submitSure(item)}
                 className="row m-0 p-0 col-12 col-md-6 "

@@ -4,8 +4,8 @@ import frame from "../../assets/images/accountFlow/Frame 186.png";
 export const PriceCard = ({ img, title }) => {
   return (
     <div className="">
-      <div class="card">
-        <div class="card-header d-flex justify-content-between">
+      <div className="card">
+        <div className="card-header d-flex justify-content-between">
           <img
             src={img}
             className="side-header-img me-3"
@@ -17,7 +17,7 @@ export const PriceCard = ({ img, title }) => {
           <div>
             <h6 className="img-header">{title}</h6>
             <p className="side-head mb-0 fw-bold">
-             Superior room - 1 double bed or 2 twin beds
+              Superior room - 1 double bed or 2 twin beds
             </p>
             <div className="d-flex align-items-center">
               <div className="btn-cardds me-2">
@@ -33,10 +33,10 @@ export const PriceCard = ({ img, title }) => {
           Your booking is protected by <span className="fw-bold"> golobe </span>
         </p>
         <hr className="m-0" />
-        <div class="card-body p-4">
-          <h5 class="card-title">Price Details</h5>
+        <div className="card-body p-4">
+          <h5 className="card-title">Price Details</h5>
           <div className="d-flex justify-content-between">
-            <div class="card-textt">
+            <div className="card-textt">
               <p>Base Fare</p>
               <p>Discount</p>
               <p>Taxes</p>

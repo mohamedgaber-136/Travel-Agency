@@ -13,7 +13,7 @@ import { Navigate, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 
 const BookingDetails = () => {
-  const { currentUserObj, authorized,searchData } = useContext(searchContext);
+  const { currentUserObj, authorized, searchData } = useContext(searchContext);
   const { hotelObj, getHotelsObj } = useContext(addHotelsContext);
   const [cardsLists, setCardsLists] = useState(false);
   const [modalShow, setModalShow] = useState(false);
@@ -29,18 +29,15 @@ const BookingDetails = () => {
     }
   };
 
-  // if (!authorized) {
-  //   return <Navigate to="/login" />;
-  // }
-
   useEffect(() => {
     if (hotelObj.title === undefined) {
       getHotelsObj(hotelId);
     }
   }, []);
 
-  console.log(hotelObj, "hotelId");
-  console.log(hotelObj?.photos[0], "image");
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
@@ -68,7 +65,7 @@ const BookingDetails = () => {
                 ?.replace("{width}", "500")
                 ?.replace("{height}", "500")}
               title={hotelObj?.title}
-              />
+            />
           </div>
         </div>
         {cardsLists ? (

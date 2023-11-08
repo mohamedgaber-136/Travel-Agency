@@ -6,9 +6,9 @@ import { useContext, useState } from "react";
 import "./Booked.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-export const BookedTicket = ({item}) => {
+export const BookedTicket = ({ item }) => {
   const { searchData, currentUserObj } = useContext(searchContext);
-  console.log(item)
+  console.log(item);
   const capture = useRef(null);
   const downloadPdf = () => {
     html2canvas(capture.current).then((canvas) => {
@@ -16,7 +16,8 @@ export const BookedTicket = ({item}) => {
       const doc = new jsPDF();
       const compWidth = doc.internal.pageSize.getWidth();
       const compHeight = doc.internal.pageSize.getHeight();
-      const widthToHeight = capture.current.clientWidth / capture.current.clientHeight;
+      const widthToHeight =
+        capture.current.clientWidth / capture.current.clientHeight;
       doc.addImage(
         imgData,
         "SVG",
@@ -234,14 +235,18 @@ export const BookedTicket = ({item}) => {
         </div>
         <div className="ticketRightSide d-flex justify-content-center align-items-center">
           <div className="ticketImgContainer d-flex justify-content-center align-items-center w-75 h-50">
-            <img src={item?.booked?.photos[0]?.urlTemplate
-                      ?.replace("{width}", "500")
-                      .replace("{height}", "500")} alt="ticketImg" className="rounded-2 rounded"/>
+            <img
+              src={item?.booked?.photos[0]?.urlTemplate
+                ?.replace("{width}", "500")
+                .replace("{height}", "500")}
+              alt="ticketImg"
+              className="rounded-2 rounded"
+            />
           </div>
         </div>
       </div>
       <button className="DownloadBtn" onClick={downloadPdf}>
-        <i class="fa-solid fa-download"></i>
+        <i className="fa-solid fa-download"></i>
       </button>
     </div>
   );

@@ -1,6 +1,7 @@
 import React from "react";
 import { searchContext } from "../../../store/searchStore";
 import { useContext } from "react";
+import "./accountPayment.css";
 
 export const PaymentCard = ({ item, index }) => {
   let { currentUserObj, updateCurrentUser } = useContext(searchContext);
@@ -18,8 +19,8 @@ export const PaymentCard = ({ item, index }) => {
         <div className="d-flex align-items-start justify-content-between visa-content">
           <div>
             <p className="mb-0 lh-sm">
-              {[1, 2, 3].map(() => (
-                <span>&#9913;&#9913;&#9913;&#9913;&nbsp;&nbsp;</span>
+              {[1, 2, 3].map((item) => (
+                <span key={item}>&#9913;&#9913;&#9913;&#9913;&nbsp;&nbsp;</span>
               ))}
               {item.creditCard.slice(-4)}
             </p>

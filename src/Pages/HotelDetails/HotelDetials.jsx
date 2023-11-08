@@ -12,6 +12,7 @@ import imgHotel from "./assets/Rectangle 3.png";
 import "bootstrap/js/dist/carousel";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
+import { BsStar, BsStarFill, BsStarHalf } from "react-icons/bs";
 export default function HotelDetials() {
   const { getHotelsObj, hotelObj, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
@@ -29,7 +30,7 @@ export default function HotelDetials() {
   }
 
   useEffect(() => {
-    scrollToTopPage(topRef);
+    // scrollToTopPage(topRef);
     console.log(id, "id");
     console.log(hotelObj);
     if (hotelObj.id === undefined) {
@@ -69,6 +70,25 @@ export default function HotelDetials() {
   }, []);
 
   const reviews = ["Near park", "Clean hotel", "Near theater"];
+  const amenitiesList = [
+    { iconClass: "fa-solid fa-door-open", text: "Outdoor" },
+    { iconClass: "fa-solid fa-person-swimming", text: "Open pool" },
+    { iconClass: "fa-solid fa-spa", text: "Spa and wellness center" },
+    { iconClass: "fa-solid fa-utensils", text: "Restaurant" },
+    { iconClass: "fa-solid fa-bell", text: "Room servies" },
+    { iconClass: "fa-solid fa-dumbbell", text: "Fitness room" },
+    { iconClass: "fa-solid fa-martini-glass", text: "BarLounage" },
+    { iconClass: "fa-solid fa-wifi", text: "Free wifi" },
+    { iconClass: "fa-solid fa-mug-hot", text: "TeaCaffea machine" },
+  ];
+  const usersReviews = [
+    { name: "Omar ayman", rate: "5.0 Amazing" },
+    { name: "Mohamed Gaber", rate: "4.5 Exeleant" },
+    { name: "Mohamed gemy", rate: "3.5 Good" },
+    { name: "Mahmoud Ragb", rate: "4.0 very good" },
+  ];
+
+  const randNum = Math.round(Math.random() * 5);
 
   return hotelObj.length !== 0 ? (
     <div ref={topRef} className="container details">
@@ -78,10 +98,28 @@ export default function HotelDetials() {
           <div className="d-flex flex-column flex-md-row ">
             <h3>{hotelObj.title}</h3>
             <div className="d-flex">
-              <div className="imgStars p-1">
-                <img src={stars} alt="" />
+              <div className="px-2 p-1 d-flex gap-1 rateStars">
+                {[1, 2, 3, 4, 5]
+                  .slice(0, Math.floor(hotelObj?.rating))
+                  .map((item) => (
+                    <BsStarFill key={item} size={20} />
+                  ))}
+                {[1, 2, 3, 4, 5]
+                  .slice(
+                    Math.floor(hotelObj?.rating),
+                    Math.floor(hotelObj?.rating) + 1
+                  )
+                  .map((item) => (
+                    <BsStarHalf key={item} size={20} />
+                  ))}
+                {[1, 2, 3, 4, 5]
+                  .slice(Math.floor(hotelObj?.rating) + 1)
+                  .map((item) => (
+                    <BsStar key={item} size={20} />
+                  ))}
+                {/* <img src={stars} alt="" /> */}
               </div>
-              <p className="p-1">5 stars</p>
+              <p className="p-1">{hotelObj?.rating} stars</p>
             </div>
           </div>
           <p className="text-muted">
@@ -131,7 +169,7 @@ export default function HotelDetials() {
       <div className=" d-flex justify-content-center my-3">
         <div
           id="carouselExampleCaptions"
-          className="carousel slide carouselDiv"
+          className="carousel slide carouselDiv w-75 rounded-3 overflow-hidden"
           data-bs-ride="carousel"
         >
           <div className="carousel-indicators">
@@ -145,6 +183,7 @@ export default function HotelDetials() {
             ></button>
             {[1, 2, 3].map((item) => (
               <button
+                key={item}
                 type="button"
                 data-bs-target="#carouselExampleCaptions"
                 data-bs-slide-to={`${item}`}
@@ -155,8 +194,17 @@ export default function HotelDetials() {
           <div className="carousel-inner">
             {hotelObj.photos ? (
               <>
-                {[1, 2, 3, 4].map((item) => (
-                  <div className="carousel-item active w-100">
+                <div className="carousel-item active w-100">
+                  <img
+                    src={hotelObj?.photos[0]?.urlTemplate
+                      ?.replace("{width}", "500")
+                      .replace("{height}", "500")}
+                    className="w-100"
+                    alt="..."
+                  />
+                </div>
+                {[1, 2, 3].map((item) => (
+                  <div key={item} className="carousel-item w-100">
                     <img
                       src={hotelObj?.photos[item]?.urlTemplate
                         ?.replace("{width}", "500")
@@ -166,42 +214,6 @@ export default function HotelDetials() {
                     />
                   </div>
                 ))}
-                {/* <div className="carousel-item active w-100">
-                  <img
-                    src={hotelObj?.photos[0]?.urlTemplate
-                      ?.replace("{width}", "500")
-                      .replace("{height}", "500")}
-                    className="w-100"
-                    alt="..."
-                  />
-                </div>
-                <div className="carousel-item w-100">
-                  <img
-                    src={hotelObj?.photos[1]?.urlTemplate
-                      ?.replace("{width}", "500")
-                      .replace("{height}", "500")}
-                    className="w-100"
-                    alt="..."
-                  />
-                </div>
-                <div className="carousel-item w-100">
-                  <img
-                    src={hotelObj?.photos[2]?.urlTemplate
-                      ?.replace("{width}", "500")
-                      .replace("{height}", "500")}
-                    className="w-100"
-                    alt="..."
-                  />
-                </div>
-                <div className="carousel-item w-100">
-                  <img
-                    src={hotelObj?.photos[3]?.urlTemplate
-                      ?.replace("{width}", "500")
-                      .replace("{height}", "500")}
-                    className="w-100"
-                    alt="..."
-                  />
-                </div> */}
               </>
             ) : (
               <div className="carousel-item w-100">
@@ -239,7 +251,7 @@ export default function HotelDetials() {
       {/* overview */}
       <div>
         <h4>Overview</h4>
-        <p className="text-muted">
+        <p className="text-muted ">
           Located in Taksim Gmsuyu, the heart of Istanbul, the CVK Park
           Bosphorus Hotel Istanbul has risen from the ashes of the historic Park
           Hotel, which also served as Foreign Affairs Palace 120 years ago and
@@ -253,15 +265,18 @@ export default function HotelDetials() {
           well as 68 separate luxury suites, are offered to its special guests
           as a wide variety of selection.
         </p>
-        <div className="d-flex flex-wrap gap-3 my-5">
+        <div className="d-flex flex-wrap justify-content-center align-items-center gap-3 my-5">
           <div className="features d-flex flex-column justify-content-center align-items-center gap-2">
             <h3 className="text-light m-0 ">{hotelObj?.rating}</h3>
             <h6 className="m-0 fs-5">Very Good</h6>
             <p className="text-muted fs-6">{hotelObj?.numberReviews}</p>
           </div>
 
-          {reviews.map((item) => (
-            <div className="features-bg bg-transparent  d-flex flex-column justify-content-between align-items-center pt-3 ">
+          {reviews.map((item, index) => (
+            <div
+              key={index}
+              className="features-bg bg-transparent  d-flex flex-column justify-content-between align-items-center pt-3 "
+            >
               <img src={star} alt="" />
               <p
                 style={{
@@ -273,39 +288,6 @@ export default function HotelDetials() {
               </p>
             </div>
           ))}
-          {/* <div className="features-bg bg-transparent  d-flex flex-column justify-content-between align-items-center pt-3 ">
-            <img src={star} alt="" />
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-              className=""
-            >
-              Near park
-            </p>
-          </div> */}
-          {/* <div className="features-bg bg-transparent d-flex flex-column justify-content-between align-items-center pt-3">
-            <img src={star} alt="" />
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-              className=""
-            >
-              Clean hotel
-            </p>
-          </div> */}
-          {/* <div className="features-bg  bg-transparent d-flex flex-column justify-content-between align-items-center pt-3">
-            <img src={star} alt="" />
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-              className=""
-            >
-              Near theater{" "}
-            </p>
-          </div> */}
         </div>
       </div>
       <hr className="my-5" />
@@ -314,44 +296,20 @@ export default function HotelDetials() {
         <h4>Amenities</h4>
         <div className="my-3 p-2 listDiv d-flex flex-row justify-content-start  ">
           <ul className="list-unstyled d-flex flex-column gap-4 col-6">
-            <li>
-              <i className="fa-solid fa-door-open"></i>{" "}
-              <span className="text-muted">Outdoor</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-person-swimming"></i>{" "}
-              <span className="text-muted">Open pool</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-spa"></i>{" "}
-              <span className="text-muted">Spa and wellness center</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-utensils"></i>{" "}
-              <span className="text-muted">Restaurant</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-bell"></i>{" "}
-              <span className="text-muted">Room servies</span>
-            </li>
+            {amenitiesList.slice(0, 5).map((item, index) => (
+              <li key={index} className="d-flex gap-2">
+                <i className={item.iconClass}></i>
+                <span className="text-muted">{item.text}</span>
+              </li>
+            ))}
           </ul>
-          <ul className="list-unstyled d-flex flex-column gap-4 ">
-            <li>
-              <i className="fa-solid fa-dumbbell"></i>{" "}
-              <span className="text-muted">Fitness room</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-martini-glass"></i>{" "}
-              <span className="text-muted">Bar\Lounage</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-wifi"></i>{" "}
-              <span className="text-muted">Free wifi</span>
-            </li>
-            <li>
-              <i className="fa-solid fa-mug-hot"></i>{" "}
-              <span className="text-muted">Tea\Caffea machine</span>
-            </li>
+          <ul className="list-unstyled d-flex flex-column gap-4 col-6">
+            {amenitiesList.slice(5).map((item,index) => (
+              <li key={index} className="d-flex gap-2">
+                <i className={item.iconClass}></i>
+                <span className="text-muted">{item.text}</span>
+              </li>
+            ))}
           </ul>
         </div>
       </div>
@@ -360,58 +318,23 @@ export default function HotelDetials() {
         <hr className="my-5" />
         <h4>Reviews</h4>
         <p className="text-muted">{hotelObj?.numberReviews} verified reviews</p>
-        <hr className="my-3" />
-        <div>
-          <div className="d-flex flex-row gap-2">
-            <h5>Omar ayman</h5>
-            <p className="text-muted">5.0 Amazing</p>
+        {usersReviews.map((item) => (
+          <div key={item.name}>
+            <hr className="my-3" />
+            <div className="">
+              <div className="d-flex flex-row gap-2">
+                <h5>{item.name}</h5>
+                <p className="text-muted">{item.rate}</p>
+              </div>
+              <p className="text-muted">
+                Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
+                eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut
+                enim ad minim veniam, quis nostrud exercitation ullamco laboris
+                nisi ut aliquip ex ea commodo consequat.
+              </p>
+            </div>
           </div>
-          <p className="text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </div>
-        <hr className="my-3" />
-        <div>
-          <div className="d-flex flex-row gap-2">
-            <h5>Mohamed Gaber</h5>
-            <p className="text-muted">4.5 Exeleant</p>
-          </div>
-          <p className="text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </div>
-        <hr className="my-3" />
-        <div>
-          <div className="d-flex flex-row gap-2">
-            <h5>Mohamed gemy</h5>
-            <p className="text-muted">3.5 Good</p>
-          </div>
-          <p className="text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </div>
-        <hr className="my-3" />
-        <div>
-          <div className="d-flex flex-row gap-2">
-            <h5>Mahmoud Ragb</h5>
-            <p className="text-muted">4.0 very good</p>
-          </div>
-          <p className="text-muted">
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do
-            eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim
-            ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut
-            aliquip ex ea commodo consequat.
-          </p>
-        </div>
+        ))}
       </div>
     </div>
   ) : (

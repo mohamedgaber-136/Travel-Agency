@@ -33,7 +33,7 @@ export const InputGuests = () => {
         type="text"
         placeholder="1Room and 2Guests"
         name="roomguest"
-        value={`${room}Room and ${guest}Guests`}
+        defaultValue={`${room}Room and ${guest}Guests`}
         className="input"
         onClick={() => showTable(true)}
       />

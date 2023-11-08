@@ -74,8 +74,8 @@ const AddCardModal = ({ show, handleClose }) => {
         {
           ...formData,
           expireDate: [expirationDate.month, expirationDate.year].join("/"),
-        },
-        { abortEarly: false }
+        }
+        // { abortEarly: false }
       )
       .then((result) => result)
       .catch((err) => {
@@ -154,12 +154,15 @@ const AddCardModal = ({ show, handleClose }) => {
             <div className=" w-100 d-flex flex-column justify-content-center align-items-center gap-4">
               <div className="card-input w-100 ">
                 {/* credit card input  */}
-                <label for="card-number" className="card-sub-label fw-normal  ">
+                <label
+                  htmlFor="card-number"
+                  className="card-sub-label fw-normal  "
+                >
                   Card Number
                 </label>
 
                 <div
-                  class="input-group border rounded-3"
+                  className="input-group border rounded-3"
                   style={{ zIndex: "10" }}
                 >
                   <input
@@ -180,8 +183,8 @@ const AddCardModal = ({ show, handleClose }) => {
                     }}
                     required
                   />
-                  <div class="input-group-append ">
-                    <span class="input-group-text h-100 bg-body border-0">
+                  <div className="input-group-append ">
+                    <span className="input-group-text h-100 bg-body border-0">
                       <img src={Visa} alt="visaImg" />
                     </span>
                   </div>
@@ -195,6 +198,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   </label>
                   <div className="form-control d-flex gap-3 p-0 border-0 ">
                     <select
+                      defaultValue={"MM"}
                       length={6}
                       className="form-select form-select-lg text-center w-50"
                       onChange={(event) => {
@@ -210,30 +214,21 @@ const AddCardModal = ({ show, handleClose }) => {
                               month: event.target.value,
                             });
                           }
-                          // setFormData({
-                          //   ...formData,
-                          //   expireDate: [
-                          //     expirationDate.month,
-                          //     expirationDate.year,
-                          //   ].join("/"),
-                          // });
                         }
-                        console.log(expirationDate.month, "month");
-                        console.log(expirationDate.year, "year");
-                        console.log(formData.expireDate, "date");
                       }}
                     >
-                      <option name={"mm"} disabled selected>
+                      <option name={"MM"} value={"MM"} disabled>
                         MM
                       </option>
                       {month().map((item, index) => (
-                        <option name={item} key={index}>
+                        <option name={item} value={item} key={index}>
                           {item}
                         </option>
                       ))}
                     </select>
 
                     <select
+                      defaultValue={"YY"}
                       className="form-select form-select-lg text-center w-50"
                       onChange={(event) => {
                         if (event.target.value !== "YY") {
@@ -241,25 +236,15 @@ const AddCardModal = ({ show, handleClose }) => {
                             ...expirationDate,
                             year: event.target.value,
                           });
-                          // setFormData({
-                          //   ...formData,
-                          //   expireDate: [
-                          //     expirationDate.month,
-                          //     expirationDate.year,
-                          //   ].join("/"),
-                          // });
                         }
-                        console.log(expirationDate.month, "month");
-                        console.log(expirationDate.year, "year");
-                        console.log(formData.expireDate, "date");
                       }}
                     >
-                      <option name={"yy"} disabled selected>
+                      <option name={"YY"} value={"YY"} disabled>
                         YY
                       </option>
 
                       {year().map((item, index) => (
-                        <option name={item} key={index}>
+                        <option name={item} value={item} key={index}>
                           {item}
                         </option>
                       ))}
@@ -314,9 +299,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   }}
                   aria-label="Example select with button addon"
                 >
-                  <option value="Choose a country" selected>
-                    Choose a country
-                  </option>
+                  <option value="Choose a country">Choose a country</option>
                   {countries.map((x) => (
                     <option value={x.name} key={x.id}>
                       {x.name}{" "}
