@@ -11,7 +11,7 @@ export let bookingSchema = object({
   country: string().required("country is required"),
   license: bool().required().oneOf([true], "You must accept the terms and conditions"),
   cvc: string()
-    .required()
-    .matches(/^[0-9]{3}$/)
-    .oneOf([true], "CVC Must be exactly 3 digits"),
+    .required("CVC Must be exactly 3 digits")
+    .matches(/^[0-9]{3}$/,"CVC Must be exactly 3 digits")
+    // .oneOf(/^[0-9]{3}$/, "CVC Must be exactly 3 digits"),
 });

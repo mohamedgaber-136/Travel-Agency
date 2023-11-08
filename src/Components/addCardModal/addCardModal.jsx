@@ -69,22 +69,40 @@ const AddCardModal = ({ show, handleClose }) => {
     // console.log(validationResult.errors, validationResult.params);
 
     console.log(formData, "formdata");
-    const validationResult1 = await bookingSchema
+    await bookingSchema
       .validate(
         {
           ...formData,
           expireDate: [expirationDate.month, expirationDate.year].join("/"),
-        }
-        // { abortEarly: false }
+        },
+        { abortEarly: false }
       )
-      .then((result) => result)
+      .then((result) => {
+        console.log(result, "result");
+        handleClose();
+
+        updateCurrentUser({
+          cards: [...currentUserObj.cards, formData],
+        });
+
+        setFormData({
+          creditCard: "",
+          cvc: "",
+          expireDate: "",
+          username: "",
+          country: "",
+          license: "",
+        });
+      })
       .catch((err) => {
-        console.log(err, "error");
-        return err;
+        console.log(err.errors, "error");
+        setErrorMsg(err.errors);
+
+        // return err;
       });
     // this returns array of all errors in correct order.
-    console.log(validationResult1.errors);
-    setErrorMsg(validationResult1.errors);
+    // console.log(validationResult1.errors);
+    // setErrorMsg(validationResult1.errors);
 
     // await bookingSchema
     //   .validate({
@@ -127,10 +145,17 @@ const AddCardModal = ({ show, handleClose }) => {
   useEffect(() => {
     console.log(errorMsg, "error");
     console.log(formData, "form data");
-    // if (isValidData) {
-
-    // }
-  }, []);
+    if (!show) {
+      setFormData({
+        creditCard: "",
+        cvc: "",
+        expireDate: "",
+        username: "",
+        country: "",
+        license: "",
+      });
+    }
+  }, [show]);
   // spacesV
   return (
     <Modal show={show} className="fs-4 mt-4 ModalParent" onHide={handleClose}>
@@ -279,6 +304,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   type="text"
                   className="name placeStyle rounded-2 form-control w-100"
                   placeholder="Jon Doe"
+                  value={formData.username}
                   onChange={(e) => {
                     setFormData({ ...formData, username: e.target.value });
                   }}
@@ -316,7 +342,7 @@ const AddCardModal = ({ show, handleClose }) => {
                 <input
                   className="form-check-input input"
                   type="checkbox"
-                  value=""
+                  value={formData.license}
                   id="invalidCheck"
                   onChange={(e) => {
                     setFormData({

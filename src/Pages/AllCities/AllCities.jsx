@@ -54,10 +54,11 @@ function AllCities({ scrollPosition }) {
     }
     console.log(arr);
     setCity([...arr]);
+    console.log(arr,'cities')
   };
 
   useEffect(() => {
-    getAllCities();
+  getAllCities();
     scrollToTopPage(topRef);
   }, []);
 
