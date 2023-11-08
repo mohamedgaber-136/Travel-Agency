@@ -32,9 +32,9 @@ export default function HotelDetials() {
     scrollToTopPage(topRef);
     console.log(id, "id");
     console.log(hotelObj);
-    // if (hotelObj.id === undefined) {
-    //   getHotelsObj(id);
-    // }
+    if (hotelObj.id === undefined) {
+      getHotelsObj(id);
+    }
     // const colRef = collection(database, "hotels");
     // addDoc(colRef, { id: id, details: hotelObj }).then((data) =>
     //   console.log(data, "hotel details ")
@@ -67,6 +67,8 @@ export default function HotelDetials() {
   useEffect(() => {
     checkfav();
   }, []);
+
+  const reviews = ["Near park", "Clean hotel", "Near theater"];
 
   return hotelObj.length !== 0 ? (
     <div ref={topRef} className="container details">
@@ -141,29 +143,30 @@ export default function HotelDetials() {
               aria-current="true"
               aria-label="Slide 1"
             ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide-to="1"
-              aria-label="Slide 2"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide-to="2"
-              aria-label="Slide 3"
-            ></button>
-            <button
-              type="button"
-              data-bs-target="#carouselExampleCaptions"
-              data-bs-slide-to="3"
-              aria-label="Slide 4"
-            ></button>
+            {[1, 2, 3].map((item) => (
+              <button
+                type="button"
+                data-bs-target="#carouselExampleCaptions"
+                data-bs-slide-to={`${item}`}
+                aria-label={`Slide ${item + 1}`}
+              />
+            ))}
           </div>
           <div className="carousel-inner">
             {hotelObj.photos ? (
               <>
-                <div className="carousel-item active w-100">
+                {[1, 2, 3, 4].map((item) => (
+                  <div className="carousel-item active w-100">
+                    <img
+                      src={hotelObj?.photos[item]?.urlTemplate
+                        ?.replace("{width}", "500")
+                        .replace("{height}", "500")}
+                      className="w-100"
+                      alt="..."
+                    />
+                  </div>
+                ))}
+                {/* <div className="carousel-item active w-100">
                   <img
                     src={hotelObj?.photos[0]?.urlTemplate
                       ?.replace("{width}", "500")
@@ -198,7 +201,7 @@ export default function HotelDetials() {
                     className="w-100"
                     alt="..."
                   />
-                </div>
+                </div> */}
               </>
             ) : (
               <div className="carousel-item w-100">
@@ -250,20 +253,27 @@ export default function HotelDetials() {
           well as 68 separate luxury suites, are offered to its special guests
           as a wide variety of selection.
         </p>
-        <div className="d-flex flex-wrap gap-3 my-5 ">
-          <div className="features pt-3 d-flex flex-column justify-content-between align-items-center  ">
-            <h3 className="text-light">{hotelObj?.rating}</h3>
-            <h6>Very Good</h6>
-            <p
-              style={{
-                fontSize: "15px",
-              }}
-              className="text-muted"
-            >
-              {hotelObj?.numberReviews}
-            </p>
+        <div className="d-flex flex-wrap gap-3 my-5">
+          <div className="features d-flex flex-column justify-content-center align-items-center gap-2">
+            <h3 className="text-light m-0 ">{hotelObj?.rating}</h3>
+            <h6 className="m-0 fs-5">Very Good</h6>
+            <p className="text-muted fs-6">{hotelObj?.numberReviews}</p>
           </div>
-          <div className="features-bg bg-transparent  d-flex flex-column justify-content-between align-items-center pt-3 ">
+
+          {reviews.map((item) => (
+            <div className="features-bg bg-transparent  d-flex flex-column justify-content-between align-items-center pt-3 ">
+              <img src={star} alt="" />
+              <p
+                style={{
+                  fontSize: "15px",
+                }}
+                className=""
+              >
+                {item}
+              </p>
+            </div>
+          ))}
+          {/* <div className="features-bg bg-transparent  d-flex flex-column justify-content-between align-items-center pt-3 ">
             <img src={star} alt="" />
             <p
               style={{
@@ -273,8 +283,8 @@ export default function HotelDetials() {
             >
               Near park
             </p>
-          </div>
-          <div className="features-bg bg-transparent d-flex flex-column justify-content-between align-items-center pt-3">
+          </div> */}
+          {/* <div className="features-bg bg-transparent d-flex flex-column justify-content-between align-items-center pt-3">
             <img src={star} alt="" />
             <p
               style={{
@@ -284,8 +294,8 @@ export default function HotelDetials() {
             >
               Clean hotel
             </p>
-          </div>
-          <div className="features-bg  bg-transparent d-flex flex-column justify-content-between align-items-center pt-3">
+          </div> */}
+          {/* <div className="features-bg  bg-transparent d-flex flex-column justify-content-between align-items-center pt-3">
             <img src={star} alt="" />
             <p
               style={{
@@ -295,7 +305,7 @@ export default function HotelDetials() {
             >
               Near theater{" "}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
       <hr className="my-5" />

@@ -2,7 +2,6 @@ import React, { useContext, useEffect, useRef } from "react";
 import { Main } from "../../Components/Main/Main";
 import { Header } from "../../Components/Header/Header";
 import { MainBookFlight } from "../../Components/MainBookFlight.jsx/MainBookFlight";
-import { BookedTicket } from "../../Components/BookedTicket/BookedTicket";
 import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
 const LandingPage = () => {
@@ -24,7 +23,6 @@ const LandingPage = () => {
       <Header />
       <Main />
       <MainBookFlight />
-      <BookedTicket />
     </>
   );
 };

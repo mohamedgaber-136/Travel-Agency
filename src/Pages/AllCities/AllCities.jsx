@@ -5,7 +5,12 @@ import { Card } from "../../Components/Card/Card";
 import "./allCities.css";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
-export default function AllCities() {
+import {
+  LazyLoadImage,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
+import image from "../../assets/loginImg.png";
+function AllCities({ scrollPosition }) {
   const { scrollToTopPage } = useContext(searchContext);
   const [cityImg, setCity] = useState([]);
   const topRef = useRef();
@@ -37,7 +42,7 @@ export default function AllCities() {
         {
           headers: {
             Authorization:
-              "dduIdgcxtb3X1K3WIllsexAvLU7spJTVWdd9ec9jbk2ii7qqWNQkCnBX",
+              "SdaCPFt3E5Z1tam3Ts9kMios6LXoIvexDn9Z4ZP8v8kRmI6AwNaSGw4S",
           },
         }
       );
@@ -63,6 +68,14 @@ export default function AllCities() {
     >
       {cityImg.length ? (
         cityImg.map((city) => (
+          // <LazyLoadImage
+          //   scrollPosition={scrollPosition}
+          //   width="100%"
+          //   height="auto"
+          //   src={city.img}
+          //   effect="blur"
+          // />
+
           <Card img={city.img} title={city.title} key={city.id} />
         ))
       ) : (
@@ -71,3 +84,5 @@ export default function AllCities() {
     </div>
   );
 }
+
+export default trackWindowScroll(AllCities);

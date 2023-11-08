@@ -9,7 +9,7 @@ import { searchContext } from "../../store/searchStore";
 import { SingleHotel } from "./singleHotel";
 export default function CountryHotelsPage() {
   const { countryTitle } = useParams();
-  const { countryHotels, isFavorites, isFavoritesClick } =
+  const { countryHotels, setCountryHotels, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
   const { searchData, setSeachData, scrollToTopPage } =
     useContext(searchContext);
@@ -22,6 +22,9 @@ export default function CountryHotelsPage() {
     if (countryTitle !== undefined) {
       setDestnation(countryTitle);
     }
+    return () => {
+      setCountryHotels([]);
+    };
   }, [countryTitle]);
 
   return (

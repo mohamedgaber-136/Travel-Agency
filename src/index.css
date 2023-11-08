@@ -151,4 +151,9 @@ input[type="checkbox"]:checked:after {
 }
 .favParent{
   margin: 100px 0;
+
+}
+
+.noFavParent{
+  padding: 100px 0;
 }
