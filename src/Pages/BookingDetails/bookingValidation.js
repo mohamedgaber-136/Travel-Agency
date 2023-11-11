@@ -6,12 +6,9 @@ export let bookingSchema = object({
   ),
   username: string().required("user name is required"),
   expireDate: string().required("date can not be empty"),
-  // .matches(/^[0-9]{2}\/[0-9]{2}$/,"Must be exactly 3 digits"),
 
   country: string().required("country is required"),
   license: bool().required().oneOf([true], "You must accept the terms and conditions"),
   cvc: string()
-    .required("CVC Must be exactly 3 digits")
     .matches(/^[0-9]{3}$/,"CVC Must be exactly 3 digits")
-    // .oneOf(/^[0-9]{3}$/, "CVC Must be exactly 3 digits"),
 });

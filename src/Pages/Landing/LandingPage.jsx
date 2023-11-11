@@ -12,7 +12,13 @@ const LandingPage = () => {
   useEffect(() => {
     scrollToTopPage(topRef);
   }, []);
-
+  // let winowScroll = () => {
+  //   const scrollableHeight = document.documentElement.scrollHeight - window.innerHeight;
+  //   if (Math.ceil(window.scrollY) > scrollableHeight) {
+  //     console.log('hi')
+  //   }
+  // };
+  // document.addEventListener("scroll", winowScroll);
   return (
     <>
       <Helmet>

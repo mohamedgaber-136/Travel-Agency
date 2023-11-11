@@ -9,7 +9,6 @@ import "./addCardModal.css";
 const AddCardModal = ({ show, handleClose }) => {
   const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
     useContext(searchContext);
-  const [isValidData, setIsValidData] = useState(false);
   const [expirationDate, setExpirationDate] = useState({ month: "", year: "" });
   const [formData, setFormData] = useState({
     // validation schema
@@ -20,7 +19,7 @@ const AddCardModal = ({ show, handleClose }) => {
     country: "",
     license: false,
   });
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState([]);
 
   const month = () => {
     const x = [];
@@ -54,61 +53,25 @@ const AddCardModal = ({ show, handleClose }) => {
   }
 
   // form validation
-  const bookingValidation = async (e) => {
+  const bookingValidation = (e) => {
     e.preventDefault();
+    console.log(e.target[0].value);
+    console.log(e.target[1].value);
+    console.log(e.target[2].value);
+    console.log(e.target[3].value);
+    console.log(e.target[4].value);
+    console.log(e.target[5].value);
+    console.log(e.target[6].value);
 
-    // const validationResult = await bookingSchema
-    //   .validate({
-    //     ...formData,
-    //     expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //   })
-    //   .catch((err) => {
-    //     return err;
-    //   });
-    // this returns last error. however, as per the documentation, it should return the first error.
-    // console.log(validationResult.errors, validationResult.params);
-
-    console.log(formData, "formdata");
-    await bookingSchema
-      .validate(
-        {
-          ...formData,
-          expireDate: [expirationDate.month, expirationDate.year].join("/"),
-        },
-        { abortEarly: false }
-      )
-      .then((result) => {
-        console.log(result, "result");
-        handleClose();
-
-        updateCurrentUser({
-          cards: [...currentUserObj.cards, formData],
-        });
-
-        setFormData({
-          creditCard: "",
-          cvc: "",
-          expireDate: "",
-          username: "",
-          country: "",
-          license: "",
-        });
-      })
-      .catch((err) => {
-        console.log(err.errors, "error");
-        setErrorMsg(err.errors);
-
-        // return err;
-      });
-    // this returns array of all errors in correct order.
-    // console.log(validationResult1.errors);
-    // setErrorMsg(validationResult1.errors);
-
+    // console.log(formData, "formdata");
     // await bookingSchema
-    //   .validate({
-    //     ...formData,
-    //     expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //   })
+    //   .validate(
+    //     {
+    //       ...formData,
+    //       expireDate: [expirationDate.month, expirationDate.year].join("/"),
+    //     },
+    //     { abortEarly: false }
+    //   )
     //   .then((result) => {
     //     console.log(result, "result");
     //     handleClose();
@@ -123,23 +86,14 @@ const AddCardModal = ({ show, handleClose }) => {
     //       expireDate: "",
     //       username: "",
     //       country: "",
-    //       license: "",
+    //       license: false,
     //     });
     //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
+    //   .catch((err) => {
+    //     console.log(err.errors, "error");
+    //     setErrorMsg(err.errors);
+    //     // return err;
     //   });
-
-    // await bookingSchema
-    //   .isValid({
-    //     ...formData,
-    //     expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //   })
-    //   .then((data) => {
-    //     setIsValidData(data);
-    //     console.log(data, "data form");
-    //   })
-    //   .catch((err) => console.log(err.message, "error form"));
   };
 
   useEffect(() => {
@@ -152,8 +106,9 @@ const AddCardModal = ({ show, handleClose }) => {
         expireDate: "",
         username: "",
         country: "",
-        license: "",
+        license: false,
       });
+      setErrorMsg([]);
     }
   }, [show]);
   // spacesV
@@ -206,7 +161,7 @@ const AddCardModal = ({ show, handleClose }) => {
                         });
                       }
                     }}
-                    required
+                    
                   />
                   <div className="input-group-append ">
                     <span className="input-group-text h-100 bg-body border-0">
@@ -291,7 +246,7 @@ const AddCardModal = ({ show, handleClose }) => {
                       // }
                     }}
                     maxLength={3}
-                    required
+                    
                   />
                 </div>
               </div>
@@ -308,7 +263,6 @@ const AddCardModal = ({ show, handleClose }) => {
                   onChange={(e) => {
                     setFormData({ ...formData, username: e.target.value });
                   }}
-                  required
                 />
               </div>
               {/* selection countries input */}
@@ -350,24 +304,22 @@ const AddCardModal = ({ show, handleClose }) => {
                       license: e.target.checked,
                     });
                   }}
-                  required
                 />
                 <label
                   className=" fs-5 form-check-label  "
                   htmlFor="invalidCheck"
-                  required
                 >
                   Securely save my information for 1-click checkout
                 </label>
               </div>
 
-              <button
+              <input
                 type="submit"
-                onClick={bookingValidation}
+         
                 className="w-100 my-2 book-btn py-2 rounded-3"
-              >
-                Add Card
-              </button>
+                value="  Add Card"
+              />
+
               <p className=" fw-light fs-5 m-auto">
                 By confirming your subscription, you allow The Outdoor Inn Crowd
                 Limited to charge your card for this payment and future payments

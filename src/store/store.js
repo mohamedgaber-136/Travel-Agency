@@ -14,7 +14,8 @@ export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
   const { searchData, database, currentUserObj } = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
-  let [destination, setDestnation] = useState("London");
+  let [destination, setDestnation] = useState("");
+  let [countryCheck,setCountryCheck]= useState(false)
   const [hotelObj, setHotelObj] = useState({
     photos: [],
     isFav: false,
@@ -72,8 +73,12 @@ export default function CountryHotelsProvider(props) {
         paramters
       )
       .then((response) => {
-        console.log(response.data.data[0]);
-        getHotelsData(response.data.data[0]);
+        if (response.data.data[0] != undefined) {
+          setCountryCheck(false)
+          getHotelsData(response.data.data[0]);
+        }else{
+          setCountryCheck(true)
+        }
       })
       .catch((error) => console.log(error, "error"));
     console.log(searchData.destination, "destination");
@@ -151,6 +156,7 @@ export default function CountryHotelsProvider(props) {
         getLocationID,
         setDestnation,
         destination,
+        countryCheck
       }}
     >
       {props.children}

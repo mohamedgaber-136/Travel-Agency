@@ -157,3 +157,6 @@ input[type="checkbox"]:checked:after {
 .noFavParent{
   padding: 100px 0;
 }
+.rightCardparent{
+height: 300px;
+}
