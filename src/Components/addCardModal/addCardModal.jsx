@@ -15,7 +15,8 @@ const AddCardModal = ({ show, handleClose }) => {
     // validation schema
     creditCard: "",
     cvc: "",
-    expireDate: "",
+    month: "MM",
+    year: "YY",
     username: "",
     country: "",
     license: false,
@@ -57,23 +58,21 @@ const AddCardModal = ({ show, handleClose }) => {
   const bookingValidation = async (e) => {
     e.preventDefault();
 
-    // const validationResult = await bookingSchema
-    //   .validate({
-    //     ...formData,
-    //     expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //   })
-    //   .catch((err) => {
-    //     return err;
-    //   });
-    // this returns last error. however, as per the documentation, it should return the first error.
-    // console.log(validationResult.errors, validationResult.params);
+    setFormData({
+      creditCard: e.target[0].value,
+      month: e.target[1].value,
+      year: e.target[2].value,
+      cvc: e.target[3].value,
+      username: e.target[4].value,
+      country: e.target[5].value,
+      license: e.target[6].value,
+    });
 
     console.log(formData, "formdata");
     await bookingSchema
       .validate(
         {
           ...formData,
-          expireDate: [expirationDate.month, expirationDate.year].join("/"),
         },
         { abortEarly: false }
       )
@@ -88,10 +87,11 @@ const AddCardModal = ({ show, handleClose }) => {
         setFormData({
           creditCard: "",
           cvc: "",
-          expireDate: "",
+          month: "MM",
+          year: "YY",
           username: "",
           country: "",
-          license: "",
+          license: false,
         });
       })
       .catch((err) => {
@@ -149,10 +149,11 @@ const AddCardModal = ({ show, handleClose }) => {
       setFormData({
         creditCard: "",
         cvc: "",
-        expireDate: "",
+        month: "MM",
+        year: "YY",
         username: "",
         country: "",
-        license: "",
+        license: false,
       });
     }
   }, [show]);
@@ -196,17 +197,6 @@ const AddCardModal = ({ show, handleClose }) => {
                     placeholder="4321 4321 4321 4321"
                     maxLength={19}
                     value={cc_format(formData.creditCard)}
-                    onChange={(e) => {
-                      const str = e.target.value.replace(/\s/g, "");
-
-                      if (!isNaN(str)) {
-                        setFormData({
-                          ...formData,
-                          creditCard: str,
-                        });
-                      }
-                    }}
-                    required
                   />
                   <div className="input-group-append ">
                     <span className="input-group-text h-100 bg-body border-0">
@@ -226,21 +216,6 @@ const AddCardModal = ({ show, handleClose }) => {
                       defaultValue={"MM"}
                       length={6}
                       className="form-select form-select-lg text-center w-50"
-                      onChange={(event) => {
-                        if (event.target.value !== "MM") {
-                          if (event.target.value.length < 2) {
-                            setExpirationDate({
-                              ...expirationDate,
-                              month: `0${event.target.value}`,
-                            });
-                          } else {
-                            setExpirationDate({
-                              ...expirationDate,
-                              month: event.target.value,
-                            });
-                          }
-                        }
-                      }}
                     >
                       <option name={"MM"} value={"MM"} disabled>
                         MM
@@ -255,14 +230,6 @@ const AddCardModal = ({ show, handleClose }) => {
                     <select
                       defaultValue={"YY"}
                       className="form-select form-select-lg text-center w-50"
-                      onChange={(event) => {
-                        if (event.target.value !== "YY") {
-                          setExpirationDate({
-                            ...expirationDate,
-                            year: event.target.value,
-                          });
-                        }
-                      }}
                     >
                       <option name={"YY"} value={"YY"} disabled>
                         YY
@@ -285,13 +252,7 @@ const AddCardModal = ({ show, handleClose }) => {
                     className="me-2 w-100 placeStyle  rounded-2  form-control"
                     placeholder="456"
                     value={formData.cvc}
-                    onChange={(e) => {
-                      setFormData({ ...formData, cvc: e.target.value });
-                      // if (typeof parseFloat(e.target.value) == Number) {
-                      // }
-                    }}
                     maxLength={3}
-                    required
                   />
                 </div>
               </div>
@@ -305,10 +266,6 @@ const AddCardModal = ({ show, handleClose }) => {
                   className="name placeStyle rounded-2 form-control w-100"
                   placeholder="Jon Doe"
                   value={formData.username}
-                  onChange={(e) => {
-                    setFormData({ ...formData, username: e.target.value });
-                  }}
-                  required
                 />
               </div>
               {/* selection countries input */}
@@ -319,16 +276,12 @@ const AddCardModal = ({ show, handleClose }) => {
                 <select
                   className="form-select rounded-2  form-control"
                   id="inputGroupSelect04"
-                  onChange={(e) => {
-                    setFormData({ ...formData, country: e.target.value });
-                    // console.log(e.target.value, "eeeee");
-                  }}
                   aria-label="Example select with button addon"
                 >
                   <option value="Choose a country">Choose a country</option>
                   {countries.map((x) => (
                     <option value={x.name} key={x.id}>
-                      {x.name}{" "}
+                      {x.name}
                     </option>
                   ))}
                 </select>
@@ -344,13 +297,6 @@ const AddCardModal = ({ show, handleClose }) => {
                   type="checkbox"
                   value={formData.license}
                   id="invalidCheck"
-                  onChange={(e) => {
-                    setFormData({
-                      ...formData,
-                      license: e.target.checked,
-                    });
-                  }}
-                  required
                 />
                 <label
                   className=" fs-5 form-check-label  "
@@ -363,7 +309,6 @@ const AddCardModal = ({ show, handleClose }) => {
 
               <button
                 type="submit"
-                onClick={bookingValidation}
                 className="w-100 my-2 book-btn py-2 rounded-3"
               >
                 Add Card
