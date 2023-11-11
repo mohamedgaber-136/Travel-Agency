@@ -29,16 +29,16 @@ export default function CountryHotelsProvider(props) {
 
   const paramters = {
     headers: {
-      "X-RapidAPI-Key": "549262dbc7mshcd47749bd23d273p1e156cjsn1bc3ab3b345e",
+      "X-RapidAPI-Key": "aa092521d4mshe20e99bf647336ap13e2a5jsn9ffc441b79d1",
       "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
     },
   };
 
   useEffect(() => {
     if (destination !== "" && destination !== undefined) {
-      console.log("getHotelsFromFirebase");
-      getHotelsFromFirebase();
-      // getLocationID();
+      // console.log("getHotelsFromFirebase");
+      // getHotelsFromFirebase();
+      getLocationID();
     }
     console.log("hi Destnation rerender");
   }, [destination]);
@@ -92,21 +92,21 @@ export default function CountryHotelsProvider(props) {
         setCountryHotels(response.data.data.data);
 
         //getHotelsFromFirebase
-        const locatiosRef = collection(database, "locations");
-        const que = query(
-          locatiosRef,
-          where("location", "==", destination.toLowerCase())
-        );
-        getDocs(que).then((snapshot) => {
-          if (snapshot.docs.length === 0) {
-            addDoc(locatiosRef, {
-              location: destination,
-              hotels: response.data.data.data,
-            }).then((snapshot) => {
-              console.log(snapshot, "djfhsdj");
-            });
-          }
-        });
+        // const locatiosRef = collection(database, "locations");
+        // const que = query(
+        //   locatiosRef,
+        //   where("location", "==", destination.toLowerCase())
+        // );
+        // getDocs(que).then((snapshot) => {
+        //   if (snapshot.docs.length === 0) {
+        //     addDoc(locatiosRef, {
+        //       location: destination,
+        //       hotels: response.data.data.data,
+        //     }).then((snapshot) => {
+        //       console.log(snapshot, "djfhsdj");
+        //     });
+        //   }
+        // });
       })
       .catch((error) => console.log(error, "error"));
   }
@@ -125,11 +125,11 @@ export default function CountryHotelsProvider(props) {
     // 21213729
 
     //getHotelsFromFirebase
-    const hotelRef = collection(database, "hotels");
-    getDocs(hotelRef).then((snapshot) => {
-      console.log(snapshot?.docs[0].data().details, "details");
-      setHotelObj(snapshot?.docs[0].data().details);
-    });
+    // const hotelRef = collection(database, "hotels");
+    // getDocs(hotelRef).then((snapshot) => {
+    //   console.log(snapshot?.docs[0].data().details, "details");
+    //   setHotelObj(snapshot?.docs[0].data().details);
+    // });
   }
 
   useEffect(() => {

@@ -39,13 +39,17 @@ export const SingleHotel = ({ hotel, isFavPage }) => {
   return (
     <div className="container p-3">
       <div className="card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start">
-        <div className="singleCardParent">
-          {/* <img
+        <div
+          className="singleCardParent border border-5"
+          // style={{ height: "300px" }}
+        >
+          <img
+          height={'100%'}
             src={`${hotel?.cardPhotos[0]?.sizes?.urlTemplate
               ?.replace("{width}", "300")
               ?.replace("{height}", "300")}`}
             alt=""
-          /> */}
+          />
         </div>
         <div className="d-flex flex-column p-3 w-100 ">
           <div className="d-flex flex-md-row flex-column justify-content-between m-0">
