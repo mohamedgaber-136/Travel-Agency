@@ -21,7 +21,7 @@ export const PriceCard = ({ img, title }) => {
             </p>
             <div className="d-flex align-items-center">
               <div className="btn-cardds me-2">
-                <div className="btn-text btn-cardds "> 4.2</div>
+                <div className="btn-text btn-cardds border rounded "> 4.2</div>
               </div>
               <p className="revieew mb-0">
                 <span className="very">Very Good </span>54 reviews

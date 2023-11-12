@@ -21,7 +21,7 @@ export const HotelCard = ({ handleShow, img, title, data }) => {
         </div>
         {/* second section  */}
         <div className="p-2">
-          <div className=" d-flex body my-4 p-4">
+          <div className=" d-flex body my-4 p-4 align-items-center">
             <img src={img} className="body-img" alt="" srcSet="" />
             <div className=" body-location">
               <h6 className="card-text text-center ms-2">{title}</h6>
@@ -45,7 +45,7 @@ export const HotelCard = ({ handleShow, img, title, data }) => {
             <h6 className=" align-items-center col-4 text-center m-0 ">
               Thursday, Dec 8 <br /> <span> Check-In</span>
             </h6>
-            <div className="direc d-flex col-4 align-content-center align-items-center">
+            <div className="direc d-flex col-4 justify-content-center align-items-center">
               <img className="line" src={left} alt="" />
               <img className="home-logo" src={building} alt="" />
               <img className="line" src={right} alt="" />

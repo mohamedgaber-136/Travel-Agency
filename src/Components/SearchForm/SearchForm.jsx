@@ -1,10 +1,15 @@
-import { memo, useContext, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { searchSchema } from "./searchValidation/SearchValidation";
 import { searchContext } from "../../store/searchStore";
 import { useNavigate } from "react-router-dom";
 import { InputGuests } from "./searchValidation/InputGuests";
+import  DestnationInput  from "./DestnationInput";
 import { addHotelsContext } from "../../store/store";
 import "./SearchForm.css";
+import Speach from "../Speach/Speach";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
 const SearchForm = () => {
   const navigate = useNavigate();
   const [isValid, setValidatation] = useState(true);
@@ -31,7 +36,31 @@ const SearchForm = () => {
       }
     });
   };
-
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+  const handleMic = () => {
+    SpeechRecognition.startListening();
+    if (listening) {
+      SpeechRecognition.stopListening();
+    }
+  };
+  const CheckTranScript = () => {
+    if (transcript != "") {
+      return transcript.split('.')[0];
+    } else {
+      return searchData.destination;
+    }
+  };
+  console.log()
+  useEffect(() => {
+    if (transcript == "") {
+      setSeachData({ ...searchData, destination: "" });
+    }
+  }, [transcript]);
   return (
     <form
       onSubmit={getSearchData}
@@ -42,16 +71,18 @@ const SearchForm = () => {
         className="  row flex-row  align-items-center align-self-center align-self-center
 w-100"
       >
-        <div className="coolinput col-6 ">
+        <div className="coolinput col-6  speachRelative">
+          <Speach
+            handleMic={handleMic}
+            listening={listening}
+            browserSupportsSpeechRecognition={browserSupportsSpeechRecognition}
+            resetTranscript={resetTranscript}
+            transcript={transcript}
+          />
           <label htmlFor="location" className="text">
             <i className="fa-solid fa-couch px-1"></i>YourDestnation:
           </label>
-          <input
-            type="text"
-            placeholder="Istanbul,Turkey"
-            name="location"
-            className="input"
-          />
+       <DestnationInput CheckTranScript={CheckTranScript} setSeachData={setSeachData} searchData={searchData}/>
         </div>
         <div className="coolinput  col-6 col-md-2">
           <label htmlFor="checkin" className="text">

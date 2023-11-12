@@ -17,9 +17,12 @@ const AccountPayment = () => {
     <div>
       <Container className="bg-white py-3 rounded-3 CardpaymentModel d-flex justify-content-center align-items-center ">
         <div className="row gy-4 justify-content-center align-items-center w-100">
+          <div className="d-flex justify-content-center   align-items-center col-lg-5 col-12">
+
           {currentUserObj?.cards?.map((item, index) => (
             <PaymentCard item={item} key={index} index={index} />
-          ))}
+            ))}
+            </div>
 
           <div className="col-lg-5 col-12 ">
             <AddNewCard setModalShow={() => setModalShow(true)} />

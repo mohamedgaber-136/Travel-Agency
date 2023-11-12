@@ -39,7 +39,9 @@ export default function SearchContextProvider(props) {
   // const auth=  firebase.auth();
 
   //--------------------- useState --------------------//
-  let [searchData, setSeachData] = useState({});
+  let [searchData, setSeachData] = useState({
+    destination: "",
+  });
   let [authorized, setAuthorized] = useState(false);
   const [currentUserObj, setCurrentUserObj] = useState({
     id: "0",
