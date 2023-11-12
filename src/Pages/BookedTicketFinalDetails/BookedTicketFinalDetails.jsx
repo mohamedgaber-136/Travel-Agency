@@ -5,8 +5,9 @@ import { BookingBreacrumb } from "../BookingDetails/BookingBreacrumb";
 import { addHotelsContext } from "../../store/store";
 import locationIcon from "../HotelDetails/assets/Location.png";
 import share from "../HotelDetails/assets/Share.png";
-
+import {useParams} from 'react-router-dom'
 const BookedTicketFinalDetailsPage = () => {
+  let {bookId} = useParams()
   const contactsList = [
     "If you have any questions about our Website or our Terms of Use, please contact:",
     "Golobe Group Q.C.S.C",

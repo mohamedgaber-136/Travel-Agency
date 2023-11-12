@@ -7,10 +7,12 @@ import AddCardModal from "../../Components/addCardModal/addCardModal";
 import swal from "sweetalert";
 import { useNavigate } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
+import { v4 as uuidv4 } from "uuid";
 export const CardsLists = ({ show, setModalShow }) => {
   const { currentUserObj, updateCurrentUser } = useContext(searchContext);
   const [showAddCard, setShowAddCard] = useState(false);
   const { hotelObj } = useContext(addHotelsContext);
+  let [idgen, setidGen] = useState("");
   let navigations = useNavigate();
   const submitSure = (item) => {
     swal({
@@ -29,22 +31,22 @@ export const CardsLists = ({ show, setModalShow }) => {
           button: false,
           timer: 1500,
         })
-          .then(() =>
+          .then(() => {
+            let x = uuidv4()
             updateCurrentUser({
               bookingsStays: [
+
                 ...currentUserObj.bookingsStays,
-                {
-                  card: item,
-                  booked: hotelObj,
-                },
+                { id: x, card: item, booked: hotelObj },
               ],
-            })
-          )
-          .then(navigations("finalDetails"));
+              
+            });
+            return x;
+          })
+          .then((x) => navigations(`finalDetails/${x}`));
       }
     });
   };
-
   return (
     <>
       <Modal

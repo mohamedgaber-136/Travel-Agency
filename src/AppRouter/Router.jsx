@@ -19,7 +19,7 @@ import AccountLayout from "../Layout/accountLayout";
 import CountryHotelsPage from "../Pages/CountryHotels/AddHotels";
 import CountryHotelsProvider from "../store/store";
 import { Favourites } from "../Pages/Favourites/Favourites.jsx";
-
+import BookedTicketFinalDetailsPage from "../Pages/BookedTicketFinalDetails/BookedTicketFinalDetails.jsx";
 const AppRouter = () => {
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
@@ -51,6 +51,10 @@ const AppRouter = () => {
           <NavigationBar />
           <CountryHotelsProvider>
             <Routes>
+              <Route
+                path="bookingDetails/:hotelId/finalDetails/:bookId"
+                element={<BookedTicketFinalDetailsPage />}
+              />
               <Route path="/" element={<LandingLazy />} />
               <Route path="login" element={<Login />} />
               <Route path="signUp" element={<SignUp />} />
@@ -68,8 +72,6 @@ const AppRouter = () => {
                 </Route>
                 <Route path="payment" element={<AccountPayment />} />
               </Route>
-              {/* </Route> */}
-
               <Route path="allcities" element={<AllCities />} />
               <Route path="*" element={<NotFound />} />
               <Route
@@ -82,7 +84,7 @@ const AppRouter = () => {
               />
               <Route path="Favourites" element={<Favourites />} />
             </Routes>
-        <Footer />
+            <Footer />
           </CountryHotelsProvider>
         </SearchContextProvider>
       </BrowserRouter>
