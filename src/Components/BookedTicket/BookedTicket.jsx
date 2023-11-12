@@ -8,7 +8,7 @@ import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
 export const BookedTicket = ({ item }) => {
   const { searchData, currentUserObj } = useContext(searchContext);
-  console.log(item);
+  console.log(item, "item");
   const capture = useRef(null);
   const downloadPdf = () => {
     html2canvas(capture.current).then((canvas) => {
@@ -30,6 +30,8 @@ export const BookedTicket = ({ item }) => {
     });
   };
 
+  const date = new Date();
+
   return (
     <div
       className="BookedTicketParent d-flex align-items-center justify-content-center"
@@ -39,7 +41,11 @@ export const BookedTicket = ({ item }) => {
         <div className="ticketLeftSide p-2 d-flex align-items-start justify-content-center flex-column">
           <div className="LeftTop ">
             <div className="checkInTitle  d-flex align-items-start p-2 justify-content-center flex-column">
-              <h4>{searchData.CheckIn}</h4>
+              <h4>
+                {searchData.CheckIn === undefined
+                  ? date.toLocaleDateString()
+                  : searchData.CheckIn}
+              </h4>
               <h5 className="m-0">Check-In</h5>
             </div>
           </div>
@@ -99,7 +105,11 @@ export const BookedTicket = ({ item }) => {
           </div>
           <div className="LeftBottom">
             <div className="checkOutTitle  d-flex align-items-start p-2 justify-content-center flex-column">
-              <h4>{searchData.CheckOut}</h4>
+              <h4>
+                {searchData.CheckOut === undefined
+                  ? date.toLocaleDateString()
+                  : searchData.CheckOut}
+              </h4>
               <h5>Check-Out</h5>
             </div>
           </div>
@@ -236,7 +246,7 @@ export const BookedTicket = ({ item }) => {
         <div className="ticketRightSide d-flex justify-content-center align-items-center">
           <div className="ticketImgContainer d-flex justify-content-center align-items-center w-75 h-50">
             <img
-              src={item?.booked?.photos[0]?.urlTemplate
+              src={item?.photos[0]?.urlTemplate
                 ?.replace("{width}", "500")
                 .replace("{height}", "500")}
               alt="ticketImg"

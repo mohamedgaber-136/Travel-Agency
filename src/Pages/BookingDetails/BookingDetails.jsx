@@ -9,7 +9,7 @@ import { searchContext } from "../../store/searchStore";
 import { BookingBreacrumb } from "./BookingBreacrumb";
 import AddCardModal from "../../Components/addCardModal/addCardModal";
 import { CardsLists } from "./CardsLists";
-import { Navigate, useParams } from "react-router-dom";
+import { Navigate, useLocation, useParams } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
 
 const BookingDetails = () => {
@@ -35,8 +35,9 @@ const BookingDetails = () => {
     }
   }, []);
 
+  const location = useLocation();
   if (!authorized) {
-    return <Navigate to="/login" />;
+    return <Navigate to="/login" state={location.pathname} />;
   }
 
   return (

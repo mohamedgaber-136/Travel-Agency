@@ -5,7 +5,7 @@ import { BsEyeFill, BsEyeSlashFill } from "react-icons/bs";
 import { FcGoogle } from "react-icons/fc";
 import { FaFacebook } from "react-icons/fa";
 import { Helmet } from "react-helmet";
-import { Link, useNavigate } from "react-router-dom";
+import { Link, useLocation, useNavigate } from "react-router-dom";
 import { getDocs, query, where } from "firebase/firestore";
 import { searchContext } from "../../store/searchStore";
 import {
@@ -65,12 +65,14 @@ function LoginPage() {
           console.log(currentUser.password, "pass");
           if (currentUser.password === userObject.password) {
             setCurrentUserObj({ ...currentUser, id: snapshot.docs[0].id });
+
             if (userObject.rememberMe) {
               localStorage.setItem("currentUser", snapshot.docs[0].id);
             } else {
               sessionStorage.setItem("currentUser", snapshot.docs[0].id);
             }
-            navigate("/");
+            navigate(state);
+            // navigate("/");
           } else {
             setErrorMessage("Password is Incorrect");
           }
@@ -132,6 +134,10 @@ function LoginPage() {
         console.log(error.message, "error");
       });
   }
+
+  const { state } = useLocation();
+
+  console.log(state, "state location");
 
   return (
     <>

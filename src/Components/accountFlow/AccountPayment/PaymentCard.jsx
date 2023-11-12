@@ -50,7 +50,7 @@ export const PaymentCard = ({ item, index }) => {
         <div className="d-flex justify-content-between">
           <div className="">
             <p className="mb-0">Expire Date</p>
-            <p className="mb-0">{item.expireDate}</p>
+            <p className="mb-0">{[item.month, item.year].join("/")}</p>
           </div>
           <svg
             xmlns="http://www.w3.org/2000/svg"

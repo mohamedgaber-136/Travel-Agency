@@ -14,7 +14,8 @@ const AddCardModal = ({ show, handleClose }) => {
     // validation schema
     creditCard: "",
     cvc: "",
-    expireDate: "",
+    month: "MM",
+    year: "YY",
     username: "",
     country: "",
     license: false,
@@ -24,7 +25,11 @@ const AddCardModal = ({ show, handleClose }) => {
   const month = () => {
     const x = [];
     for (let i = 0; i < 12; i++) {
-      x.push(i + 1);
+      if (i < 9) {
+        x.push(`0${i + 1}`);
+      } else {
+        x.push(i + 1);
+      }
     }
     return [...x];
   };
@@ -38,62 +43,65 @@ const AddCardModal = ({ show, handleClose }) => {
     return [...x];
   };
 
+  console.log(formData, "foom");
+
   // handle credi card input
   function cc_format(value) {
     const v = value
-      .replace(/\s+/g, "")
+      ?.replace(/\s+/g, "")
       .replace(/[^0-9]/gi, "")
       .slice(0, 16);
     const parts = [];
-    for (let i = 0; i < v.length; i += 4) {
+    for (let i = 0; i < v?.length; i += 4) {
       parts.push(v.substr(i, 4));
     }
 
-    return parts.length > 1 ? parts.join(" ") : value;
+    return parts?.length > 1 ? parts.join(" ") : value;
   }
 
   // form validation
-  const bookingValidation = (e) => {
+  const bookingValidation = async (e) => {
     e.preventDefault();
-    console.log(e.target[0].value);
-    console.log(e.target[1].value);
-    console.log(e.target[2].value);
-    console.log(e.target[3].value);
-    console.log(e.target[4].value);
-    console.log(e.target[5].value);
-    console.log(e.target[6].value);
 
-    // console.log(formData, "formdata");
-    // await bookingSchema
-    //   .validate(
-    //     {
-    //       ...formData,
-    //       expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //     },
-    //     { abortEarly: false }
-    //   )
-    //   .then((result) => {
-    //     console.log(result, "result");
-    //     handleClose();
+    const data = {
+      creditCard: formData.creditCard,
+      month: e.target[1].value,
+      year: e.target[2].value,
+      cvc: e.target[3].value,
+      username: e.target[4].value,
+      country: e.target[5].value,
+      license: e.target[6].checked,
+    };
 
-    //     updateCurrentUser({
-    //       cards: [...currentUserObj.cards, formData],
-    //     });
+    console.log(e.target[5].value, "country");
 
-    //     setFormData({
-    //       creditCard: "",
-    //       cvc: "",
-    //       expireDate: "",
-    //       username: "",
-    //       country: "",
-    //       license: false,
-    //     });
-    //   })
-    //   .catch((err) => {
-    //     console.log(err.errors, "error");
-    //     setErrorMsg(err.errors);
-    //     // return err;
-    //   });
+    console.log(data, "formdata");
+    await bookingSchema
+      .validate(data, { abortEarly: false })
+      .then((result) => {
+        console.log(result, "result");
+        handleClose();
+
+        updateCurrentUser({
+          cards: [...currentUserObj.cards, data],
+        });
+
+        // setFormData({
+        //   creditCard: "",
+        //   cvc: "",
+        //   month: "MM",
+        //   year: "YY",
+        //   username: "",
+        //   country: "",
+        //   license: false,
+        // });
+      })
+      .catch((err) => {
+        console.log(err.errors, "error");
+        setErrorMsg(err.errors);
+
+        // return err;
+      });
   };
 
   useEffect(() => {
@@ -103,7 +111,8 @@ const AddCardModal = ({ show, handleClose }) => {
       setFormData({
         creditCard: "",
         cvc: "",
-        expireDate: "",
+        month: "MM",
+        year: "YY",
         username: "",
         country: "",
         license: false,
@@ -116,7 +125,7 @@ const AddCardModal = ({ show, handleClose }) => {
     <Modal show={show} className="fs-4 mt-4 ModalParent" onHide={handleClose}>
       <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
       <Container>
-        {errorMsg.length > 0 ? (
+        {errorMsg?.length > 0 ? (
           <div className="alert-danger alert d-flex flex-column gap-1">
             {errorMsg.map((msg, index) => (
               <span key={index}>
@@ -161,7 +170,6 @@ const AddCardModal = ({ show, handleClose }) => {
                         });
                       }
                     }}
-                    
                   />
                   <div className="input-group-append ">
                     <span className="input-group-text h-100 bg-body border-0">
@@ -181,21 +189,6 @@ const AddCardModal = ({ show, handleClose }) => {
                       defaultValue={"MM"}
                       length={6}
                       className="form-select form-select-lg text-center w-50"
-                      onChange={(event) => {
-                        if (event.target.value !== "MM") {
-                          if (event.target.value.length < 2) {
-                            setExpirationDate({
-                              ...expirationDate,
-                              month: `0${event.target.value}`,
-                            });
-                          } else {
-                            setExpirationDate({
-                              ...expirationDate,
-                              month: event.target.value,
-                            });
-                          }
-                        }
-                      }}
                     >
                       <option name={"MM"} value={"MM"} disabled>
                         MM
@@ -210,14 +203,6 @@ const AddCardModal = ({ show, handleClose }) => {
                     <select
                       defaultValue={"YY"}
                       className="form-select form-select-lg text-center w-50"
-                      onChange={(event) => {
-                        if (event.target.value !== "YY") {
-                          setExpirationDate({
-                            ...expirationDate,
-                            year: event.target.value,
-                          });
-                        }
-                      }}
                     >
                       <option name={"YY"} value={"YY"} disabled>
                         YY
@@ -239,14 +224,8 @@ const AddCardModal = ({ show, handleClose }) => {
                     type="text"
                     className="me-2 w-100 placeStyle  rounded-2  form-control"
                     placeholder="456"
-                    value={formData.cvc}
-                    onChange={(e) => {
-                      setFormData({ ...formData, cvc: e.target.value });
-                      // if (typeof parseFloat(e.target.value) == Number) {
-                      // }
-                    }}
+                    // value={formData.cvc}
                     maxLength={3}
-                    
                   />
                 </div>
               </div>
@@ -259,10 +238,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   type="text"
                   className="name placeStyle rounded-2 form-control w-100"
                   placeholder="Jon Doe"
-                  value={formData.username}
-                  onChange={(e) => {
-                    setFormData({ ...formData, username: e.target.value });
-                  }}
+                  // value={formData.username}
                 />
               </div>
               {/* selection countries input */}
@@ -273,16 +249,13 @@ const AddCardModal = ({ show, handleClose }) => {
                 <select
                   className="form-select rounded-2  form-control"
                   id="inputGroupSelect04"
-                  onChange={(e) => {
-                    setFormData({ ...formData, country: e.target.value });
-                    // console.log(e.target.value, "eeeee");
-                  }}
                   aria-label="Example select with button addon"
+                  
                 >
-                  <option value="Choose a country">Choose a country</option>
+                  <option disabled selected value="Choose a country">Choose a country</option>
                   {countries.map((x) => (
                     <option value={x.name} key={x.id}>
-                      {x.name}{" "}
+                      {x.name}
                     </option>
                   ))}
                 </select>
@@ -296,14 +269,8 @@ const AddCardModal = ({ show, handleClose }) => {
                 <input
                   className="form-check-input input"
                   type="checkbox"
-                  value={formData.license}
+                  // value={formData.license}
                   id="invalidCheck"
-                  onChange={(e) => {
-                    setFormData({
-                      ...formData,
-                      license: e.target.checked,
-                    });
-                  }}
                 />
                 <label
                   className=" fs-5 form-check-label  "
@@ -315,9 +282,8 @@ const AddCardModal = ({ show, handleClose }) => {
 
               <input
                 type="submit"
-         
                 className="w-100 my-2 book-btn py-2 rounded-3"
-                value="  Add Card"
+                value="Add Card"
               />
 
               <p className=" fw-light fs-5 m-auto">
