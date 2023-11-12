@@ -66,7 +66,7 @@ const BookedTicketFinalDetailsPage = () => {
 
       {/* ------------------------- booked ticket ------------------------- */}
       <div className="w-100">
-        <BookedTicket />
+        <BookedTicket item={hotelObj}/>
       </div>
 
       {/* ------------------------- terms and conitions ------------------------- */}

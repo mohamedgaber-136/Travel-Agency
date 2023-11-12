@@ -14,7 +14,8 @@ export const addHotelsContext = createContext(0);
 export default function CountryHotelsProvider(props) {
   const { searchData, database, currentUserObj } = useContext(searchContext);
   const [countryHotels, setCountryHotels] = useState([]);
-  let [destination, setDestnation] = useState("London");
+  let [destination, setDestnation] = useState("");
+  let [countryCheck, setCountryCheck] = useState(false);
   const [hotelObj, setHotelObj] = useState({
     photos: [],
     isFav: false,
@@ -29,7 +30,7 @@ export default function CountryHotelsProvider(props) {
 
   const paramters = {
     headers: {
-      "X-RapidAPI-Key": "aa092521d4mshe20e99bf647336ap13e2a5jsn9ffc441b79d1",
+      "X-RapidAPI-Key": "9e85c3b4aamsha66ed4058238f9cp1a0a97jsn1aa95abc07a5",
       "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
     },
   };
@@ -37,7 +38,7 @@ export default function CountryHotelsProvider(props) {
   useEffect(() => {
     if (destination !== "" && destination !== undefined) {
       // console.log("getHotelsFromFirebase");
-      // getHotelsFromFirebase();
+      getHotelsFromFirebase();
       getLocationID();
     }
     console.log("hi Destnation rerender");
@@ -72,8 +73,12 @@ export default function CountryHotelsProvider(props) {
         paramters
       )
       .then((response) => {
-        console.log(response.data.data[0]);
-        getHotelsData(response.data.data[0]);
+        if (response.data.data[0] != undefined) {
+          setCountryCheck(false);
+          getHotelsData(response.data.data[0]);
+        } else {
+          setCountryCheck(true);
+        }
       })
       .catch((error) => console.log(error, "error"));
     console.log(searchData.destination, "destination");
@@ -91,22 +96,22 @@ export default function CountryHotelsProvider(props) {
         console.log(response.data.data.data, "hotels data details");
         setCountryHotels(response.data.data.data);
 
-        //getHotelsFromFirebase
-        // const locatiosRef = collection(database, "locations");
-        // const que = query(
-        //   locatiosRef,
-        //   where("location", "==", destination.toLowerCase())
-        // );
-        // getDocs(que).then((snapshot) => {
-        //   if (snapshot.docs.length === 0) {
-        //     addDoc(locatiosRef, {
-        //       location: destination,
-        //       hotels: response.data.data.data,
-        //     }).then((snapshot) => {
-        //       console.log(snapshot, "djfhsdj");
-        //     });
-        //   }
-        // });
+        // getHotelsFromFirebase
+        const locatiosRef = collection(database, "locations");
+        const que = query(
+          locatiosRef,
+          where("location", "==", destination.toLowerCase())
+        );
+        getDocs(que).then((snapshot) => {
+          if (snapshot.docs.length === 0) {
+            addDoc(locatiosRef, {
+              location: destination,
+              hotels: response.data.data.data,
+            }).then((snapshot) => {
+              console.log(snapshot, "djfhsdj");
+            });
+          }
+        });
       })
       .catch((error) => console.log(error, "error"));
   }
@@ -124,12 +129,12 @@ export default function CountryHotelsProvider(props) {
       .catch((error) => console.log(error, "error"));
     // 21213729
 
-    //getHotelsFromFirebase
-    // const hotelRef = collection(database, "hotels");
-    // getDocs(hotelRef).then((snapshot) => {
-    //   console.log(snapshot?.docs[0].data().details, "details");
-    //   setHotelObj(snapshot?.docs[0].data().details);
-    // });
+    // getHotelsFromFirebase
+    const hotelRef = collection(database, "hotels");
+    getDocs(hotelRef).then((snapshot) => {
+      console.log(snapshot?.docs[0].data().details, "details");
+      setHotelObj(snapshot?.docs[0].data().details);
+    });
   }
 
   useEffect(() => {
@@ -151,6 +156,7 @@ export default function CountryHotelsProvider(props) {
         getLocationID,
         setDestnation,
         destination,
+        countryCheck,
       }}
     >
       {props.children}

@@ -5,18 +5,14 @@ export let bookingSchema = object({
     "credit card is required"
   ),
   username: string().required("user name is required"),
-  year: string()
+  year: string().matches(/^[0-9]{2}$/, "Year is required"),
+  month: string().matches(/^[0-9]{2}$/, "Month is required"),
+  country: string()
     .required()
-    .matches(/^[0-9]{2}$/, "Year is required"),
-  month: string()
-    .required()
-    .matches(/^[0-9]{2}$/, "Month is required"),
-  country: string().required("country is required"),
+    .matches(/^(?!Choose a country$).*$/, "country is required"),
   license: bool()
     .required()
     .oneOf([true], "You must accept the terms and conditions"),
-  cvc: string()
-    .required("CVC Must be exactly 3 digits")
-    .matches(/^[0-9]{3}$/, "CVC Must be exactly 3 digits"),
+  cvc: string().matches(/^[0-9]{3}$/, "CVC Must be exactly 3 digits"),
   // .oneOf(/^[0-9]{3}$/, "CVC Must be exactly 3 digits"),
 });

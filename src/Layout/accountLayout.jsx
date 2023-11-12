@@ -25,13 +25,11 @@ const AccountLayout = () => {
   const [Cover, setCover] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const imgsCovres = [img1, img2, img3, img4, img6, img7, img8];
-  const topRef = useRef();
   function addCover(x) {
     setCover(x);
   }
 
   useEffect(() => {
-    scrollToTopPage(topRef);
     console.log(Cover, "cover");
     if (Cover !== null) {
       updateCurrentUser({ coverImg: Cover });
@@ -48,7 +46,7 @@ const AccountLayout = () => {
         <meta charSet="utf-8" />
         <title>Account-Information</title>
       </Helmet>
-      <div ref={topRef} className="bg pb-3">
+      <div className="pb-3">
         <Container>
           <div className="pt-4 ">
             <div

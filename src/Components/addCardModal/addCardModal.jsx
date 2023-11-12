@@ -9,7 +9,6 @@ import "./addCardModal.css";
 const AddCardModal = ({ show, handleClose }) => {
   const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
     useContext(searchContext);
-  const [isValidData, setIsValidData] = useState(false);
   const [expirationDate, setExpirationDate] = useState({ month: "", year: "" });
   const [formData, setFormData] = useState({
     // validation schema
@@ -21,12 +20,16 @@ const AddCardModal = ({ show, handleClose }) => {
     country: "",
     license: false,
   });
-  const [errorMsg, setErrorMsg] = useState("");
+  const [errorMsg, setErrorMsg] = useState([]);
 
   const month = () => {
     const x = [];
     for (let i = 0; i < 12; i++) {
-      x.push(i + 1);
+      if (i < 9) {
+        x.push(`0${i + 1}`);
+      } else {
+        x.push(i + 1);
+      }
     }
     return [...x];
   };
@@ -40,59 +43,58 @@ const AddCardModal = ({ show, handleClose }) => {
     return [...x];
   };
 
+  console.log(formData, "foom");
+
   // handle credi card input
   function cc_format(value) {
     const v = value
-      .replace(/\s+/g, "")
+      ?.replace(/\s+/g, "")
       .replace(/[^0-9]/gi, "")
       .slice(0, 16);
     const parts = [];
-    for (let i = 0; i < v.length; i += 4) {
+    for (let i = 0; i < v?.length; i += 4) {
       parts.push(v.substr(i, 4));
     }
 
-    return parts.length > 1 ? parts.join(" ") : value;
+    return parts?.length > 1 ? parts.join(" ") : value;
   }
 
   // form validation
   const bookingValidation = async (e) => {
     e.preventDefault();
 
-    setFormData({
-      creditCard: e.target[0].value,
+    const data = {
+      creditCard: formData.creditCard,
       month: e.target[1].value,
       year: e.target[2].value,
       cvc: e.target[3].value,
       username: e.target[4].value,
       country: e.target[5].value,
-      license: e.target[6].value,
-    });
+      license: e.target[6].checked,
+    };
 
-    console.log(formData, "formdata");
+    console.log(e.target[5].value, "country");
+
+    console.log(data, "formdata");
     await bookingSchema
-      .validate(
-        {
-          ...formData,
-        },
-        { abortEarly: false }
-      )
+      .validate(data, { abortEarly: false })
       .then((result) => {
         console.log(result, "result");
         handleClose();
 
         updateCurrentUser({
-          cards: [...currentUserObj.cards, formData],
+          cards: [...currentUserObj.cards, data],
         });
 
-        setFormData({
-          creditCard: "",
-          cvc: "",
-          month: "MM",
-          year: "YY",
-          username: "",
-          country: "",
-          license: false,
-        });
+        // setFormData({
+        //   creditCard: "",
+        //   cvc: "",
+        //   month: "MM",
+        //   year: "YY",
+        //   username: "",
+        //   country: "",
+        //   license: false,
+        // });
       })
       .catch((err) => {
         console.log(err.errors, "error");
@@ -100,46 +102,6 @@ const AddCardModal = ({ show, handleClose }) => {
 
         // return err;
       });
-    // this returns array of all errors in correct order.
-    // console.log(validationResult1.errors);
-    // setErrorMsg(validationResult1.errors);
-
-    // await bookingSchema
-    //   .validate({
-    //     ...formData,
-    //     expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //   })
-    //   .then((result) => {
-    //     console.log(result, "result");
-    //     handleClose();
-
-    //     updateCurrentUser({
-    //       cards: [...currentUserObj.cards, formData],
-    //     });
-
-    //     setFormData({
-    //       creditCard: "",
-    //       cvc: "",
-    //       expireDate: "",
-    //       username: "",
-    //       country: "",
-    //       license: "",
-    //     });
-    //   })
-    //   .catch((error) => {
-    //     console.log(error.message);
-    //   });
-
-    // await bookingSchema
-    //   .isValid({
-    //     ...formData,
-    //     expireDate: [expirationDate.month, expirationDate.year].join("/"),
-    //   })
-    //   .then((data) => {
-    //     setIsValidData(data);
-    //     console.log(data, "data form");
-    //   })
-    //   .catch((err) => console.log(err.message, "error form"));
   };
 
   useEffect(() => {
@@ -155,6 +117,7 @@ const AddCardModal = ({ show, handleClose }) => {
         country: "",
         license: false,
       });
+      setErrorMsg([]);
     }
   }, [show]);
   // spacesV
@@ -162,7 +125,7 @@ const AddCardModal = ({ show, handleClose }) => {
     <Modal show={show} className="fs-4 mt-4 ModalParent" onHide={handleClose}>
       <Modal.Title className="p-4 fs-2">Add a new Card</Modal.Title>
       <Container>
-        {errorMsg.length > 0 ? (
+        {errorMsg?.length > 0 ? (
           <div className="alert-danger alert d-flex flex-column gap-1">
             {errorMsg.map((msg, index) => (
               <span key={index}>
@@ -197,6 +160,16 @@ const AddCardModal = ({ show, handleClose }) => {
                     placeholder="4321 4321 4321 4321"
                     maxLength={19}
                     value={cc_format(formData.creditCard)}
+                    onChange={(e) => {
+                      const str = e.target.value.replace(/\s/g, "");
+
+                      if (!isNaN(str)) {
+                        setFormData({
+                          ...formData,
+                          creditCard: str,
+                        });
+                      }
+                    }}
                   />
                   <div className="input-group-append ">
                     <span className="input-group-text h-100 bg-body border-0">
@@ -251,7 +224,7 @@ const AddCardModal = ({ show, handleClose }) => {
                     type="text"
                     className="me-2 w-100 placeStyle  rounded-2  form-control"
                     placeholder="456"
-                    value={formData.cvc}
+                    // value={formData.cvc}
                     maxLength={3}
                   />
                 </div>
@@ -265,7 +238,7 @@ const AddCardModal = ({ show, handleClose }) => {
                   type="text"
                   className="name placeStyle rounded-2 form-control w-100"
                   placeholder="Jon Doe"
-                  value={formData.username}
+                  // value={formData.username}
                 />
               </div>
               {/* selection countries input */}
@@ -277,8 +250,9 @@ const AddCardModal = ({ show, handleClose }) => {
                   className="form-select rounded-2  form-control"
                   id="inputGroupSelect04"
                   aria-label="Example select with button addon"
+                  
                 >
-                  <option value="Choose a country">Choose a country</option>
+                  <option disabled selected value="Choose a country">Choose a country</option>
                   {countries.map((x) => (
                     <option value={x.name} key={x.id}>
                       {x.name}
@@ -295,24 +269,23 @@ const AddCardModal = ({ show, handleClose }) => {
                 <input
                   className="form-check-input input"
                   type="checkbox"
-                  value={formData.license}
+                  // value={formData.license}
                   id="invalidCheck"
                 />
                 <label
                   className=" fs-5 form-check-label  "
                   htmlFor="invalidCheck"
-                  required
                 >
                   Securely save my information for 1-click checkout
                 </label>
               </div>
 
-              <button
+              <input
                 type="submit"
                 className="w-100 my-2 book-btn py-2 rounded-3"
-              >
-                Add Card
-              </button>
+                value="Add Card"
+              />
+
               <p className=" fw-light fs-5 m-auto">
                 By confirming your subscription, you allow The Outdoor Inn Crowd
                 Limited to charge your card for this payment and future payments

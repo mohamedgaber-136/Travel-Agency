@@ -13,7 +13,7 @@ export default function CountryHotelsPage() {
     useContext(addHotelsContext);
   const { searchData, setSeachData, scrollToTopPage } =
     useContext(searchContext);
-  const { setDestnation } = useContext(addHotelsContext);
+  const { setDestnation,countryCheck } = useContext(addHotelsContext);
   const topRef = useRef();
 
   useEffect(() => {
@@ -26,7 +26,7 @@ export default function CountryHotelsPage() {
       setCountryHotels([]);
     };
   }, [countryTitle]);
-
+console.log(countryCheck)
   return (
     <>
       <Helmet>
@@ -43,13 +43,13 @@ export default function CountryHotelsPage() {
           <SearchForm />
         </div>
 
-        {countryHotels?.length !== 0 ? (
+        {!countryCheck?        countryHotels?.length !== 0 ? (
           countryHotels?.map((hotel, ind) => (
             <SingleHotel hotel={hotel} key={ind} countryTitle={countryTitle} />
           ))
         ) : (
           <Loading />
-        )}
+        ):<span>noFound</span>}
       </div>
     </>
   );

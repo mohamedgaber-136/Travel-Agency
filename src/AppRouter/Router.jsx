@@ -35,6 +35,10 @@ const AppRouter = () => {
     delayForDemo(import("../Layout/accountLayout.jsx"))
   );
 
+  let HotelDetialsLazy = lazy(() =>
+    delayForDemo(import("../Pages/HotelDetails/HotelDetials.jsx"))
+  );
+
   return (
     <Suspense
       fallback={
@@ -80,7 +84,7 @@ const AppRouter = () => {
               />
               <Route
                 path="CountryHotels/:countryTitle/hotelDetials/:id"
-                element={<HotelDetials />}
+                element={<HotelDetialsLazy />}
               />
               <Route path="Favourites" element={<Favourites />} />
             </Routes>

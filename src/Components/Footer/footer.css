@@ -158,3 +158,6 @@ ul {
   height: 100px;
   object-fit: cover;
 }
+.footer-widget ul li {
+  cursor: pointer;
+}
