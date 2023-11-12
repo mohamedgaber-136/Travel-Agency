@@ -6,14 +6,14 @@ import { addHotelsContext } from "../../store/store";
 import { Helmet } from "react-helmet";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
-import { SingleHotel } from "./singleHotel";
+import { Suspense, lazy } from "react";
 export default function CountryHotelsPage() {
   const { countryTitle } = useParams();
   const { countryHotels, setCountryHotels, isFavorites, isFavoritesClick } =
     useContext(addHotelsContext);
   const { searchData, setSeachData, scrollToTopPage } =
     useContext(searchContext);
-  const { setDestnation,countryCheck } = useContext(addHotelsContext);
+  const { setDestnation, countryCheck } = useContext(addHotelsContext);
   const topRef = useRef();
 
   useEffect(() => {
@@ -22,11 +22,17 @@ export default function CountryHotelsPage() {
     if (countryTitle !== undefined) {
       setDestnation(countryTitle);
     }
-    return () => {
-      setCountryHotels([]);
-    };
   }, [countryTitle]);
-console.log(countryCheck)
+  // useEffect(()=>{
+
+  // },[countryTitle])
+  async function delayForDemo(promise) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 6000);
+    }).then(() => promise);
+  }
+  let LazySingle = lazy(() => delayForDemo(import("./singleHotel")));
+
   return (
     <>
       <Helmet>
@@ -43,13 +49,23 @@ console.log(countryCheck)
           <SearchForm />
         </div>
 
-        {!countryCheck?        countryHotels?.length !== 0 ? (
-          countryHotels?.map((hotel, ind) => (
-            <SingleHotel hotel={hotel} key={ind} countryTitle={countryTitle} />
-          ))
-        ) : (
-          <Loading />
-        ):<span>noFound</span>}
+        <Suspense fallback={<Loading />}>
+        {!countryCheck ? (
+          countryHotels?.length !== 0 ? (
+            countryHotels?.map((hotel, ind) => (
+                <LazySingle
+                  hotel={hotel}
+                  key={ind}
+                  countryTitle={countryTitle}
+                />
+                ))
+                ) : (
+                  <Loading />
+                  )
+                  ) : (
+                    <span>noFound</span>
+                    )}
+                    </Suspense>
       </div>
     </>
   );

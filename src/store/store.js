@@ -36,14 +36,15 @@ export default function CountryHotelsProvider(props) {
   };
 
   useEffect(() => {
+    
     if (destination !== "" && destination !== undefined) {
       // console.log("getHotelsFromFirebase");
       // getHotelsFromFirebase();
       getLocationID();
     }
-    console.log("hi Destnation rerender");
   }, [destination]);
-
+  
+  console.log(destination,"hi Destnation rerender");
   function getHotelsFromFirebase() {
     const locatiosRef = collection(database, "locations");
     console.log(destination.toLowerCase(), "firebase detentaion");

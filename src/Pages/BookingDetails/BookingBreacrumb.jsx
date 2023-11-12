@@ -10,10 +10,6 @@ export const BookingBreacrumb = () => {
   return (
     <nav aria-label="breadcrumb">
       <ol className="breadcrumb">
-        <li className="breadcrumb-item">
-          <Link to={`/CountryHotels/${destination}`}>{destination}</Link>
-        </li>
-
         <li className="breadcrumb-item active" aria-current="page">
           {hotelObj.title}
         </li>

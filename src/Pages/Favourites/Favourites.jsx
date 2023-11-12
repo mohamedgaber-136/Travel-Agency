@@ -1,5 +1,5 @@
 import React, { useContext, useEffect, useState } from "react";
-import { SingleHotel } from "../CountryHotels/singleHotel";
+import  SingleHotel  from "../CountryHotels/singleHotel";
 import { searchContext } from "../../store/searchStore";
 import Loading from "../../Components/Loading/Loading";
 import { NavLink, Navigate } from "react-router-dom";

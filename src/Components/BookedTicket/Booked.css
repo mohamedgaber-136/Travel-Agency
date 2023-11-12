@@ -87,10 +87,8 @@
 .checkInTime,
 .checkOutTime,
 .RoomNum {
-    border: 1px solid lightgray;
     padding: 5px;
     border-radius: 5px;
-    box-shadow: 0 0 5px 1px lightgray;
 }
 
 .BarCode p {

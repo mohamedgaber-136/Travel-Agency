@@ -41,16 +41,16 @@ export const HotelCard = ({ handleShow, img, title, data }) => {
         </div>
         {/* third section  */}
         <div className="p-2 d-flex flex-column align-items-center">
-          <div className="container d-flex justify-content-between">
-            <h6 className=" align-items-center">
+          <div className="container row justify-content-between ">
+            <h6 className=" align-items-center col-4 text-center m-0 ">
               Thursday, Dec 8 <br /> <span> Check-In</span>
             </h6>
-            <div className="direc d-flex align-content-center align-items-center">
+            <div className="direc d-flex col-4 align-content-center align-items-center">
               <img className="line" src={left} alt="" />
               <img className="home-logo" src={building} alt="" />
-              <img className="line me-1" src={right} alt="" />
+              <img className="line" src={right} alt="" />
             </div>
-            <h6 className=" mx-auto ">
+            <h6 className=" mx-auto col-4 text-center m-0 ">
               Thursday, Dec 9 <br /> <span>Check-Out</span>
             </h6>
           </div>

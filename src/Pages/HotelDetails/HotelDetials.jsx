@@ -166,7 +166,7 @@ export default function HotelDetials() {
         </div>
       </div>
       {/* carsoul */}
-      <div className=" d-flex justify-content-center my-3">
+      <div className="  d-flex justify-content-center my-3">
         <div
           id="carouselExampleCaptions"
           className="carousel slide carouselDiv w-75 rounded-3 overflow-hidden"
@@ -196,9 +196,10 @@ export default function HotelDetials() {
               <>
                 <div className="carousel-item active w-100">
                   <img
+                    style={{ objectFit: "cover" }}
                     src={hotelObj?.photos[0]?.urlTemplate
                       ?.replace("{width}", "500")
-                      .replace("{height}", "500")}
+                      .replace("{height}", "200")}
                     className="w-100"
                     alt="..."
                   />
@@ -206,9 +207,10 @@ export default function HotelDetials() {
                 {[1, 2, 3].map((item) => (
                   <div key={item} className="carousel-item w-100">
                     <img
+                      style={{ objectFit: "cover" }}
                       src={hotelObj?.photos[item]?.urlTemplate
                         ?.replace("{width}", "500")
-                        .replace("{height}", "500")}
+                        .replace("{height}", "200")}
                       className="w-100"
                       alt="..."
                     />
@@ -304,7 +306,7 @@ export default function HotelDetials() {
             ))}
           </ul>
           <ul className="list-unstyled d-flex flex-column gap-4 col-6">
-            {amenitiesList.slice(5).map((item,index) => (
+            {amenitiesList.slice(5).map((item, index) => (
               <li key={index} className="d-flex gap-2">
                 <i className={item.iconClass}></i>
                 <span className="text-muted">{item.text}</span>

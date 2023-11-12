@@ -6,7 +6,7 @@ import { useState } from "react";
 import { Navigate, useNavigate } from "react-router-dom";
 import { searchContext } from "../../store/searchStore";
 import { addHotelsContext } from "../../store/store";
-export const SingleHotel = ({ hotel, isFavPage }) => {
+ const SingleHotel = ({ hotel, isFavPage }) => {
   let { currentUserObj, updateCurrentUser, authorized } =
     useContext(searchContext);
   let { destination } = useContext(addHotelsContext);
@@ -42,6 +42,7 @@ let navigations= useNavigate()
       navigations("/login")
     }
   }
+  console.log(destination,'des')
   return (
     <div className="container p-3">
       <div className="card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start">
@@ -121,3 +122,4 @@ let navigations= useNavigate()
     </div>
   );
 };
+export default SingleHotel;
