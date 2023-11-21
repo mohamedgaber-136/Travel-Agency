@@ -153,3 +153,11 @@ ul {
   font-size: 14px;
   color: #878787;
 }
+.footer-logo img{
+  width: 100px;
+  height: 100px;
+  object-fit: cover;
+}
+.footer-widget ul li {
+  cursor: pointer;
+}

@@ -37,6 +37,10 @@
   width: 140px;
   height: 145px;
 }
+.features-bg:hover {
+  background-color: #3eb489 !important;
+  transition: 0.5s !important;
+}
 .favIcon {
   width: 48px !important;
   height: 48px !important;
@@ -51,4 +55,8 @@
   .carouselDiv {
     width: 80%;
   }
+}
+
+.rateStars {
+  color: salmon !important;
 }

@@ -1,5 +1,25 @@
 import "./footer.css";
+import Logo from "../../assets/images/logo-removebg.png";
+import { useContext } from "react";
+import { addHotelsContext } from "../../store/store";
+import { useNavigate } from "react-router-dom";
 export const Footer = () => {
+  let { setDestnation } = useContext(addHotelsContext);
+  let navigate = useNavigate();
+  let Countrys = [
+    "Canada",
+    "Alaksa",
+    "France",
+    "iceLand",
+    "roma",
+    "cairo",
+    "london",
+    "turkey",
+  ];
+  const CountryBtn = (country) => {
+    setDestnation(country);
+    navigate(`/CountryHotels/${country}`);
+  };
   return (
     <footer className="footer-section ">
       <div className="container ">
@@ -8,7 +28,7 @@ export const Footer = () => {
             <div className="col-xl-4 col-lg-4 mb-50">
               <div className="footer-widget">
                 <div className="footer-logo">
-                  <h2>Logo</h2>
+                  <img src={Logo} alt="Logo" />
                 </div>
                 <div className="footer-text">
                   <p>
@@ -37,36 +57,11 @@ export const Footer = () => {
                   <h3>Our Destinations</h3>
                 </div>
                 <ul>
-                  <li>
-                    <a href="#">Canada</a>
-                  </li>
-                  <li>
-                    <a href="#">Alaksa</a>
-                  </li>
-                  <li>
-                    <a href="#">France</a>
-                  </li>
-                  <li>
-                    <a href="#">iceLand</a>
-                  </li>
-                  <li>
-                    <a href="#">roma</a>
-                  </li>
-                  <li>
-                    <a href="#">cairo</a>
-                  </li>
-                  <li>
-                    <a href="#">london</a>
-                  </li>
-                  <li>
-                    <a href="#">Luxor</a>
-                  </li>
-                  <li>
-                    <a href="#">brazil</a>
-                  </li>
-                  <li>
-                    <a href="#">turkey</a>
-                  </li>
+                  {Countrys.map((element) => (
+                    <li key={element} onClick={() => CountryBtn(element)}>
+                      {element}
+                    </li>
+                  ))}
                 </ul>
               </div>
             </div>

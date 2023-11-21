@@ -1,13 +1,23 @@
-import { createContext, useEffect, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { initializeApp } from "@firebase/app";
 import {
+  addDoc,
   collection,
   doc,
   getDoc,
+  getDocs,
   getFirestore,
   onSnapshot,
+  query,
   updateDoc,
+  where,
 } from "firebase/firestore";
+
+import { getAuth } from "firebase/auth";
+import { addHotelsContext } from "./store";
+import { accountAvatar, accountBg } from "../assets/images";
+
+// import firebase from "firebase";
 
 const firebaseConfig = {
   apiKey: "AIzaSyCb-UkvpCD0WgqHJMgLK6UBnXKBJWRSZzE",
@@ -21,56 +31,139 @@ const firebaseConfig = {
 export const searchContext = createContext(0);
 
 export default function SearchContextProvider(props) {
-  let [searchData, setSeachData] = useState({});
-  const [currentUserObj, setCurrentUserObj] = useState({ id: "0" });
-
+  const { hotelObj } = useContext(addHotelsContext);
+  //--------------------- firebase --------------------//
   initializeApp(firebaseConfig);
   const database = getFirestore();
-  //   const authbase = getAuth();
+  const auth = getAuth();
+  // const auth=  firebase.auth();
+
+  //--------------------- useState --------------------//
+  let [searchData, setSeachData] = useState({
+    destination: "",
+  });
+  let [authorized, setAuthorized] = useState(false);
+  const [currentUserObj, setCurrentUserObj] = useState({
+    id: "0",
+
+    //   firstName: "",
+    //   lastName: "",
+    //   email: "",
+    //   password: "",
+    //   confirmPassword: "",
+    //   phone: "",
+    //   address: "",
+    //   profileImg: accountAvatar,
+    //   coverImg: accountBg,
+    //   birthDate: "",
+    //   bookinds: [],
+    //   favourites: [],
+    //   cards: [],
+  });
+
+  const userID = localStorage.getItem("currentUser");
+  const currentRef = doc(database, "users", currentUserObj?.id);
   const usersReference = collection(database, "users");
 
+  //--------------------- useEffect --------------------//
   useEffect(() => {
     if (currentUserObj?.id === "0") {
       // const userID = sessionStorage.getItem("currentUser");
-      const userID = localStorage.getItem("currentUser");
-      if (userID !== null) {
-        const currentRef = doc(database, "users", userID);
-        getDoc(currentRef).then((snapshot) => {
-          console.log(snapshot.data(), "snap");
-          setCurrentUserObj({ ...snapshot.data(), id: userID });
-        });
+      console.log(userID, "user id");
+
+      if (userID !== null && userID !== undefined && userID !== "undefined") {
+        getCurrentUserData();
+        setAuthorized(true);
       } else {
         console.log("no snapshot");
       }
+    } else {
+      setAuthorized(true);
     }
-  }, [currentUserObj]);
+  }, []);
 
-  // useEffect(() => {
-  //   if (currentUserObj.id !== "0") {
-  const currentRef = doc(database, "users", currentUserObj?.id);
+  //--------------------- createNewUserObj --------------------//
+  function createNewUserObj({
+    firstName,
+    lastName,
+    email,
+    password,
+    phone,
+    profileImg,
+  }) {
+    const user = {
+      firstName: firstName !== undefined ? firstName : "",
+      lastName: lastName !== undefined ? lastName : "",
+      email: email !== undefined ? email : "",
+      password: password !== undefined ? password : "",
+      phone: phone !== undefined ? phone : "",
+      address: "",
+      profileImg: profileImg !== undefined ? profileImg : accountAvatar,
+      coverImg: accountBg,
+      birthDate: "",
+      bookingsFlights: [],
+      bookingsStays: [],
+      favourites: [],
+      cards: [],
+    };
+    console.log(user, "user object creat");
+    addDoc(usersReference, user).then((snapshot) => {
+      // console.log(snapshot, "add user");
+      localStorage.setItem("currentUser", snapshot.id);
+      setCurrentUserObj({ ...user, id: snapshot.id });
+    });
+  }
+
+  //--------------------- getCurrentUserData --------------------//
+  const getCurrentUserData = () => {
+    const currentRef = doc(database, "users", userID);
+    getDoc(currentRef).then((snapshot) => {
+      console.log(snapshot.data(), "current user");
+      setCurrentUserObj({ ...snapshot.data(), id: userID });
+    });
+  };
+
+  //--------------------- currentUserSnapshot --------------------//
   onSnapshot(currentRef, (snapshot) => {
-    console.log(snapshot.data(), "snapshot listen");
-    // setCurrentUserObj(snapshot.data());
+    console.log(snapshot?.data(), "snapshot listen");
   });
-  //   }
-  // }, [currentUserObj.id]);
 
-  // to update the user data
+  //--------------------- updateCurrentUser --------------------//
   const updateCurrentUser = (change) => {
     if (currentUserObj?.id !== "0") {
       updateDoc(currentRef, { ...change }).then((snapshot) => {
-        // setCurrentUserObj(snapshot.data());
-        console.log(snapshot, "update");
+        getCurrentUserData();
       });
     }
   };
 
-  function isLoggedUser() {
-    if (currentUserObj.id === "0") {
-      return false;
-    } else {
-      return true;
+  //--------------------- addUserFavouriteHotel --------------------//
+  function addUserFavouriteHotel(hotelID) {
+    const found = currentUserObj.favourites.find(({ id }) => id === hotelID);
+    console.log(found, "found");
+    if (found === undefined) {
+      console.log(currentUserObj.favourites, "found");
+      console.log(hotelObj, "hotel");
+
+      // updateCurrentUser({
+      //   favourites: [...currentUserObj.favourites, hotelObj],
+      // });
     }
+  }
+
+  function scrollToTopPage(ref) {
+    ref.current.scrollIntoView({
+      behavior: "smooth",
+      block: "start",
+      inline: "nearest",
+    });
+  }
+
+  //--------------------- lazy loading delay function --------------------//
+  async function delayForDemo(promise) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    }).then(() => promise);
   }
 
   return (
@@ -80,9 +173,16 @@ export default function SearchContextProvider(props) {
         setSeachData,
         database,
         setCurrentUserObj,
-        usersReference,
         currentUserObj,
         updateCurrentUser,
+        usersReference,
+        authorized,
+        setAuthorized,
+        delayForDemo,
+        auth,
+        addUserFavouriteHotel,
+        createNewUserObj,
+        scrollToTopPage,
       }}
     >
       {props.children}

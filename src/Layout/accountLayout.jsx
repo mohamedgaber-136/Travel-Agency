@@ -1,9 +1,8 @@
 import { Container } from "react-bootstrap";
 import { Helmet } from "react-helmet";
-import { accountAvatar, accountBg } from "../assets/images";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import { Outlet, useParams } from "react-router";
-import { NavLink } from "react-router-dom";
+import { NavLink, Navigate } from "react-router-dom";
 import img1 from "./CoverImgs/pexels-efdal-yildiz-917494.jpg";
 import img2 from "./CoverImgs/pexels-lumn-167699.jpg";
 import img3 from "./CoverImgs/pexels-marta-wave-5876640.jpg";
@@ -16,8 +15,13 @@ import { ProfileImg } from "./ProfileImg";
 import { searchContext } from "../store/searchStore";
 const AccountLayout = () => {
   const { id } = useParams();
-  const { currentUserObj, setCurrentUserObj, updateCurrentUser } =
-    useContext(searchContext);
+  const {
+    currentUserObj,
+    setCurrentUserObj,
+    updateCurrentUser,
+    authorized,
+    scrollToTopPage,
+  } = useContext(searchContext);
   const [Cover, setCover] = useState(null);
   const [modalShow, setModalShow] = useState(false);
   const imgsCovres = [img1, img2, img3, img4, img6, img7, img8];
@@ -29,9 +33,12 @@ const AccountLayout = () => {
     console.log(Cover, "cover");
     if (Cover !== null) {
       updateCurrentUser({ coverImg: Cover });
-      setCurrentUserObj({ ...currentUserObj, coverImg: Cover });
     }
   }, [Cover]);
+
+  if (!authorized) {
+    return <Navigate to="/login" />;
+  }
 
   return (
     <>
@@ -39,7 +46,7 @@ const AccountLayout = () => {
         <meta charSet="utf-8" />
         <title>Account-Information</title>
       </Helmet>
-      <div className="bg pb-3">
+      <div className="pb-3">
         <Container>
           <div className="pt-4 ">
             <div
@@ -83,27 +90,27 @@ const AccountLayout = () => {
         </Container>
         <Container>
           <ProfileImg />
-          <div className="account__selection px-4 account__main-links">
+          <div className="account__selection px-4 account__main-links mb-3 ">
             <NavLink
               to={"/account/" + id}
               end
               className="account__brdr position-relative py-3 w-33"
             >
-              <h4>Account</h4>
+              <h4 className="text-center ">Account</h4>
             </NavLink>
             <NavLink
               to={`/account/${id}/history`}
               // to="/account/history"
               className="account__brdr line py-3 w-33"
             >
-              <h4>History</h4>
+              <h4 className="text-center">History</h4>
             </NavLink>
             <NavLink
               to={`/account/${id}/payment`}
               // to="/account/payment"
               className="account__brdr line py-3 w-33"
             >
-              <h4>Payment method</h4>
+              <h4 className="text-center">Payment method</h4>
             </NavLink>
           </div>
         </Container>

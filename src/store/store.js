@@ -1,5 +1,14 @@
-import { createContext, useContext, useState } from "react";
+import { createContext, useContext, useEffect, useState } from "react";
 import { searchContext } from "./searchStore";
+import axios from "axios";
+import {
+  addDoc,
+  collection,
+  getDoc,
+  getDocs,
+  query,
+  where,
+} from "firebase/firestore";
 
 export const addHotelsContext=createContext(0)
 
@@ -32,7 +41,6 @@ export default function AddHotelsProvider(props){
           console.log(data,"aya a7ga")
           console.log(addHotels)
     }
-    
     const  getHotelsObj= async (id)=>{
         const url = `https://tripadvisor16.p.rapidapi.com/api/v1/hotels/getHotelDetails?id=${id}&checkIn=2023-11-04&checkOut=2023-11-11&currency=USD1`;
         const options = {
@@ -52,4 +60,3 @@ export default function AddHotelsProvider(props){
         {props.children}
          </addHotelsContext.Provider>
 }
-

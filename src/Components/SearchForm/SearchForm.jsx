@@ -1,34 +1,20 @@
-import { useContext, useState } from "react";
+import { memo, useContext, useEffect, useState } from "react";
 import { searchSchema } from "./searchValidation/SearchValidation";
-import * as yup from "yup";
 import { searchContext } from "../../store/searchStore";
 import { useNavigate } from "react-router-dom";
-export const SearchForm = () => {
+import { InputGuests } from "./searchValidation/InputGuests";
+import  DestnationInput  from "./DestnationInput";
+import { addHotelsContext } from "../../store/store";
+import "./SearchForm.css";
+import Speach from "../Speach/Speach";
+import SpeechRecognition, {
+  useSpeechRecognition,
+} from "react-speech-recognition";
+const SearchForm = () => {
   const navigate = useNavigate();
-  let [guest, setGuest] = useState(1);
-  let [room, setRoom] = useState(1);
   const [isValid, setValidatation] = useState(true);
-  let [showAddTable, setAddTable] = useState(false);
   const { searchData, setSeachData } = useContext(searchContext);
-  const addGuest = (x, y) => {
-    if (guest <= room && y >= 1) {
-      x(++y);
-      setGuest(++guest);
-    } else {
-      x(++y);
-    }
-  };
-  const removeGuestOrRoom = (x, y) => {
-    if (guest <= room && y > 1) {
-      x(--y);
-      setRoom(--room);
-    } else {
-      x(--y);
-    }
-  };
-  const showTable = (x) => {
-    setAddTable(x);
-  };
+  const { setDestnation } = useContext(addHotelsContext);
   const getSearchData = async (event) => {
     event.preventDefault();
     let data = {
@@ -36,12 +22,45 @@ export const SearchForm = () => {
       CheckIn: event.target[1].value,
       CheckOut: event.target[2].value,
       GuestAndRooms: event.target[3].value,
+      nights:
+        (new Date(event.target[2].value).getTime() -
+          new Date(event.target[1].value).getTime()) /
+        (1000 * 3600 * 24),
     };
-    setSeachData({ ...data });
-    navigate(`/CountryHotels/${data.destination}`,{replace:true});
-    setValidatation(await searchSchema.isValid(searchData));
+    await searchSchema.isValid({ ...data }).then((validate) => {
+      setValidatation(validate);
+      if (validate) {
+        setSeachData({ ...data });
+        setDestnation(data.destination);
+        navigate(`/CountryHotels/${data.destination}`);
+      }
+    });
   };
-  console.log(searchData)
+  const {
+    transcript,
+    listening,
+    resetTranscript,
+    browserSupportsSpeechRecognition,
+  } = useSpeechRecognition();
+  const handleMic = () => {
+    SpeechRecognition.startListening();
+    if (listening) {
+      SpeechRecognition.stopListening();
+    }
+  };
+  const CheckTranScript = () => {
+    if (transcript != "") {
+      return transcript.split('.')[0];
+    } else {
+      return searchData.destination;
+    }
+  };
+  console.log()
+  useEffect(() => {
+    if (transcript == "") {
+      setSeachData({ ...searchData, destination: "" });
+    }
+  }, [transcript]);
   return (
     <form
       onSubmit={getSearchData}
@@ -49,19 +68,21 @@ export const SearchForm = () => {
     >
       <h3>Where Are You Going?</h3>
       <div
-        className=" row flex-row  align-items-center align-self-center align-self-center
- w-100"
+        className="  row flex-row  align-items-center align-self-center align-self-center
+w-100"
       >
-        <div className="coolinput col-6 ">
+        <div className="coolinput col-6  speachRelative">
+          <Speach
+            handleMic={handleMic}
+            listening={listening}
+            browserSupportsSpeechRecognition={browserSupportsSpeechRecognition}
+            resetTranscript={resetTranscript}
+            transcript={transcript}
+          />
           <label htmlFor="location" className="text">
             <i className="fa-solid fa-couch px-1"></i>YourDestnation:
           </label>
-          <input
-            type="text"
-            placeholder="Istanbul,Turkey"
-            name="location"
-            className="input"
-          />
+       <DestnationInput CheckTranScript={CheckTranScript} setSeachData={setSeachData} searchData={searchData}/>
         </div>
         <div className="coolinput  col-6 col-md-2">
           <label htmlFor="checkin" className="text">
@@ -75,65 +96,7 @@ export const SearchForm = () => {
           </label>
           <input type="date" name="checkout" className="input p-2" />
         </div>
-        <div className="coolinput Guests col-6 col-md-2">
-          <label htmlFor="roomguest" className="text">
-            Rooms&Guests:
-          </label>
-          <input
-            type="text"
-            placeholder="1Room and 2Guests"
-            name="roomguest"
-            value={`${room}Room and ${guest}Guests`}
-            className="input"
-            onClick={() => showTable(true)}
-          />
-
-          <div
-            className={
-              showAddTable ? `addGuest d-flex flex-column gap-4` : ` d-none `
-            }
-          >
-            <div className="d-flex justify-content-between">
-              <span>adults</span>
-              <div className="addArea d-flex justify-content-between">
-                <button onClick={() => addGuest(setGuest, guest)}>
-                  <i className="fa-solid fa-plus text-primary"></i>
-                </button>
-                <span>{guest}</span>
-                <button
-                  onClick={() => removeGuestOrRoom(setGuest, guest)}
-                  disabled={guest == 1 ? true : false}
-                >
-                  <i className="fa-solid fa-minus text-primary"></i>
-                </button>
-              </div>
-            </div>
-            <div className="d-flex justify-content-between">
-              <span>Rooms</span>
-              <div className="addArea d-flex justify-content-between">
-                <button type="button" onClick={() => addGuest(setRoom, room)}>
-                  <i className="fa-solid fa-plus text-primary"></i>
-                </button>
-                <span>{room}</span>
-                <button
-                  type="button"
-                  onClick={() => removeGuestOrRoom(setRoom, room)}
-                  disabled={room == 1 ? true : false}
-                >
-                  {" "}
-                  <i className="fa-solid fa-minus text-primary "></i>
-                </button>
-              </div>
-            </div>
-            <button
-              type="button"
-              className="DoneBtnAddGuest"
-              onClick={() => showTable(false)}
-            >
-              Done
-            </button>
-          </div>
-        </div>
+        <InputGuests />
       </div>
       <div className="d-flex justify-content-end align-items-center mt-2 container">
         <div className="d-flex  w-100 gap-3 align-items-center justify-content-end">
@@ -146,3 +109,4 @@ export const SearchForm = () => {
     </form>
   );
 };
+export default memo(SearchForm);

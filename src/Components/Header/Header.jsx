@@ -1,6 +1,6 @@
 import "./header.css";
 import bgImg from "./pexels-asad-photo-maldives-1268855.jpg";
-import { SearchForm } from "../SearchForm/SearchForm";
+import  SearchForm  from "../SearchForm/SearchForm";
 export const Header = () => {
   return (
     <>

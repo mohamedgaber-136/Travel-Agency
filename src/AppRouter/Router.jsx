@@ -1,26 +1,43 @@
 import React from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
-import LoginPage from "../Pages/Login/Login";
-import SignUpPage from "../Pages/SignUp/SignUp";
 import { NavigationBar } from "../Components/NavBar/Navbar";
-import LandingPage from "../Pages/Landing/LandingPage";
-import AddHotels from "../Pages/AddHotels/AddHotels";
 import HotelDetials from "../Pages/HotelDetails/HotelDetials";
-import Account from "../Pages/accountFlow/Account";
+import Account from "../Pages/accountFlow/Account/accountPage";
 import { Footer } from "../Components/Footer/Footer";
-import AddHotelsProvider from "../store/store";
 import SearchContextProvider from "../store/searchStore";
 import BookingDetails from "../Pages/BookingDetails/BookingDetails";
-import AllCities from "../Pages/AllCities/AllCities";
-import AccountLayout from "../Layout/accountLayout";
-import AccountHistory from "../Components/accountFlow/AccountHistory/AccountHistory";
 import AccountHistoryLayout from "../Layout/AccountHistoryLayout";
 import AccountFlights from "../Components/accountFlow/AccountHistory/AccountHistory";
 import AccountStays from "../Components/accountFlow/accountStays/AccountStays";
+import { Suspense, lazy } from "react";
+import Login from "../Pages/Login/Login";
+import SignUp from "../Pages/SignUp/SignUp";
+import AllCities from "../Pages/AllCities/AllCities";
+import NotFound from "../Pages/notFound/notFound";
 import AccountPayment from "../Components/accountFlow/AccountPayment/AccountPayment";
-import NotFoundPage from "../Pages/notFound/notFound";
-
+import AccountLayout from "../Layout/accountLayout";
+import CountryHotelsPage from "../Pages/CountryHotels/AddHotels";
+import CountryHotelsProvider from "../store/store";
+import { Favourites } from "../Pages/Favourites/Favourites.jsx";
+import BookedTicketFinalDetailsPage from "../Pages/BookedTicketFinalDetails/BookedTicketFinalDetails.jsx";
 const AppRouter = () => {
+  async function delayForDemo(promise) {
+    return new Promise((resolve) => {
+      setTimeout(resolve, 2000);
+    }).then(() => promise);
+  }
+
+  let LandingLazy = lazy(() =>
+    delayForDemo(import("../Pages/Landing/LandingPage"))
+  );
+  let AccountLayoutLazy = lazy(() =>
+    delayForDemo(import("../Layout/accountLayout.jsx"))
+  );
+
+  let HotelDetialsLazy = lazy(() =>
+    delayForDemo(import("../Pages/HotelDetails/HotelDetials.jsx"))
+  );
+
   return (
     <BrowserRouter>
       <SearchContextProvider>
@@ -34,7 +51,7 @@ const AppRouter = () => {
             {/* <Route path="account/:id" element={<Account />} /> */}
             <Route path="account/:id" element={<AccountLayout />}>
               <Route index={true} element={<Account />} />
-               <Route path="history" element={<AccountHistoryLayout />}>
+              <Route path="history" element={<AccountHistoryLayout />}>
                 <Route index={true} element={<AccountFlights />} />
                 <Route path="stays" element={<AccountStays />} />
               </Route>

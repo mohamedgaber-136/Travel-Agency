@@ -8,15 +8,17 @@ import { useNavigate } from "react-router";
 import { Link } from "react-router-dom";
 import { searchContext } from "./../../store/searchStore";
 import { Button } from "react-bootstrap";
-
+import Logo from "../../assets/images/logo-removebg.png";
 export const NavigationBar = () => {
   let navigatation = useNavigate();
-  const { currentUserObj, setCurrentUserObj } = useContext(searchContext);
+  const { currentUserObj, setCurrentUserObj, setAuthorized } =
+    useContext(searchContext);
 
   const userLogOut = () => {
     localStorage.removeItem("currentUser");
     setCurrentUserObj({ id: "0" });
     navigatation("/");
+    setAuthorized(false);
   };
 
   return (
@@ -27,7 +29,7 @@ export const NavigationBar = () => {
     >
       <Container>
         <Navbar.Brand className="logoBrand" onClick={() => navigatation("/")}>
-          Logo
+          <img src={Logo} alt="Logo" />{" "}
         </Navbar.Brand>
         <Navbar.Toggle aria-controls="responsive-navbar-nav " className="p-1 ">
           <i className="fa-solid fa-circle-chevron-down NavbarButton"></i>
@@ -36,16 +38,22 @@ export const NavigationBar = () => {
           id="responsive-navbar-nav"
           className=" flex-md-row flex-column align-items-center justify-content-center"
         >
-          <Nav className="m-auto d-flex align-items-center ">
+          <Nav className="m-auto d-flex gap-1 align-items-center ">
             <Nav.Link className="text-dark">
               <i className="fa-solid fa-plane px-1"></i>Find Flights
             </Nav.Link>
-            <Nav.Link className="text-dark">
+            <Nav.Link
+              className="text-dark"
+              onClick={() => navigatation("allcities")}
+            >
               <i className="fa-solid fa-couch px-1"></i>Find Stays
             </Nav.Link>
           </Nav>
-          <Nav className="d-flex  align-items-center">
-            <Nav.Link className="text-dark ">
+          <Nav className="d-flex gap-1 align-items-center">
+            <Nav.Link
+              className="text-dark "
+              onClick={() => navigatation("Favourites")}
+            >
               <i className="fa-solid fa-heart px-1"></i>Favourites
             </Nav.Link>
             {currentUserObj?.id !== "0" ? (
@@ -63,8 +71,8 @@ export const NavigationBar = () => {
                     className="rounded-circle"
                   />
                   <span className="text-dark">
-                    {currentUserObj?.firstName
-                      .split("")[0]
+                    {currentUserObj.firstName
+                      ?.split("")[0]
                       .concat(`. ${currentUserObj?.lastName}`)
                       .toUpperCase()}
                   </span>

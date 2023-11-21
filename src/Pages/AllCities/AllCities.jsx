@@ -1,14 +1,20 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useRef, useState } from "react";
 import all from "../../data/city.json";
 import axios from "axios";
 import { Card } from "../../Components/Card/Card";
 import "./allCities.css";
 import Loading from "../../Components/Loading/Loading";
-export default function AllCities() {
+import { searchContext } from "../../store/searchStore";
+import {
+  LazyLoadImage,
+  trackWindowScroll,
+} from "react-lazy-load-image-component";
+import image from "../../assets/loginImg.png";
+function AllCities({ scrollPosition }) {
+  const { scrollToTopPage } = useContext(searchContext);
   const [cityImg, setCity] = useState([]);
-  useEffect(() => {
-    getAllCities()
-  }, []);
+  const topRef = useRef();
+
   const getAllCities = async () => {
     let arr = [];
     // const url =
@@ -22,25 +28,24 @@ export default function AllCities() {
     // };
     // const res = await fetch(url, options);
     // const data = await res.json();
-    const cities = all.map(c => c.name)
-    for (let i = cities.length -1; i > 0; i--) {
-      let j = Math.floor(Math.random() * (i+1));
-      let k = cities  [i];
+    const cities = all.map((c) => c.name);
+    for (let i = cities.length - 1; i > 0; i--) {
+      let j = Math.floor(Math.random() * (i + 1));
+      let k = cities[i];
       cities[i] = cities[j];
       cities[j] = k;
     }
-    const spliceCities = cities.splice(0,25);
+    const spliceCities = cities.splice(0, 25);
     for (let i = 0; i < spliceCities.length; i++) {
       const res = await axios.get(
         `https://api.pexels.com/v1/search/?page=1&per_page=2&query=${spliceCities[i]}`,
         {
           headers: {
             Authorization:
-              "dduIdgcxtb3X1K3WIllsexAvLU7spJTVWdd9ec9jbk2ii7qqWNQkCnBX",
+              "SdaCPFt3E5Z1tam3Ts9kMios6LXoIvexDn9Z4ZP8v8kRmI6AwNaSGw4S",
           },
         }
       );
-      console.log(res.data?.photos[0]?.src?.portrait);
       arr.push({
         img: res.data?.photos[0]?.src?.original,
         title: spliceCities[i],
@@ -49,11 +54,29 @@ export default function AllCities() {
     }
     console.log(arr);
     setCity([...arr]);
+    console.log(arr,'cities')
   };
+
+  useEffect(() => {
+  getAllCities();
+    scrollToTopPage(topRef);
+  }, []);
+
   return (
-    <div className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center">
+    <div
+      ref={topRef}
+      className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center"
+    >
       {cityImg.length ? (
         cityImg.map((city) => (
+          // <LazyLoadImage
+          //   scrollPosition={scrollPosition}
+          //   width="100%"
+          //   height="auto"
+          //   src={city.img}
+          //   effect="blur"
+          // />
+
           <Card img={city.img} title={city.title} key={city.id} />
         ))
       ) : (
@@ -62,3 +85,5 @@ export default function AllCities() {
     </div>
   );
 }
+
+export default trackWindowScroll(AllCities);

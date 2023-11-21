@@ -1,5 +1,5 @@
 import { Container } from "react-bootstrap";
-import "./accountFligjt.css";
+import "./accountFlight.css";
 
 const AccountFlight = ({ image }) => {
   return (

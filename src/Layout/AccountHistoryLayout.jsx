@@ -5,8 +5,8 @@ const AccountHistoryLayout = () => {
   const { id } = useParams();
   return (
     <div className="my-5 mt-3">
-      <Container className=" rounded-3 py-4">
-        <h2>Ticket/Booking</h2>
+      <Container className=" rounded-3 py-4 ">
+        {/* <h2>Ticket/Booking</h2> */}
         <Container>
           <div className="account__selection px-4 ">
             <NavLink

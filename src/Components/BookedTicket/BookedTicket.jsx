@@ -1,20 +1,52 @@
-import React from "react";
+import React, { useRef } from "react";
 import avatar from "../../assets/images/accountFlow/accountAvatar.png";
 import ticketImg from "./download 2.png";
 import { searchContext } from "../../store/searchStore";
 import { useContext, useState } from "react";
-
 import "./Booked.css";
-export const BookedTicket = () => {
-  const{searchData}=useContext(searchContext)
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+export const BookedTicket = ({ item }) => {
+  const { searchData, currentUserObj } = useContext(searchContext);
+  console.log(item, "item");
+  const capture = useRef(null);
+  const downloadPdf = () => {
+    html2canvas(capture.current).then((canvas) => {
+      const imgData = canvas.toDataURL("img/png");
+      const doc = new jsPDF();
+      const compWidth = doc.internal.pageSize.getWidth();
+      const compHeight = doc.internal.pageSize.getHeight();
+      const widthToHeight =
+        capture.current.clientWidth / capture.current.clientHeight;
+      doc.addImage(
+        imgData,
+        "SVG",
+        0,
+        compWidth / 2 - 25,
+        compWidth,
+        compWidth / widthToHeight + 5
+      );
+      doc.save("ticket.pdf");
+    });
+  };
+
+  const date = new Date();
+
   return (
-    <div className="BookedTicketParent d-flex align-items-center justify-content-center">
+    <div
+      className="BookedTicketParent d-flex align-items-center justify-content-center"
+      ref={capture}
+    >
       <div className="ticket d-flex justify-content-center align-items-center">
         <div className="ticketLeftSide p-2 d-flex align-items-start justify-content-center flex-column">
           <div className="LeftTop ">
             <div className="checkInTitle  d-flex align-items-start p-2 justify-content-center flex-column">
-              <h4>{searchData.CheckIn}</h4>
-              <h5>Check-In</h5>
+              <h4>
+                {searchData.CheckIn === undefined
+                  ? date.toLocaleDateString()
+                  : searchData.CheckIn}
+              </h4>
+              <h5 className="m-0">Check-In</h5>
             </div>
           </div>
           <div className="svgContainer p-2 d-flex align-items-start justify-content-center flex-column ">
@@ -73,22 +105,20 @@ export const BookedTicket = () => {
           </div>
           <div className="LeftBottom">
             <div className="checkOutTitle  d-flex align-items-start p-2 justify-content-center flex-column">
-              <h4>{searchData.CheckOut}</h4>
+              <h4>
+                {searchData.CheckOut === undefined
+                  ? date.toLocaleDateString()
+                  : searchData.CheckOut}
+              </h4>
               <h5>Check-Out</h5>
             </div>
           </div>
         </div>
         <div className="ticketMiddleSide">
           <div className="MiddleTop p-2 d-flex align-items-center justify-content-between">
-            <div className="ticketImg d-flex align-items-center justify-content-start">
-              <img
-                src={avatar}
-                width={"40px"}
-                height={"40px"}
-                alt="AvataLogo"
-                style={{ objectFit: "cover" }}
-              />{" "}
-              <p className="m-0">James Doe</p>
+            <div className="ticketImg d-flex gap-2 align-items-center justify-content-start">
+              <img src={currentUserObj.profileImg} alt="AvataLogo" />{" "}
+              <p className="m-0">{`${currentUserObj?.firstName} ${currentUserObj?.lastName}`}</p>
             </div>
             <div className="ticketRoomsBooked  d-flex align-items-center justify-content-center">
               <p className="m-0">Superior room - {searchData.GuestAndRooms}</p>
@@ -113,7 +143,7 @@ export const BookedTicket = () => {
                 </div>
 
                 <div className="timing  d-flex flex-column justify-content-center align-items-center">
-                  <p className="m-0">Check-In time</p>
+                  <p className="m-0 p-0">Check-In time</p>
                   <p className="m-0">12:00pm</p>
                 </div>
               </div>
@@ -215,10 +245,19 @@ export const BookedTicket = () => {
         </div>
         <div className="ticketRightSide d-flex justify-content-center align-items-center">
           <div className="ticketImgContainer d-flex justify-content-center align-items-center w-75 h-50">
-            <img src={ticketImg} alt="ticketImg" />
+            <img
+              src={item?.photos[0]?.urlTemplate
+                ?.replace("{width}", "500")
+                .replace("{height}", "500")}
+              alt="ticketImg"
+              className="rounded-2 rounded"
+            />
           </div>
         </div>
       </div>
+      <button className="DownloadBtn" onClick={downloadPdf}>
+        <i className="fa-solid fa-download"></i>
+      </button>
     </div>
   );
 };
