@@ -7,11 +7,11 @@ import { BookedTicket } from "../../BookedTicket/BookedTicket";
 
 const AccountStays = () => {
   const { currentUserObj } = useContext(searchContext);
-
+  console.log(currentUserObj.bookingsStays)
   return (
     <>
       {currentUserObj?.bookingsStays?.map((item,ind) => (
-        <BookedTicket item={item} key={ind} />
+        <BookedTicket item={item.booked} key={ind}  />
       ))}
     </>
   );

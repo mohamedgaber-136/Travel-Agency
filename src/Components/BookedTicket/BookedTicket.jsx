@@ -6,29 +6,29 @@ import { useContext, useState } from "react";
 import "./Booked.css";
 import html2canvas from "html2canvas";
 import jsPDF from "jspdf";
-export const BookedTicket = ({ item }) => {
+export const BookedTicket = ({ item ,capture}) => {
   const { searchData, currentUserObj } = useContext(searchContext);
   console.log(item, "item");
-  const capture = useRef(null);
-  const downloadPdf = () => {
-    html2canvas(capture.current).then((canvas) => {
-      const imgData = canvas.toDataURL("img/png");
-      const doc = new jsPDF();
-      const compWidth = doc.internal.pageSize.getWidth();
-      const compHeight = doc.internal.pageSize.getHeight();
-      const widthToHeight =
-        capture.current.clientWidth / capture.current.clientHeight;
-      doc.addImage(
-        imgData,
-        "SVG",
-        0,
-        compWidth / 2 - 25,
-        compWidth,
-        compWidth / widthToHeight + 5
-      );
-      doc.save("ticket.pdf");
-    });
-  };
+  // const capture = useRef(null);
+  // const downloadPdf = () => {
+  //   html2canvas(capture.current).then((canvas) => {
+  //     const imgData = canvas.toDataURL("img/png");
+  //     const doc = new jsPDF();
+  //     const compWidth = doc.internal.pageSize.getWidth();
+  //     const compHeight = doc.internal.pageSize.getHeight();
+  //     const widthToHeight =
+  //       capture.current.clientWidth / capture.current.clientHeight;
+  //     doc.addImage(
+  //       imgData,
+  //       "SVG",
+  //       0,
+  //       compWidth / 2 - 25,
+  //       compWidth,
+  //       compWidth / widthToHeight + 5
+  //     );
+  //     doc.save("ticket.pdf");
+  //   });
+  // };
 
   const date = new Date();
 
@@ -255,9 +255,9 @@ export const BookedTicket = ({ item }) => {
           </div>
         </div>
       </div>
-      <button className="DownloadBtn" onClick={downloadPdf}>
+      {/* <button className="DownloadBtn" onClick={downloadPdf}>
         <i className="fa-solid fa-download"></i>
-      </button>
+      </button> */}
     </div>
   );
 };
