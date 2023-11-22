@@ -19,7 +19,7 @@ const Speach = ({
               : `fa-solid fa-microphone-lines text-dark`
           }
         ></i>
-        <i class={transcript==''?'d-none':"fa-solid fa-delete-left deleteParen"} onClick={resetTranscript}></i>
+        <i className={transcript==''?'d-none':"fa-solid fa-delete-left deleteParen"} onClick={resetTranscript}></i>
       </div>
     </div>
   );

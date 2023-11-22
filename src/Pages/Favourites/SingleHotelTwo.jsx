@@ -6,7 +6,7 @@ import { useState } from "react";
 import { searchContext } from "../../store/searchStore";
 import { useNavigate } from "react-router-dom";
 import { addHotelsContext } from "../../store/store";
-const SingleHotel = ({ hotel, isFavPage }) => {
+const SingleHotelTwo = ({ hotel, isFavPage }) => {
   let { currentUserObj,updateCurrentUser,authorized } = useContext(searchContext);
   let { destination } = useContext(addHotelsContext);
   let [clicked, setClicked] = useState(false);
@@ -43,14 +43,14 @@ const SingleHotel = ({ hotel, isFavPage }) => {
       navigations("/login");
     }
   }
-  console.log(destination, "des");
+  console.log(hotel)
   return (
     <div className="container p-3">
       <div className="card d-flex flex-md-row flex-column justify-content-center align-items-center justify-content-md-start align-items-md-start">
         <div className="singleCardParent p-3 ">
           <img
             height={"100%"}
-            src={`${hotel?.cardPhotos[0]?.sizes?.urlTemplate
+            src={`${hotel?.photos[0]?.urlTemplate
               ?.replace("{width}", "300")
               ?.replace("{height}", "300")}`}
             alt=""
@@ -64,9 +64,9 @@ const SingleHotel = ({ hotel, isFavPage }) => {
                 <span>
                   <img src={locationIcon} alt="" />
                 </span>
-                {hotel?.secondaryInfo == null
+                {hotel?.rating == null
                   ? destination
-                  : hotel?.secondaryInfo}
+                  : hotel?.location.address}
               </p>
             </div>
             <p className="text-muted">
@@ -88,7 +88,7 @@ const SingleHotel = ({ hotel, isFavPage }) => {
                 padding: "2px",
               }}
             >
-              <p className="text-muted">{hotel?.bubbleRating?.rating}</p>
+              <p className="text-muted">{hotel?.rating}</p>
             </div>
             <p style={{ marginTop: "5px" }}>{hotel?.badge?.type}</p>
           </div>
@@ -126,4 +126,4 @@ const SingleHotel = ({ hotel, isFavPage }) => {
     </div>
   );
 };
-export default SingleHotel;
+export default SingleHotelTwo;

@@ -12,6 +12,7 @@ import {
   updateDoc,
   where,
 } from "firebase/firestore";
+import { useNavigate } from "react-router-dom";
 
 import { getAuth } from "firebase/auth";
 import { addHotelsContext } from "./store";
@@ -36,29 +37,18 @@ export default function SearchContextProvider(props) {
   initializeApp(firebaseConfig);
   const database = getFirestore();
   const auth = getAuth();
+  let navigations = useNavigate();
+
   // const auth=  firebase.auth();
 
   //--------------------- useState --------------------//
+
   let [searchData, setSeachData] = useState({
     destination: "",
   });
   let [authorized, setAuthorized] = useState(false);
   const [currentUserObj, setCurrentUserObj] = useState({
     id: "0",
-
-    //   firstName: "",
-    //   lastName: "",
-    //   email: "",
-    //   password: "",
-    //   confirmPassword: "",
-    //   phone: "",
-    //   address: "",
-    //   profileImg: accountAvatar,
-    //   coverImg: accountBg,
-    //   birthDate: "",
-    //   bookinds: [],
-    //   favourites: [],
-    //   cards: [],
   });
 
   const userID = localStorage.getItem("currentUser");
@@ -158,7 +148,22 @@ export default function SearchContextProvider(props) {
       inline: "nearest",
     });
   }
-
+  // favFunction
+  // function clickedHeart(hotel) {
+  //   if (authorized) {
+  //     // setClicked(true);
+  //     updateCurrentUser({ favourites: [...currentUserObj.favourites, hotel] });
+  //     if (clicked) {
+  //       // setClicked(false);
+  //       let deletedFav = currentUserObj.favourites.filter(
+  //         ({ id }) => id !== hotel.id
+  //       );
+  //       updateCurrentUser({ favourites: [...deletedFav] });
+  //     }
+  //   } else {
+  //     navigations("/login");
+  //   }
+  // }
   //--------------------- lazy loading delay function --------------------//
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
@@ -183,6 +188,9 @@ export default function SearchContextProvider(props) {
         addUserFavouriteHotel,
         createNewUserObj,
         scrollToTopPage,
+        // clickedHeart,
+        // clicked,
+        // setClicked
       }}
     >
       {props.children}

@@ -5,10 +5,10 @@ import { MainBookFlight } from "../../Components/MainBookFlight.jsx/MainBookFlig
 import { Helmet } from "react-helmet";
 import { searchContext } from "../../store/searchStore";
 const LandingPage = () => {
-  let { authorized, scrollToTopPage } = useContext(searchContext);
+  let { authorized, scrollToTopPage , currentUserObj } = useContext(searchContext);
   console.log(authorized, "autho");
   const topRef = useRef();
-
+  console.log(currentUserObj?.favourites)
   useEffect(() => {
     scrollToTopPage(topRef);
   }, []);

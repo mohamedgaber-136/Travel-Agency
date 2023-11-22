@@ -56,8 +56,8 @@ export default function HotelDetials() {
     }
   }
 
-  const checkfav = (hotel) => {
-    let FoundId = currentUserObj?.favourites?.find(({ id }) => id == hotel?.id);
+  const checkfav = (hotelObj) => {
+    let FoundId = currentUserObj?.favourites?.find(({ id }) => id == hotelObj?.id);
     if (FoundId === undefined) {
       setIsFav(false);
     } else {
@@ -66,7 +66,7 @@ export default function HotelDetials() {
   };
 
   useEffect(() => {
-    checkfav();
+    checkfav(hotelObj);
   }, []);
 
   const reviews = ["Near park", "Clean hotel", "Near theater"];
@@ -147,7 +147,7 @@ export default function HotelDetials() {
           <p className="m-text text-muted">{hotelObj?.numberReviews} Reviews</p>
         </div>
         <div className="d-flex gap-3">
-          <div onClick={clickedFav} className="col-3 col-md-1 favIcon">
+          <div state={id} onClick={clickedFav} className="col-3 col-md-1 favIcon">
             {isFav ? (
               <img src={FillFav} alt="" />
             ) : (
