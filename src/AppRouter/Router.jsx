@@ -20,6 +20,8 @@ import CountryHotelsPage from "../Pages/CountryHotels/AddHotels";
 import CountryHotelsProvider from "../store/store";
 import { Favourites } from "../Pages/Favourites/Favourites.jsx";
 import BookedTicketFinalDetailsPage from "../Pages/BookedTicketFinalDetails/BookedTicketFinalDetails.jsx";
+import AllCititesAirports from "../Pages/allCititesAirports/allCititesAirports.jsx";
+import AddFlightCard from "../Components/addFlight/addFlight.jsx";
 const AppRouter = () => {
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
@@ -73,6 +75,8 @@ const AppRouter = () => {
                 <Route path="payment" element={<AccountPayment />} />
               </Route>
               <Route path="allcities" element={<AllCities />} />
+              <Route path="CountryAirports" element={<AllCititesAirports />} />
+              <Route path="CountryAirports/:cityTitle" element={<AddFlightCard />} />
               <Route path="*" element={<NotFound />} />
               <Route
                 path="CountryHotels/:countryTitle"

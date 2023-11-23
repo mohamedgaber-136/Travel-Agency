@@ -39,7 +39,10 @@ export const NavigationBar = () => {
           className=" flex-md-row flex-column align-items-center justify-content-center"
         >
           <Nav className="m-auto d-flex gap-1 align-items-center ">
-            <Nav.Link className="text-dark">
+            <Nav.Link
+              className="text-dark"
+              onClick={() => navigatation("CountryAirports")}
+            >
               <i className="fa-solid fa-plane px-1"></i>Find Flights
             </Nav.Link>
             <Nav.Link

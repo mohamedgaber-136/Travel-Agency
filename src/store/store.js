@@ -30,7 +30,7 @@ export default function CountryHotelsProvider(props) {
 
   const paramters = {
     headers: {
-      // "X-RapidAPI-Key": "aa092521d4mshe20e99bf647336ap13e2a5jsn9ffc441b79d1",
+      "X-RapidAPI-Key": "549262dbc7mshcd47749bd23d273p1e156cjsn1bc3ab3b345e",
       "X-RapidAPI-Host": "tripadvisor16.p.rapidapi.com",
     },
   };
@@ -74,7 +74,7 @@ export default function CountryHotelsProvider(props) {
         paramters
       )
       .then((response) => {
-        if (response.data.data[0] != undefined) {
+        if (response.data.data[0] !== undefined) {
           setCountryCheck(false);
           getHotelsData(response.data.data[0]);
         } else {

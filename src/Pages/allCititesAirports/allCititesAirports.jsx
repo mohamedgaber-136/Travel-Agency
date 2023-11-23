@@ -2,7 +2,7 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import all from "../../data/city.json";
 import axios from "axios";
 import { Card } from "../../Components/Card/Card";
-import "./allCities.css";
+import "../AllCities/allCities.css";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
 import {
@@ -10,7 +10,7 @@ import {
   trackWindowScroll,
 } from "react-lazy-load-image-component";
 import image from "../../assets/loginImg.png";
-function AllCities({ scrollPosition }) {
+function AllCititesAirports({ scrollPosition }) {
   const { scrollToTopPage } = useContext(searchContext);
   const [cityImg, setCity] = useState([]);
   const topRef = useRef();
@@ -81,8 +81,8 @@ function AllCities({ scrollPosition }) {
             img={city.img}
             title={city.title}
             key={city.id}
-            buttonName={"Book a Hotel"}
-            pathTo={`/CountryHotels/${city.title}`}
+            buttonName={"Book A Flight"}
+            pathTo={`/CountryAirports/${city.title}`}
           />
         ))
       ) : (
@@ -92,4 +92,4 @@ function AllCities({ scrollPosition }) {
   );
 }
 
-export default trackWindowScroll(AllCities);
+export default AllCititesAirports;

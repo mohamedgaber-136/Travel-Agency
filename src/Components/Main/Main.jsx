@@ -9,7 +9,28 @@ import Melboune from "../../assets/images/Melboune.png";
 import { useLocation, useNavigate } from "react-router-dom";
 
 export const Main = () => {
-
+  const citiesList = [
+    {
+      duration: "3000",
+      img: paris,
+      title: "Paris",
+    },
+    {
+      duration: "2000",
+      img: London,
+      title: "London",
+    },
+    {
+      duration: "1000",
+      img: columbia,
+      title: "columbia",
+    },
+    {
+      duration: "500",
+      img: Melboune,
+      title: "Melbourne",
+    },
+  ];
 
   return (
     <main className="mainParent container">
@@ -23,14 +44,19 @@ export const Main = () => {
           </h6>
         </div>
         <div>
-          <SeeAllButton  />
+          <SeeAllButton />
         </div>
       </div>
       <div className="d-flex gap-3 justify-content-center flex-wrap">
-        <Card duration={"3000"} img={paris} title={"Paris"} />
-        <Card duration={"2000"} img={London} title={"London"} />
-        <Card duration={"1000"} img={columbia} title={"columbia"} />
-        <Card duration={"500"} img={Melboune} title={"Melbourne"} />
+        {citiesList.map((item) => (
+          <Card
+            duration={item.duration}
+            img={item.img}
+            title={item.title}
+            buttonName={"Book a Hotel"}
+            pathTo={`/CountryHotels/${item.title}`}
+          />
+        ))}
       </div>
     </main>
   );
