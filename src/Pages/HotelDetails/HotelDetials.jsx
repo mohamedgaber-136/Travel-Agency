@@ -147,7 +147,7 @@ export default function HotelDetials() {
           <p className="m-text text-muted">{hotelObj?.numberReviews} Reviews</p>
         </div>
         <div className="d-flex gap-3">
-          <div state={id} onClick={clickedFav} className="col-3 col-md-1 favIcon">
+          <div  onClick={clickedFav} className="col-3 col-md-1 favIcon">
             {isFav ? (
               <img src={FillFav} alt="" />
             ) : (
