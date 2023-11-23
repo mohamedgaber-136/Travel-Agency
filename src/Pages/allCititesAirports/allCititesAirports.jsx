@@ -5,6 +5,8 @@ import { Card } from "../../Components/Card/Card";
 import "../AllCities/allCities.css";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
+import paris from "../../assets/images/paris.png";
+import London from "../../assets/images/London.png";
 import {
   LazyLoadImage,
   trackWindowScroll,
@@ -42,7 +44,7 @@ function AllCititesAirports({ scrollPosition }) {
         {
           headers: {
             Authorization:
-              "CugWFAA6EVRos03bowh3l2VSNn12RCk6ItEvZyQxDKpXXAbVSK9CdLqw",
+              "SdaCPFt3E5Z1tam3Ts9kMios6LXoIvexDn9Z4ZP8v8kRmI6AwNaSGw4S",
           },
         }
       );
@@ -68,15 +70,22 @@ function AllCititesAirports({ scrollPosition }) {
       className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center"
     >
       {cityImg.length ? (
-        cityImg.map((city) => (
-          // <LazyLoadImage
-          //   scrollPosition={scrollPosition}
-          //   width="100%"
-          //   height="auto"
-          //   src={city.img}
-          //   effect="blur"
-          // />
-
+       <>
+       <Card
+            img={paris}
+            title={"Paris"}
+            key={"Paris"}
+            buttonName={"Book A Flight"}
+            pathTo={`/CountryAirports/paris`}
+          />
+           <Card
+            img={London}
+            title={"London"}
+            key={"London"}
+            buttonName={"Book A Flight"}
+            pathTo={`/CountryAirports/london`}
+          />
+           {cityImg.map((city) => (
           <Card
             img={city.img}
             title={city.title}
@@ -84,7 +93,8 @@ function AllCititesAirports({ scrollPosition }) {
             buttonName={"Book A Flight"}
             pathTo={`/CountryAirports/${city.title}`}
           />
-        ))
+        ))}
+       </>
       ) : (
         <Loading />
       )}

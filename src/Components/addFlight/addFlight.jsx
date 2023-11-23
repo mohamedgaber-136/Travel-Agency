@@ -35,6 +35,7 @@ const AddFlightCard = () => {
   return (
     <div className="mt-5 pt-5">
       {flights?.map((item) => (
+        
         <SingleAirport
           name={item.name}
           country={item.countryName}

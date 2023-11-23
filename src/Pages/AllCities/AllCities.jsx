@@ -42,7 +42,7 @@ function AllCities({ scrollPosition }) {
         {
           headers: {
             Authorization:
-              "CugWFAA6EVRos03bowh3l2VSNn12RCk6ItEvZyQxDKpXXAbVSK9CdLqw",
+              "SdaCPFt3E5Z1tam3Ts9kMios6LXoIvexDn9Z4ZP8v8kRmI6AwNaSGw4S",
           },
         }
       );
