@@ -1,4 +1,4 @@
-import React, { useContext } from "react";
+import React, { useContext, useRef } from "react";
 import { Container } from "react-bootstrap";
 import { BookedTicket } from "../../Components/BookedTicket/BookedTicket";
 import { BookingBreacrumb } from "../BookingDetails/BookingBreacrumb";
@@ -6,6 +6,10 @@ import { addHotelsContext } from "../../store/store";
 import locationIcon from "../HotelDetails/assets/Location.png";
 import share from "../HotelDetails/assets/Share.png";
 import {useParams} from 'react-router-dom'
+import html2canvas from "html2canvas";
+import jsPDF from "jspdf";
+import avatar from "../../assets/images/accountFlow/accountAvatar.png";
+// import ticketImg from "./download 2.png";
 const BookedTicketFinalDetailsPage = () => {
   let {bookId} = useParams()
   const contactsList = [
@@ -23,12 +27,32 @@ const BookedTicketFinalDetailsPage = () => {
   ];
 
   const { hotelObj } = useContext(addHotelsContext);
+  const capture = useRef(null);
+  const downloadPdf = () => {
+    html2canvas(capture.current).then((canvas) => {
+      const imgData = canvas.toDataURL("img/png");
+      const doc = new jsPDF();
+      const compWidth = doc.internal.pageSize.getWidth();
+      const compHeight = doc.internal.pageSize.getHeight();
+      const widthToHeight =
+        capture.current.clientWidth / capture.current.clientHeight;
+      doc.addImage(
+        imgData,
+        "SVG",
+        0,
+        compWidth / 2 - 25,
+        compWidth,
+        compWidth / widthToHeight + 5
+      );
+      doc.save("ticket.pdf");
+    });
+  };
 
   return (
     <Container className=" min-vh-100 d-flex flex-column justify-content-center align-items-center noFavParent">
       {/* ------------------------- booking nav ------------------------- */}
       <div className="w-100">
-        <BookingBreacrumb />
+        <BookingBreacrumb  />
       </div>
 
       {/* ------------------------- title and price ------------------------- */}
@@ -57,7 +81,7 @@ const BookedTicketFinalDetailsPage = () => {
             <button
               className="btn px-4"
               style={{ backgroundColor: "var(--mint-green)" }}
-              // onClick={() => navigate(`/bookingDetails/${id}`)}
+              onClick={downloadPdf}
             >
               Download
             </button>
@@ -67,7 +91,7 @@ const BookedTicketFinalDetailsPage = () => {
 
       {/* ------------------------- booked ticket ------------------------- */}
       <div className="w-100">
-        <BookedTicket item={hotelObj}/>
+        <BookedTicket item={hotelObj} capture={capture}/>
       </div>
 
       {/* ------------------------- terms and conitions ------------------------- */}

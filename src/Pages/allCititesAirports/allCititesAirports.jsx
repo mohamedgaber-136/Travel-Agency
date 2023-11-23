@@ -2,15 +2,17 @@ import React, { useContext, useEffect, useRef, useState } from "react";
 import all from "../../data/city.json";
 import axios from "axios";
 import { Card } from "../../Components/Card/Card";
-import "./allCities.css";
+import "../AllCities/allCities.css";
 import Loading from "../../Components/Loading/Loading";
 import { searchContext } from "../../store/searchStore";
+import paris from "../../assets/images/paris.png";
+import London from "../../assets/images/London.png";
 import {
   LazyLoadImage,
   trackWindowScroll,
 } from "react-lazy-load-image-component";
 import image from "../../assets/loginImg.png";
-function AllCities({ scrollPosition }) {
+function AllCititesAirports({ scrollPosition }) {
   const { scrollToTopPage } = useContext(searchContext);
   const [cityImg, setCity] = useState([]);
   const topRef = useRef();
@@ -68,23 +70,31 @@ function AllCities({ scrollPosition }) {
       className="container city mb-3 d-flex flex-wrap gap-3 justify-content-center align-items-center"
     >
       {cityImg.length ? (
-        cityImg.map((city) => (
-          // <LazyLoadImage
-          //   scrollPosition={scrollPosition}
-          //   width="100%"
-          //   height="auto"
-          //   src={city.img}
-          //   effect="blur"
-          // />
-
+       <>
+       <Card
+            img={paris}
+            title={"Paris"}
+            key={"Paris"}
+            buttonName={"Book A Flight"}
+            pathTo={`/CountryAirports/paris`}
+          />
+           <Card
+            img={London}
+            title={"London"}
+            key={"London"}
+            buttonName={"Book A Flight"}
+            pathTo={`/CountryAirports/london`}
+          />
+           {cityImg.map((city) => (
           <Card
             img={city.img}
             title={city.title}
             key={city.id}
-            buttonName={"Book a Hotel"}
-            pathTo={`/CountryHotels/${city.title}`}
+            buttonName={"Book A Flight"}
+            pathTo={`/CountryAirports/${city.title}`}
           />
-        ))
+        ))}
+       </>
       ) : (
         <Loading />
       )}
@@ -92,4 +102,4 @@ function AllCities({ scrollPosition }) {
   );
 }
 
-export default trackWindowScroll(AllCities);
+export default AllCititesAirports;

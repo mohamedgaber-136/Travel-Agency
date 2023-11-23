@@ -20,6 +20,8 @@ import CountryHotelsPage from "../Pages/CountryHotels/AddHotels";
 import CountryHotelsProvider from "../store/store";
 import { Favourites } from "../Pages/Favourites/Favourites.jsx";
 import BookedTicketFinalDetailsPage from "../Pages/BookedTicketFinalDetails/BookedTicketFinalDetails.jsx";
+import AllCititesAirports from "../Pages/allCititesAirports/allCititesAirports.jsx";
+import AddFlightCard from "../Components/addFlight/addFlight.jsx";
 const AppRouter = () => {
   async function delayForDemo(promise) {
     return new Promise((resolve) => {
@@ -39,36 +41,58 @@ const AppRouter = () => {
   );
 
   return (
-    <BrowserRouter>
-      <SearchContextProvider>
-        <NavigationBar />
-        <AddHotelsProvider>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="login" element={<LoginPage />} />
-            <Route path="signUp" element={<SignUpPage />} />
-            <Route path="bookingDetails" element={<BookingDetails />} />
-            {/* <Route path="account/:id" element={<Account />} /> */}
-            <Route path="account/:id" element={<AccountLayout />}>
-              <Route index={true} element={<Account />} />
-              <Route path="history" element={<AccountHistoryLayout />}>
-                <Route index={true} element={<AccountFlights />} />
-                <Route path="stays" element={<AccountStays />} />
+    <Suspense
+      fallback={
+        <div className="d-flex justify-content-center align-items-center LoaderParent">
+          <div className="loader"></div>
+        </div>
+      }
+    >
+      <BrowserRouter>
+        <SearchContextProvider>
+          <NavigationBar />
+          <CountryHotelsProvider>
+            <Routes>
+              <Route
+                path="bookingDetails/:hotelId/finalDetails/:bookId"
+                element={<BookedTicketFinalDetailsPage />}
+              />
+              <Route path="/" element={<LandingLazy />} />
+              <Route path="login" element={<Login />} />
+              <Route path="signUp" element={<SignUp />} />
+              <Route
+                path="bookingDetails/:hotelId"
+                element={<BookingDetails />}
+              />
+
+              <Route path="account/:id" element={<AccountLayoutLazy />}>
+                <Route index={true} element={<Account />} />
+
+                <Route path="history" element={<AccountHistoryLayout />}>
+                  {/* <Route index={true} element={<AccountFlights />} /> */}
+                  <Route path="stays" element={<AccountStays />} />
+                </Route>
+                <Route path="payment" element={<AccountPayment />} />
               </Route>
-              <Route path="payment" element={<AccountPayment />} />
-            </Route>
-            <Route path="allcities" element={<AllCities />} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route path="CountryHotels/:countryTitle" element={<AddHotels />} />
-            <Route
-              path="CountryHotels/:countryTitle/hotelDetials/:id"
-              element={<HotelDetials />}
-            />
-          </Routes>
-        </AddHotelsProvider>
-      </SearchContextProvider>
-      <Footer />
-    </BrowserRouter>
+              <Route path="allcities" element={<AllCities />} />
+              <Route path="CountryAirports" element={<AllCititesAirports />} />
+              <Route path="CountryAirports/:cityTitle" element={<AddFlightCard />} />
+              <Route path="*" element={<NotFound />} />
+              <Route
+                path="CountryHotels/:countryTitle"
+                element={<CountryHotelsPage />}
+              />
+              <Route
+                path="CountryHotels/:countryTitle/hotelDetials/:id"
+                element={<HotelDetialsLazy />}
+              />
+              <Route path="Favourites" element={<Favourites />} />
+            </Routes>
+            <Footer />
+          </CountryHotelsProvider>
+        </SearchContextProvider>
+      </BrowserRouter>
+    </Suspense>
   );
 };
 
